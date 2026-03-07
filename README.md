@@ -1,23 +1,12 @@
-# make-it-so – Docs
+# make-it-so – Documentation
 
-Dieses Repository enthält die fachliche und technische Projektdokumentation von make-it-so.
+This repository contains the architectural, governance and conceptual documentation for the make-it-so platform.
 
-## Inhalte
+The goal of make-it-so is to provide a controlled execution environment where actions of agents can be defined, approved and executed in a secure and traceable way.
 
-- Glossar
-- Governance
-- Architekturüberblick
-- Architecture Decision Records (ADR)
+---
 
-## Begriffsregel
+## Repository Structure
 
-In der Entwicklungsdomäne verwenden wir den Begriff **KI-Coder**.  
-In der Betriebsdomäne von make-it-so verwenden wir den Begriff **Agent**.
-
-## Startdokumente
-
-- `glossary/README.md`
-- `governance/README.md`
-- `architecture/README.md`
-- `adr/README.md`
-- `adr/0001-terminology-ki-coder-vs-agent.md`
+### Glossary
+Definitions of the core terminology used in the project.
