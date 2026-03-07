@@ -1,21 +1,63 @@
-# Governance v1
+# Governance Model
 
-## Arbeitsräume
+This document defines the development governance for the make-it-so project.
 
-### G-BL
-Gesamt-Backlog für Ideen, Refinement, Zerlegung sowie fachliche und technische Überlegungen.
+The governance model ensures that development work remains structured, traceable, and controlled.
 
-### S-BL
-Sprint-Backlog für freigegebene, konkret umzusetzende Arbeit.
+---
 
-## Schreibrechte
+# Development Workspaces
 
-Nur der menschliche CEO darf Einträge in das S-BL übernehmen oder dort verändern.
+Two workspaces exist for development activities.
 
-## Ausführungsregel
+---
 
-KI-Coder arbeiten nur auf Basis freigegebener Einträge im S-BL.
+## Global Backlog (G-BL)
 
-## Sprachregel
+The Global Backlog is used for:
 
-Freie Texte von KI-Codern sind grundsätzlich nicht ausreichend vertrauenswürdig, um automatisch operative Aktionen auszulösen.
+- idea collection
+- request refinement
+- architectural analysis
+- decomposition of larger tasks
+
+Items in the Global Backlog are not executable tasks.
+
+---
+
+## Sprint Backlog (S-BL)
+
+The Sprint Backlog contains approved development tasks.
+
+Only tasks within the Sprint Backlog may trigger implementation work.
+
+---
+
+# Approval Authority
+
+Only the human project owner (CEO role) may move tasks from:
+
+G-BL → S-BL
+
+This transition represents formal approval for implementation.
+
+---
+
+# Execution Rules
+
+AI Coders may only perform development work on tasks contained in the Sprint Backlog.
+
+Tasks outside the Sprint Backlog must not trigger implementation.
+
+---
+
+# Trust Model
+
+Natural language produced by AI Coders is considered untrusted input.
+
+Operational decisions must rely on structured artifacts such as:
+
+- Sprint Backlog tasks
+- Architecture Decision Records
+- repository policies
+- governance rules
