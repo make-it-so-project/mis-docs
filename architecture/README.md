@@ -1,18 +1,64 @@
-# Architekturüberblick
+# Architecture Overview
 
-Dieses Verzeichnis beschreibt das technische Zielbild von make-it-so.
+This directory contains the high-level architecture description of the make-it-so platform.
 
-## Erste Schwerpunkte
+The architecture describes how system components interact and how responsibilities are distributed.
 
-- Core-Backend
-- Authentication und Authorization
-- User-Management
-- Agent-Management
-- Agent-API
-- Testing
-- Security
+---
 
-## Begriffsregel
+# System Areas
 
-In der Entwicklungsdomäne verwenden wir den Begriff **KI-Coder**.
-In der Betriebsdomäne verwenden wir den Begriff **Agent**.
+The platform is expected to include several functional areas.
+
+## Core Backend
+
+The central backbone responsible for executing system transactions and coordinating services.
+
+---
+
+## Authentication and Authorization
+
+Responsible for:
+
+- identity management
+- authentication
+- permission control
+
+---
+
+## User Management
+
+Provides functionality for managing users, including:
+
+- onboarding
+- account management
+- self-service capabilities
+
+---
+
+## Agent Management
+
+Provides functionality for managing operational agents, including:
+
+- registration
+- activation
+- configuration
+- deactivation
+
+---
+
+## Agent Communication API
+
+Defines the interfaces used by agents to communicate with the make-it-so backend.
+
+---
+
+## Testing Infrastructure
+
+Responsible for automated testing and regression testing.
+
+---
+
+## Security and Monitoring
+
+Responsible for system monitoring, security controls, and audit logging.
