@@ -1,15 +1,17 @@
-# make-it-so – Project Documentation
+# make-it-so – Documentation
 
-This repository contains the architectural, governance, and conceptual documentation for the **make-it-so** platform.
+This repository contains the architectural, governance, and conceptual documentation for the make-it-so platform.
 
-The make-it-so platform aims to provide a controlled environment in which actions of operational agents can be defined, approved, and executed in a secure and traceable manner.
+The documentation in this repository acts as the single source of truth for the development and conceptual design of the platform.
 
-This repository acts as the **single source of truth** for:
+It defines:
 
-- terminology
-- governance rules
+- core terminology
+- development governance
 - architectural concepts
 - architecture decisions
+
+The goal is to maintain a shared understanding between human contributors and AI Coders.
 
 ---
 
@@ -17,6 +19,48 @@ This repository acts as the **single source of truth** for:
 
 ## Glossary
 
-Defines the core terminology used throughout the project.
+Defines the terminology used across the project.
 
-The glossary ensures that humans, AI Coders, and future contributors share a consistent vocabulary.
+Directory:
+glossary/
+
+---
+
+## Governance
+
+Defines the development governance model, including backlog structure and approval rules.
+
+Directory:
+governance/
+
+---
+
+## Architecture
+
+Contains high-level architecture descriptions and conceptual system structure.
+
+Directory:
+architecture/
+
+---
+
+## Architecture Decision Records (ADR)
+
+Documents important architectural decisions.
+
+Directory:
+adr/
+
+---
+
+# Terminology
+
+Two domains must be clearly separated.
+
+## Runtime Domain
+
+Contains operational Agents that exist inside the make-it-so system.
+
+## Development Domain
+
+Contains AI Coders that work on the codebase.
