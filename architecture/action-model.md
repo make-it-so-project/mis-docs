@@ -122,3 +122,11 @@ The control plane transports these credentials but does not generate or persist 
 - action schemas must remain extensible
 
 The Action Model ensures that AI agents interact with the control plane using predictable, structured requests.
+
+---
+
+## Related Documents
+
+- [Request Lifecycle](request-lifecycle.md) — detailed description of all lifecycle stages an action passes through
+- [Control Plane Architecture](control-plane.md) — how the control plane enforces the action path
+- [Component Diagram](component-diagram.md) — components that process action requests

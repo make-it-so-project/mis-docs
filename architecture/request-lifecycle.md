@@ -133,3 +133,11 @@ The lifecycle model ensures:
 - human accountability for impactful actions
 - auditable execution history
 - consistent behavior across heterogeneous agents
+
+---
+
+## Related Documents
+
+- [Action Model](action-model.md) — structure and field definitions of an Action Request
+- [Component Diagram](component-diagram.md) — components involved in each lifecycle stage
+- [Control Plane Architecture](control-plane.md) — architectural principles behind the control flow
