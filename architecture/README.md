@@ -6,6 +6,18 @@ The architecture describes how system components interact and how responsibiliti
 
 ---
 
+# Documents in this Directory
+
+| Document | Description |
+|----------|-------------|
+| [system-context.md](system-context.md) | Purpose, problem statement, design goals, and non-goals |
+| [component-diagram.md](component-diagram.md) | Main components and their relationships |
+| [control-plane.md](control-plane.md) | Control flow and core architectural principle |
+| [action-model.md](action-model.md) | Action Request structure and action lifecycle states |
+| [request-lifecycle.md](request-lifecycle.md) | Detailed lifecycle from request creation to completion |
+
+---
+
 # System Areas
 
 The platform is expected to include several functional areas.

@@ -100,3 +100,11 @@ This ensures traceability and accountability.
 - strong auditability
 
 The control plane focuses on governance and approval, not business execution.
+
+---
+
+## Related Documents
+
+- [Action Model](action-model.md) — structure of action requests processed by the control plane
+- [Request Lifecycle](request-lifecycle.md) — step-by-step flow through all lifecycle stages
+- [Component Diagram](component-diagram.md) — visual overview of all components

@@ -4,6 +4,9 @@
 ## Status
 Accepted
 
+## Date
+2026-04-09
+
 ## Context
 
 The make-it-so platform acts as a human-in-the-loop control plane for AI agents and MCP servers.

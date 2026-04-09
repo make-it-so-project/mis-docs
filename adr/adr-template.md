@@ -8,6 +8,10 @@ Short descriptive title of the architectural decision.
 
 Proposed | Accepted | Deprecated | Superseded
 
+## Date
+
+YYYY-MM-DD
+
 ## Context
 
 Describe the background and the problem that requires a decision.

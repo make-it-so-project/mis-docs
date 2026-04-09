@@ -82,3 +82,12 @@ The system requires:
 - temporary access provisioning
 - session expiration handling
 - audit logging for all approval and execution events
+
+---
+
+## Related Documents
+
+- [ADR-0002: Short-Lived Scoped Sessions for MCP Authorization](../adr/0002-short-lived-scoped-session-mcp-authorization.md) — architectural decision behind the authorization model used in this use case
+- [Action Model](../architecture/action-model.md) — structure of the access request submitted by the MCP server
+- [Request Lifecycle](../architecture/request-lifecycle.md) — lifecycle stages the access request passes through
+- [Use Case: OpenClaw Integration](use-case-openclaw-integration.md) — approval-gated bot actions for OpenClaw deployments
