@@ -41,3 +41,13 @@ Writing style: concise and direct. No filler phrases.
 Comments in code: only when the WHY is non-obvious. No what-comments.
 
 File size: keep files under ~500 lines; split when exceeded.
+
+---
+
+## Copy-Paste Output
+
+When providing text the user will copy into another app (PR descriptions,
+commit messages, issue titles, review comments), always place it in a
+fenced code block with no surrounding quotes or decorations.
+
+The block must be usable as-is without cleanup.
