@@ -137,14 +137,20 @@ make-it-so
   │
   ├─ evaluate request metadata and policy
   ├─ determine approval requirement
-  ├─ optionally notify a human via trusted interface
-  ├─ collect approval or denial
+  │
+  ├─ (optional) notify user via secondary notification channel ─> user redirected to mis-client
+  │
+  ├─ route approval request to mis-client (trusted approval surface)
+  ├─ collect approval or denial from mis-client
   └─ return decision and related control data
   ▼
 Agent or connected execution system
   │
   └─ executes action only if permitted
 ```
+
+The notification channel and the approval channel are distinct paths.
+Notification is inform-only. Approval travels exclusively through the mis-client.
 
 A key architectural constraint is that make-it-so is a **control and approval layer**, not the component that derives actions from user prompts and not necessarily the component that executes them. It governs execution; it does not replace the agent.
 

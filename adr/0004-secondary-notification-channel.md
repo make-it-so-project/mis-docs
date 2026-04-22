@@ -1,4 +1,4 @@
-# ADR 0004: Introduce secondary notification channels without approval capability
+# ADR-0004: Introduce secondary notification channels without approval capability
 
 ## Status
 
