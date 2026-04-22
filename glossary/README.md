@@ -110,6 +110,59 @@ Items in the Global Backlog are not executable tasks.
 
 ---
 
+## Development Domain
+
+The Development Domain encompasses all activity related to building and maintaining
+the make-it-so platform itself.
+
+Participants include human contributors and AI Coders (e.g. Claude Code, Codex, Cursor).
+
+Discussions and tasks in this domain are tagged with the `DEV` domain marker.
+
+---
+
+## Runtime Domain
+
+The Runtime Domain encompasses all activity related to the operational behavior
+of the make-it-so platform during execution.
+
+Participants include runtime agents, the control plane, and execution connectors.
+
+Discussions and tasks in this domain are tagged with the `RUN` domain marker.
+
+---
+
+## Domain Marker
+
+A structured prefix applied to issues, PRs, and design discussions to indicate
+the domain of the topic.
+
+Format: `[DOMAIN]` or combined with a category: `[DOMAIN/CATEGORY]`
+
+Examples: `[DEV]`, `[RUN]`, `[DEV/OPS]`, `[RUN/SEC]`
+
+See ADR 0003 for the full marker system.
+
+---
+
+## Category Marker
+
+A structured sub-classification applied alongside a domain marker to indicate
+the type of concern being addressed.
+
+| Marker | Meaning                             |
+|--------|-------------------------------------|
+| `ARCH` | Architecture                        |
+| `FUNC` | Functional Behavior                 |
+| `NFR`  | Non-Functional Requirements         |
+| `OPS`  | Operations / Tooling / CI           |
+| `SEC`  | Security                            |
+| `ADR`  | Architecture Decision Record        |
+
+See ADR 0003 for the full marker system.
+
+---
+
 ## S-BL (Sprint Backlog)
 
 The Sprint Backlog contains tasks that have been approved for implementation.

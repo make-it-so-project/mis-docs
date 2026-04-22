@@ -186,6 +186,47 @@ The make-it-so architecture prioritizes:
 
 ---
 
+# Domain Markers
+
+All structured discussions, issues, PRs, and design threads SHOULD be prefixed
+with a `[DOMAIN/CATEGORY]` marker.
+
+## Domains
+
+| Marker | Meaning            |
+|--------|--------------------|
+| `DEV`  | Development Domain |
+| `RUN`  | Runtime Domain     |
+
+## Categories
+
+| Marker | Meaning                             |
+|--------|-------------------------------------|
+| `ARCH` | Architecture                        |
+| `FUNC` | Functional Behavior                 |
+| `NFR`  | Non-Functional Requirements         |
+| `OPS`  | Operations / Tooling / CI           |
+| `SEC`  | Security                            |
+| `ADR`  | Architecture Decision Record        |
+
+## Examples
+
+```
+[DEV/ADR]   – development-domain architecture decision
+[DEV/OPS]   – CI configuration, tooling, build system
+[RUN/SEC]   – security concern in the runtime system
+[RUN/FUNC]  – functional behavior of a runtime agent
+```
+
+## Rule
+
+If the domain or category of a task is unclear, AI Coders MUST ask for
+clarification before proceeding. Do not assume scope from context alone.
+
+See ADR 0003 for full rationale.
+
+---
+
 # Guidance for AI Coding Assistants
 
 When generating code, documentation, or architectural proposals for this project:
