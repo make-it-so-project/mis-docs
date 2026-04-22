@@ -8,6 +8,21 @@ Read `AI_CONTEXT.md` first for project architecture and domain context.
 
 ---
 
+## Session Start
+
+At the start of every session, before any other action, state one line:
+
+> Current branch: `<branch>` — Task: `[DOMAIN/CATEGORY]`
+
+Example: `Current branch: claude/control-plane-docs — Task: [DEV/ARCH]`
+
+This confirms AGENTS.MD was read and orients any observer on scope.
+
+If no branch or domain marker is known yet, run `/pickup` and ask the user
+for the task marker before proceeding.
+
+---
+
 ## Commits
 
 Use Conventional Commits.
