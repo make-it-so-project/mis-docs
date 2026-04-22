@@ -1,3 +1,7 @@
+---
+read_when: adding or evaluating notification integrations; any feature that routes events to external channels
+---
+
 # ADR-0004: Introduce secondary notification channels without approval capability
 
 ## Status

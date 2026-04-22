@@ -1,4 +1,8 @@
 
+---
+read_when: working on approval flows, policy evaluation, action governance, or the mis-client
+---
+
 # Control Plane Architecture
 
 ## Purpose
