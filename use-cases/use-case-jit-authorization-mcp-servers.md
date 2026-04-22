@@ -1,8 +1,8 @@
-# Use Case: Just‑in‑Time Authorization for MCP Servers
+# Use Case: Just-in-Time Authorization for MCP Servers
 
 ## Purpose
 
-Enable secure integration between external LLM systems and internal enterprise resources by using make‑it‑so as a human‑approved authorization layer.
+Enable secure integration between external LLM systems and internal enterprise resources by using make-it-so as a human-approved authorization layer.
 
 ## Context
 
@@ -16,7 +16,7 @@ Without strong controls the MCP server may become an uncontrolled access gateway
 
 ## Goal
 
-Operate MCP servers using a **zero‑trust model** where:
+Operate MCP servers using a **zero-trust model** where:
 
 - MCP servers have no standing privileges
 - access must be explicitly requested
@@ -34,7 +34,7 @@ Generates tasks that may require enterprise access.
 MCP Server  
 Executes tasks requiring internal resources.
 
-make‑it‑so Platform  
+make-it-so Platform  
 Evaluates requests and coordinates approval.
 
 Enterprise Systems  
@@ -43,18 +43,18 @@ Internal resources in Zone 1.
 ## Preconditions
 
 - MCP servers are deployed without privileged enterprise access.
-- make‑it‑so is reachable by the MCP server.
-- the human user has a registered mis‑client device.
+- make-it-so is reachable by the MCP server.
+- the human user has a registered mis-client device.
 
 ## Main Flow
 
 1. User issues a prompt to an AI agent.
 2. The agent determines that enterprise data access is required.
-3. The MCP server sends an access request to make‑it‑so.
-4. make‑it‑so identifies the initiating user.
-5. The approval request is sent to the user's mis‑client.
+3. The MCP server sends an access request to make-it-so.
+4. make-it-so identifies the initiating user.
+5. The approval request is sent to the user's mis-client.
 6. The user reviews and approves the request.
-7. make‑it‑so grants a short‑lived scoped access session.
+7. make-it-so grants a short-lived scoped access session.
 8. The MCP server performs the requested task.
 9. The session expires automatically.
 
@@ -70,7 +70,7 @@ Internal resources in Zone 1.
 - human approval always required
 - initiator acts as approver
 - access limited to Zone 1 resources
-- read‑only operations
+- read-only operations
 - short session TTL
 
 ## Architectural Implications
@@ -78,7 +78,7 @@ Internal resources in Zone 1.
 The system requires:
 
 - request/approval workflow
-- user‑to‑device mapping
+- user-to-device mapping
 - temporary access provisioning
 - session expiration handling
 - audit logging for all approval and execution events

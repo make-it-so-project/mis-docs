@@ -15,6 +15,7 @@ The architecture describes how system components interact and how responsibiliti
 | [control-plane.md](control-plane.md) | Control flow and core architectural principle |
 | [action-model.md](action-model.md) | Action Request structure and action lifecycle states |
 | [request-lifecycle.md](request-lifecycle.md) | Detailed lifecycle from request creation to completion |
+| [notification-channel.md](notification-channel.md) | Secondary notification channel definition, constraints, and flow |
 
 ---
 
