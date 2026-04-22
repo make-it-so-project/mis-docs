@@ -1,4 +1,8 @@
 
+---
+read_when: working on MCP server authorization, session management, or enterprise access patterns
+---
+
 # ADR-0002: Use Short-Lived Scoped Sessions for MCP Server Authorization
 
 ## Status

@@ -1,4 +1,8 @@
 
+---
+read_when: defining or modifying action request structures, lifecycle states, or execution credentials
+---
+
 # Action Model
 
 ## Purpose

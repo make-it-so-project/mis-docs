@@ -1,3 +1,7 @@
+---
+read_when: applying or interpreting domain/category markers on issues, PRs, or discussions
+---
+
 # ADR-0003: Introduce domain and category markers for agent communication
 
 ## Status

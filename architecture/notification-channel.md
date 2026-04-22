@@ -1,3 +1,7 @@
+---
+read_when: adding or evaluating any user-facing notification, alert, or out-of-band messaging integration
+---
+
 # Secondary Notification Channel
 
 ## Purpose
