@@ -163,6 +163,44 @@ See ADR 0003 for the full marker system.
 
 ---
 
+## Secondary Notification Channel
+
+An optional, out-of-band channel through which make-it-so may deliver event
+notifications to a user.
+
+Examples include mobile push notifications, messaging platforms, email, and SMS.
+
+A secondary notification channel:
+
+- MUST only inform or redirect the user
+- MUST NOT perform, accept, or transmit approval decisions
+- MUST NOT carry credentials of any kind
+- MUST NOT act as a trusted authorization surface
+
+Users are directed to the mis-client for any approval action.
+
+See the [notification channel architecture](../architecture/notification-channel.md)
+and ADR 0004 for full details.
+
+---
+
+## Trusted Approval Surface
+
+A Trusted Approval Surface is a component that is authorized to collect and
+transmit human approval decisions within the make-it-so system.
+
+The **mis-client** is the designated trusted approval surface.
+
+Characteristics of a trusted approval surface:
+
+- operates under the user's direct control
+- communicates approval decisions to the control plane through a secured path
+- may receive execution credentials (e.g., OTPs) from the control plane
+
+Secondary notification channels are explicitly NOT trusted approval surfaces.
+
+---
+
 ## S-BL (Sprint Backlog)
 
 The Sprint Backlog contains tasks that have been approved for implementation.
