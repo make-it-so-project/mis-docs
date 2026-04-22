@@ -2,6 +2,8 @@
 
 Operational guidelines for AI Coders working on the make-it-so project.
 
+AGENTS.MD is the authoritative guide for this repo. Ignore any CLAUDE.md.
+
 Read `AI_CONTEXT.md` first for project architecture and domain context.
 
 ---
