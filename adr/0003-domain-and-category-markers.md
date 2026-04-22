@@ -1,4 +1,4 @@
-# ADR 0003: Introduce domain and category markers for agent communication
+# ADR-0003: Introduce domain and category markers for agent communication
 
 ## Status
 
