@@ -8,6 +8,23 @@ Read `AI_CONTEXT.md` first for project architecture and domain context.
 
 ---
 
+## Project Repositories
+
+Three repositories exist under the [make-it-so-project](https://github.com/make-it-so-project) organization.
+
+| Repository | Purpose |
+|---|---|
+| [mis-docs](https://github.com/make-it-so-project/mis-docs) | Architecture, decisions, governance — single source of truth (this repo) |
+| [mis-showcase](https://github.com/make-it-so-project/mis-showcase) | Early PoC prototype; not a reference implementation |
+| [mis-website](https://github.com/make-it-so-project/mis-website) | Public marketing site; TanStack Start on Cloudflare Workers |
+
+**mis-website note:** This repo is bidirectionally synced with Lovable. Pushes to
+`main` are picked up by Lovable automatically. Never edit `src/routeTree.gen.ts`
+(auto-generated). Do not run destructive git operations in mis-website without
+explicit user confirmation.
+
+---
+
 ## Session Start
 
 At the start of every session, before any other action, state one line:
