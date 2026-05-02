@@ -90,6 +90,25 @@ implementation suggestions or code.
 
 ---
 
+## Project Repositories
+
+The make-it-so project is organized across three GitHub repositories under the
+[make-it-so-project](https://github.com/make-it-so-project) organization.
+
+| Repository | Role | Notes |
+|---|---|---|
+| [mis-docs](https://github.com/make-it-so-project/mis-docs) | Architecture, governance, decisions, terminology | Single source of truth — read this first |
+| [mis-showcase](https://github.com/make-it-so-project/mis-showcase) | Early proof-of-concept prototype | Not aligned with current ADRs; treat as a sketch |
+| [mis-website](https://github.com/make-it-so-project/mis-website) | Public marketing site | TanStack Start + Cloudflare Workers; managed via Lovable |
+
+All three repositories belong to the **development domain**.
+
+When working on mis-website: the repository is bidirectionally synced with
+[Lovable](https://lovable.dev). Changes pushed to `main` are picked up by Lovable
+automatically. Do not edit `src/routeTree.gen.ts` — it is auto-generated.
+
+---
+
 # Key Concepts
 
 ## Control Plane

@@ -15,6 +15,20 @@ The goal is to maintain a shared understanding between human contributors and AI
 
 ---
 
+# Organization Repositories
+
+The make-it-so project is split across three repositories.
+
+| Repository | Purpose |
+|---|---|
+| [mis-docs](https://github.com/make-it-so-project/mis-docs) | Architecture, decisions, governance, and terminology — the single source of truth (this repo) |
+| [mis-showcase](https://github.com/make-it-so-project/mis-showcase) | Early-stage proof-of-concept prototype; demonstrates the core idea but is not a reference implementation |
+| [mis-website](https://github.com/make-it-so-project/mis-website) | Public-facing marketing site — landing page, about, how-it-works; deployed on Cloudflare Workers via Lovable |
+
+When in doubt about project scope or terminology, start here in mis-docs.
+
+---
+
 # Repository Structure
 
 ## Glossary
