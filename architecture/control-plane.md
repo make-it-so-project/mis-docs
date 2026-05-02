@@ -1,4 +1,8 @@
 
+---
+read_when: working on approval flows, policy evaluation, action governance, or the mis-client
+---
+
 # Control Plane Architecture
 
 ## Purpose
@@ -54,9 +58,24 @@ When policy requires human approval, the request is forwarded to the Approval Se
 Responsibilities:
 
 - present action summary to the human
-- collect approve/deny decision
-- optionally generate execution credentials (e.g., one‑time code)
+- collect approve/deny decision via the mis-client (trusted approval surface)
+- optionally generate execution credentials (e.g., one-time code)
 - record approval events
+- optionally trigger a secondary notification channel to alert the user
+
+The approval decision itself always travels through the mis-client.
+Secondary notification channels are inform-only and have no role in the
+approval flow. See [notification-channel.md](notification-channel.md).
+
+### Secondary Notification Channel (Optional)
+
+The control plane may forward event notifications to an external channel
+(e.g., mobile push, messaging platform) to improve user awareness.
+
+This is strictly an outbound, inform-only path.
+
+The channel MUST NOT receive or influence approval decisions.
+Any approval action redirects the user to the mis-client.
 
 ### Execution Connectors
 
@@ -86,10 +105,11 @@ This ensures traceability and accountability.
 1. Agent submits Action Request
 2. Control plane validates request
 3. Policy Engine evaluates the request
-4. If required, Approval Service collects human decision
-5. Decision is returned to the agent
-6. Agent or execution connector performs the action
-7. Result is logged for audit
+4. If required, Approval Service routes request to mis-client for human decision
+5. Optionally, a secondary notification channel informs the user out-of-band
+6. Decision is returned to the agent
+7. Agent or execution connector performs the action
+8. Result is logged for audit
 
 ## Design Characteristics
 
@@ -108,3 +128,4 @@ The control plane focuses on governance and approval, not business execution.
 - [Action Model](action-model.md) — structure of action requests processed by the control plane
 - [Request Lifecycle](request-lifecycle.md) — step-by-step flow through all lifecycle stages
 - [Component Diagram](component-diagram.md) — visual overview of all components
+- [Notification Channel](notification-channel.md) — secondary notification channel definition and constraints

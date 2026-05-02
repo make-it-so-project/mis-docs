@@ -110,6 +110,97 @@ Items in the Global Backlog are not executable tasks.
 
 ---
 
+## Development Domain
+
+The Development Domain encompasses all activity related to building and maintaining
+the make-it-so platform itself.
+
+Participants include human contributors and AI Coders (e.g. Claude Code, Codex, Cursor).
+
+Discussions and tasks in this domain are tagged with the `DEV` domain marker.
+
+---
+
+## Runtime Domain
+
+The Runtime Domain encompasses all activity related to the operational behavior
+of the make-it-so platform during execution.
+
+Participants include runtime agents, the control plane, and execution connectors.
+
+Discussions and tasks in this domain are tagged with the `RUN` domain marker.
+
+---
+
+## Domain Marker
+
+A structured prefix applied to issues, PRs, and design discussions to indicate
+the domain of the topic.
+
+Format: `[DOMAIN]` or combined with a category: `[DOMAIN/CATEGORY]`
+
+Examples: `[DEV]`, `[RUN]`, `[DEV/OPS]`, `[RUN/SEC]`
+
+See ADR 0003 for the full marker system.
+
+---
+
+## Category Marker
+
+A structured sub-classification applied alongside a domain marker to indicate
+the type of concern being addressed.
+
+| Marker | Meaning                             |
+|--------|-------------------------------------|
+| `ARCH` | Architecture                        |
+| `FUNC` | Functional Behavior                 |
+| `NFR`  | Non-Functional Requirements         |
+| `OPS`  | Operations / Tooling / CI           |
+| `SEC`  | Security                            |
+| `ADR`  | Architecture Decision Record        |
+
+See ADR 0003 for the full marker system.
+
+---
+
+## Secondary Notification Channel
+
+An optional, out-of-band channel through which make-it-so may deliver event
+notifications to a user.
+
+Examples include mobile push notifications, messaging platforms, email, and SMS.
+
+A secondary notification channel:
+
+- MUST only inform or redirect the user
+- MUST NOT perform, accept, or transmit approval decisions
+- MUST NOT carry credentials of any kind
+- MUST NOT act as a trusted authorization surface
+
+Users are directed to the mis-client for any approval action.
+
+See the [notification channel architecture](../architecture/notification-channel.md)
+and ADR 0004 for full details.
+
+---
+
+## Trusted Approval Surface
+
+A Trusted Approval Surface is a component that is authorized to collect and
+transmit human approval decisions within the make-it-so system.
+
+The **mis-client** is the designated trusted approval surface.
+
+Characteristics of a trusted approval surface:
+
+- operates under the user's direct control
+- communicates approval decisions to the control plane through a secured path
+- may receive execution credentials (e.g., OTPs) from the control plane
+
+Secondary notification channels are explicitly NOT trusted approval surfaces.
+
+---
+
 ## S-BL (Sprint Backlog)
 
 The Sprint Backlog contains tasks that have been approved for implementation.
