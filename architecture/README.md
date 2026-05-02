@@ -16,6 +16,7 @@ The architecture describes how system components interact and how responsibiliti
 | [action-model.md](action-model.md) | Action Request structure and action lifecycle states |
 | [request-lifecycle.md](request-lifecycle.md) | Detailed lifecycle from request creation to completion |
 | [notification-channel.md](notification-channel.md) | Secondary notification channel definition, constraints, and flow |
+| [session-connect.md](session-connect.md) | Session Connect mechanism: agent-user binding, pairing code flow, session continuation |
 
 ---
 

@@ -44,15 +44,23 @@ Internal resources in Zone 1.
 
 - MCP servers are deployed without privileged enterprise access.
 - make-it-so is reachable by the MCP server.
-- the human user has a registered mis-client device.
+- The human user has a registered mis-client device.
+- The user has established a mis-connect for this session: a `session_id →
+  (user_id, client_id)` binding exists in the mis-backend, created via the
+  Session Connect mechanism (see [Session Connect](../architecture/session-connect.md)).
 
 ## Main Flow
 
 1. User issues a prompt to an AI agent.
 2. The agent determines that enterprise data access is required.
-3. The MCP server sends an access request to make-it-so.
-4. make-it-so identifies the initiating user.
-5. The approval request is sent to the user's mis-client.
+3. The MCP server sends an access request to make-it-so, including the
+   active `session_id`.
+4. make-it-so resolves `session_id → (user_id, client_id)` to identify the
+   initiating user and their chosen approval device. If no active session
+   binding exists, the request is rejected and the agent is instructed to
+   initiate a fresh Connect.
+5. The approval request is sent to the user's mis-client identified by
+   `client_id`.
 6. The user reviews and approves the request.
 7. make-it-so grants a short-lived scoped access session.
 8. The MCP server performs the requested task.
@@ -88,6 +96,8 @@ The system requires:
 ## Related Documents
 
 - [ADR-0002: Short-Lived Scoped Sessions for MCP Authorization](../adr/0002-short-lived-scoped-session-mcp-authorization.md) — architectural decision behind the authorization model used in this use case
+- [ADR-0005: Session Connect Mechanism](../adr/0005-session-connect-mechanism.md) — how the agent-user binding is established before an access request can be made
+- [Session Connect](../architecture/session-connect.md) — Connect flow, session continuation, and data model
 - [Action Model](../architecture/action-model.md) — structure of the access request submitted by the MCP server
 - [Request Lifecycle](../architecture/request-lifecycle.md) — lifecycle stages the access request passes through
 - [Use Case: OpenClaw Integration](use-case-openclaw-integration.md) — approval-gated bot actions for OpenClaw deployments
