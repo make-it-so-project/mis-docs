@@ -32,10 +32,26 @@ Examples of channels:
 
 The following events may be communicated via a secondary channel:
 
+**Approval flow events:**
 - a pending approval is awaiting the user's decision
 - an agent has completed a task
 - a failure or escalation has occurred
 - a session or credential has expired
+
+**Session events:**
+- a session continuation has been established (existing identity reused in new chat)
+- a session override has occurred (client binding replaced in active session)
+
+**Client lifecycle security events:**
+- a new client registration is pending confirmation
+- a new client has been activated
+- a client registration was denied
+- a client registration expired without confirmation
+- a client has been revoked
+
+Security notifications for client lifecycle events MAY be sent to all
+active registered clients of the user where appropriate. They are
+inform-only and MUST NOT contain credentials or approval decisions.
 
 ---
 
@@ -102,4 +118,5 @@ The control plane MUST NOT rely on the notification channel for:
 ## Related Documents
 
 - [Control Plane](control-plane.md) — approval and policy enforcement
-- [ADR 0004](../adr/0004-secondary-notification-channel.md) — decision record for this concept
+- [Client Registration](client-registration.md) — client lifecycle events that trigger security notifications
+- [ADR-0004](../adr/0004-secondary-notification-channel.md) — decision record for this concept

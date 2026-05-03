@@ -67,6 +67,23 @@ The approval decision itself always travels through the mis-client.
 Secondary notification channels are inform-only and have no role in the
 approval flow. See [notification-channel.md](notification-channel.md).
 
+#### Client Validation Before Approval Routing
+
+Before routing an approval request to a `client_id`, the Approval Service
+MUST verify:
+
+- the `client_id` exists in `registered_clients`
+- the client belongs to the resolved `user_id`
+- the client status is ACTIVE
+- the client satisfies any policy requirements for `client_type` and
+  `assurance_level` applicable to the requested action
+
+Revoked clients MUST NOT receive approval requests.
+
+If the resolved client is not ACTIVE or does not satisfy policy requirements,
+the request MUST be rejected. The agent receives an error directing the
+user to re-connect or re-register as appropriate.
+
 ### Secondary Notification Channel (Optional)
 
 The control plane may forward event notifications to an external channel
@@ -129,3 +146,5 @@ The control plane focuses on governance and approval, not business execution.
 - [Request Lifecycle](request-lifecycle.md) — step-by-step flow through all lifecycle stages
 - [Component Diagram](component-diagram.md) — visual overview of all components
 - [Notification Channel](notification-channel.md) — secondary notification channel definition and constraints
+- [Client Registration](client-registration.md) — client lifecycle and status model validated before approval routing
+- [Client Identity and Secure Communication](client-identity-and-secure-communication.md) — client identity verification requirements

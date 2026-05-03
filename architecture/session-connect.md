@@ -29,6 +29,20 @@ information, and the control plane cannot route approvals correctly.
 
 ---
 
+## Boundary: Session Connect and Client Registration
+
+Session Connect operates on `registered_clients` — it selects a client
+from that list. It MUST NOT register new clients.
+
+A `client_id` used in Session Connect MUST already exist in
+`registered_clients` with status ACTIVE. The mis-backend MUST reject
+Connect attempts that reference a non-existent, PENDING, or REVOKED client.
+
+Client Registration — the process by which a client enters `registered_clients`
+— is a separate, more strongly secured flow. See [client-registration.md](client-registration.md).
+
+---
+
 ## Core Concept
 
 At the start of a session, the user performs a **Connect** that links the
@@ -187,6 +201,8 @@ primary security boundary.
 ## Related Documents
 
 - [ADR-0005: Session Connect Mechanism](../adr/0005-session-connect-mechanism.md) — decision record for this mechanism
+- [Client Registration](client-registration.md) — how a client_id enters registered_clients before Connect can use it
+- [Client Identity and Secure Communication](client-identity-and-secure-communication.md) — key model for registered clients
 - [Design Language](../design/design-language.md) — user-facing copy and TNG naming conventions for Connect interactions
 - [Control Plane Architecture](control-plane.md) — how the control plane uses session_id to route approvals
 - [Use Case: JIT Authorization for MCP Servers](../use-cases/use-case-jit-authorization-mcp-servers.md) — primary use case where Connect is a precondition

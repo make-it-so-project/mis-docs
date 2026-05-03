@@ -17,6 +17,9 @@ The architecture describes how system components interact and how responsibiliti
 | [request-lifecycle.md](request-lifecycle.md) | Detailed lifecycle from request creation to completion |
 | [notification-channel.md](notification-channel.md) | Secondary notification channel definition, constraints, and flow |
 | [session-connect.md](session-connect.md) | Session Connect mechanism: agent-user binding, pairing code flow, session continuation |
+| [client-registration.md](client-registration.md) | Client lifecycle, enrollment flows, first bootstrap, confirmation, and revocation |
+| [client-identity-and-secure-communication.md](client-identity-and-secure-communication.md) | Client key model, WebApp/PWA key handling, proof of possession, backend validation |
+| [user-registration.md](user-registration.md) | Placeholder: User Registration is a separate future concern |
 
 ---
 
