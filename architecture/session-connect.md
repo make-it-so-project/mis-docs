@@ -184,24 +184,10 @@ primary security boundary.
 
 ---
 
-## Naming Conventions
-
-The following Star Trek TNG-inspired names are used in user-facing copy:
-
-| Concept | User-facing name |
-|---|---|
-| Connect initiation | "Open Channel" |
-| Pairing code | "Clearance Code" |
-| mis-client device | "Tricorder" |
-| Successful connect | "Channel open. Make it so." |
-| Session continuation | "Soll ich mit deinem bisherigen Channel weitermachen?" |
-| No session found | "No channel established. Please re-connect from your Tricorder." |
-
----
-
 ## Related Documents
 
 - [ADR-0005: Session Connect Mechanism](../adr/0005-session-connect-mechanism.md) — decision record for this mechanism
+- [Design Language](../design/design-language.md) — user-facing copy and TNG naming conventions for Connect interactions
 - [Control Plane Architecture](control-plane.md) — how the control plane uses session_id to route approvals
 - [Use Case: JIT Authorization for MCP Servers](../use-cases/use-case-jit-authorization-mcp-servers.md) — primary use case where Connect is a precondition
 - [Notification Channel](notification-channel.md) — secondary notification channel used for continuation alerts
