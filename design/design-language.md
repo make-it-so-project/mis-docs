@@ -181,6 +181,23 @@ Key files:
 
 ---
 
+## Legal Notice Requirement
+
+The make-it-so design language is inspired by Star Trek: The Next Generation.
+The project is not affiliated with, endorsed by, or connected to CBS or Paramount.
+
+**Every user-facing application** (mis-client, mis-website, any future surface)
+MUST display the following notice at least once in a visible location — typically
+in a footer, an About screen, or an Info section:
+
+> Inspired by Star Trek: The Next Generation. Not affiliated with CBS / Paramount.
+
+This notice MUST NOT be omitted even if the LCARS aesthetic is used subtly.
+
+Reference implementation: `mis-website/src/components/site/Footer.tsx`
+
+---
+
 ## What This Is Not
 
 - This is not a strict LCARS recreation. Canon accuracy is not the goal.
