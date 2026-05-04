@@ -75,6 +75,37 @@ This ensures that temporary access permissions are automatically revoked after a
 
 ---
 
+## mis-user
+
+A registered human user of the make-it-so platform.
+
+A mis-user has a verified email address and at least one registered ACTIVE
+mis-client. The mis-user is identified by a `user_id` (UUID), which serves
+as both the internal primary key and the stable domain identifier exchanged
+between platform components.
+
+See [architecture/user-registration.md](../architecture/user-registration.md).
+
+---
+
+## User Registration
+
+The process by which a private individual creates a mis-user account and
+enrolls their first trusted mis-client as one combined atomic operation.
+
+User Registration uses passkey-only authentication. The flow consists of
+an email magic link that opens directly onto a passkey creation screen.
+The mis-user record is only created after the full flow completes.
+
+User Registration is distinct from:
+- **Client Registration** — adding further clients to an existing account
+- **Session Connect** — linking an agent session to a registered client
+
+See [architecture/user-registration.md](../architecture/user-registration.md)
+and [ADR-0009](../adr/0009-user-registration-model.md).
+
+---
+
 ## mis-client
 
 A trusted user device used to approve authorization requests within the make-it-so system.
@@ -287,16 +318,42 @@ See [ADR-0007](../adr/0007-webcrypto-client-key-and-webauthn-step-up.md).
 
 ---
 
+## user_ref
+
+The opaque user identifier held by a runtime agent after a successful
+Session Connect.
+
+`user_ref` is the agent-facing representation of the mis-user's `user_id`
+(UUID). The mis-backend stores sessions as `session_id → (user_id, client_id)`
+and returns the `user_id` to the agent as `user_ref`. The two terms refer
+to the same UUID; `user_ref` is the naming convention used in agent-facing
+interfaces and action requests, while `user_id` is used in internal
+mis-backend records.
+
+See [architecture/session-connect.md](../architecture/session-connect.md).
+
+---
+
 ## First Client Bootstrap
 
 The special case of Client Registration in which a mis-user has no
-existing ACTIVE registered client.
+existing ACTIVE registered client. Because no existing trusted device
+is available to confirm the registration, the bootstrap MUST use strong
+authentication to establish initial trust.
 
-Because no existing trusted device is available to confirm the registration,
-first client bootstrap MUST use strong authentication to establish initial
-trust (e.g., WebAuthn with user verification, or out-of-band verified link).
+First Client Bootstrap applies in two contexts:
 
-See [architecture/client-registration.md](../architecture/client-registration.md).
+1. **Initial User Registration** — performed as part of the combined
+   User Registration flow; user account and first client are created together.
+2. **Recovery** — an existing user re-establishes a trusted client after
+   losing all registered clients; deferred to a future ADR.
+
+The accepted bootstrap mechanism (per ADR-0009) is an email magic link
+that opens directly onto a passkey creation screen — email verification
+and WebAuthn/passkey creation in one continuous flow.
+
+See [architecture/client-registration.md](../architecture/client-registration.md)
+and [ADR-0009](../adr/0009-user-registration-model.md).
 
 ---
 

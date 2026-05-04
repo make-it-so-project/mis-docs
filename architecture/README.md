@@ -19,7 +19,7 @@ The architecture describes how system components interact and how responsibiliti
 | [session-connect.md](session-connect.md) | Session Connect mechanism: agent-user binding, pairing code flow, session continuation |
 | [client-registration.md](client-registration.md) | Client lifecycle, enrollment flows, first bootstrap, confirmation, and revocation |
 | [client-identity-and-secure-communication.md](client-identity-and-secure-communication.md) | Client key model, WebApp/PWA key handling, proof of possession, backend validation |
-| [user-registration.md](user-registration.md) | Placeholder: User Registration is a separate future concern |
+| [user-registration.md](user-registration.md) | User Registration model: passkey-first auth, combined first client bootstrap, self-service onboarding |
 
 ---
 

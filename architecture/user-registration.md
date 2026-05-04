@@ -65,9 +65,13 @@ mis_user:
 ### Notes
 
 **user_id** is a UUID and serves as both the technical primary key and
-the domain identifier exchanged between components (control plane, agents,
-mis-clients). A UUID does not reveal database structure or user volume and
-requires no separate external identifier.
+the stable domain identifier within the mis-backend. A UUID does not reveal
+database structure or user volume and requires no separate external identifier.
+
+In agent-facing interfaces (Session Connect, action requests), the same UUID
+is referred to as `user_ref`. The two terms name the same value; `user_id`
+is used in internal backend records, `user_ref` is the naming convention
+in agent-facing APIs. See [session-connect.md](session-connect.md).
 
 **email** is verified before the mis_user record exists. It serves as the
 primary identifier for login, the out-of-band notification address for
