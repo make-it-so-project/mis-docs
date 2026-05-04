@@ -79,10 +79,14 @@ This ensures that temporary access permissions are automatically revoked after a
 
 A registered human user of the make-it-so platform.
 
-A mis-user has a verified email address and at least one registered ACTIVE
-mis-client. The mis-user is identified by a `user_id` (UUID), which serves
-as both the internal primary key and the stable domain identifier exchanged
-between platform components.
+A mis-user has a verified email address and a stable `user_id` (UUID),
+which serves as both the internal primary key and the stable domain
+identifier exchanged between platform components.
+
+After successful registration, a mis-user normally has at least one
+registered ACTIVE mis-client. During lockout or account recovery scenarios,
+a mis-user may temporarily have no ACTIVE client. Account Recovery is the
+path to re-establish an ACTIVE client.
 
 See [architecture/user-registration.md](../architecture/user-registration.md).
 

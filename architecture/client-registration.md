@@ -191,8 +191,9 @@ via the verified email address confirming that a first client was enrolled.
 ## Additional Client Registration
 
 When a mis-user already has at least one ACTIVE registered client,
-registering a new client SHOULD require confirmation from an existing
-active trusted client.
+registering a new client MUST require step-up authentication on the new
+client and MUST require confirmation from at least one existing ACTIVE
+trusted client of the same user.
 
 This ensures that:
 
@@ -209,9 +210,9 @@ New client (Client B)
   ▼
 mis-backend
   │  creates PENDING entry for Client B
-  │  sends confirmation request to existing ACTIVE client (Client A)
+  │  sends confirmation request to one or more existing ACTIVE clients
   ▼
-Client A (existing trusted client)
+At least one existing trusted client
   │  user reviews: "New client '[display name]' is requesting registration."
   │  user approves or denies
   ▼
@@ -222,6 +223,12 @@ mis-backend
   ▼
 Client B is now ACTIVE.
 ```
+
+If no existing ACTIVE client is available, the flow is not Additional
+Client Registration and MUST fall back to Account Recovery.
+
+While status is PENDING, the new client MUST NOT receive approval requests.
+Only after successful confirmation may the status transition to ACTIVE.
 
 If the confirmation is not acted on within a defined time window,
 the PENDING entry expires. The registration must be retried.
@@ -252,16 +259,12 @@ trusted approval surface. See [account-recovery.md](account-recovery.md).
 
 ## Recovery
 
-Recovery after loss of all registered clients is **intentionally out of
-scope for the current architecture**.
+Recovery after loss of all registered clients is out of scope for this
+Client Registration document. It is defined separately in
+[account-recovery.md](account-recovery.md) and ADR-0010.
 
-See [account-recovery.md](account-recovery.md) for the complete recovery
-model, including the recovery code mechanism and post-recovery state.
-
-Until recovery is implemented:
-
-- a user with no active clients cannot receive or act on approval requests
-- agents will receive rejection responses directing the user to re-register
+When a user has no ACTIVE clients, approvals cannot be routed until Account
+Recovery re-establishes an ACTIVE client.
 
 ---
 
@@ -289,7 +292,7 @@ approval decisions, or action data. See [notification-channel.md](notification-c
 | Property | Requirement |
 |---|---|
 | First bootstrap | MUST use strong authentication; treated as high-security |
-| Additional client | SHOULD require confirmation from an existing active client |
+| Additional client | MUST require step-up authentication on the new client and confirmation from at least one existing ACTIVE client |
 | PENDING clients | MUST NOT receive approval requests |
 | REVOKED clients | MUST NOT receive approval requests |
 | Revocation | MUST be immediate; MUST be logged; MUST notify remaining clients |

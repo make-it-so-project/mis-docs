@@ -38,7 +38,8 @@ registered trusted approval surface on successful completion.
 
 **mis-backend**
 Validates the registration flow, creates the mis_user and first mis_client
-records atomically, and sends the security notification.
+records atomically, generates recovery codes, and sends the security
+notification.
 
 **Email system**
 Delivers the magic link to the user's email address.
@@ -90,10 +91,16 @@ Delivers the magic link to the user's email address.
    - `mis_client` record with `status = active`,
      `client_type = web_pwa`, `assurance_level = basic`
 
-9. mis-backend sends a security notification to the verified email
-   address confirming account creation and first client enrollment.
+9. mis-backend generates 2 recovery codes for the new mis-user account
+   and stores only their hashes.
 
-10. User is authenticated and may begin using make-it-so.
+10. Recovery codes are displayed once. The user must acknowledge that
+    they have stored them securely before proceeding.
+
+11. mis-backend sends a security notification to the verified email
+    address confirming account creation and first client enrollment.
+
+12. User is authenticated and may begin using make-it-so.
 
 ---
 
@@ -149,6 +156,9 @@ On success:
   `assurance_level = basic`.
 - The user's email address is verified and registered as the notification
   address.
+- 2 recovery codes have been generated and acknowledged by the user.
+- Recovery codes are stored as hashes; plain-text values are not retained
+  and cannot be retrieved later.
 - A security notification has been sent to the verified email.
 - The user is authenticated and the mis-client may participate in
   Session Connect and approval flows.
@@ -168,8 +178,12 @@ On failure:
   transmitted to the mis-backend at any point.
 - Email verification (magic link click) and passkey creation are combined
   into one flow; both are required for successful registration.
+- Recovery codes MUST be generated after successful registration, displayed
+  once, and acknowledged by the user.
+- Recovery codes MUST be stored as hashes; plain text MUST NOT be retained
+  by the mis-backend after issuance.
 - The security notification after registration is inform-only and MUST
-  NOT contain credentials, tokens, or approval data.
+  NOT contain credentials, tokens, recovery codes, or approval data.
 - All registration events MUST be logged for audit purposes.
 
 ---

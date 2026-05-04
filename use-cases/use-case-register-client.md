@@ -50,15 +50,16 @@ Creates, validates, and activates the client registration entry.
 Used when the user already has at least one ACTIVE registered client.
 
 1. User opens the new client and initiates registration.
-2. User authenticates with their mis-user credentials on the new client.
+2. User performs step-up authentication on the new client (for example,
+   WebAuthn/passkey with user verification).
 3. The new client generates a cryptographic key pair. The private key
    remains on the client and MUST NOT be transmitted.
 4. The new client submits a registration request to the mis-backend,
    including its public key, `client_type`, and `display_name`.
 5. The mis-backend creates a PENDING registration entry for the new client.
-6. The mis-backend sends a confirmation request to all existing ACTIVE
-   clients: "New client '[display name]' is requesting registration.
-   Approve or deny."
+6. The mis-backend sends a confirmation request to existing ACTIVE
+   registered clients of the same user: "New client '[display name]'
+   is requesting registration. Approve or deny."
 7. The user reviews the request on an existing trusted client and approves.
 8. The mis-backend sets the new client status → ACTIVE.
 9. The mis-backend sends security notifications to all active clients,
@@ -85,8 +86,8 @@ Used when the user has no existing ACTIVE registered clients.
 
 ## Alternative Flow — Existing Client Unavailable for Confirmation
 
-Used when an existing client exists in the backend but is unreachable
-or the user no longer has access to it.
+Used when an existing client record exists in the backend but no
+existing ACTIVE client is available for confirmation.
 
 1. Steps 1–5 of the Main Flow proceed normally.
 2. The confirmation request is sent but the user cannot act on it
@@ -94,10 +95,12 @@ or the user no longer has access to it.
 3. The PENDING registration expires after the defined time window.
 4. The new client remains PENDING and cannot be activated.
 5. The mis-backend notifies the user that the registration request expired.
-6. The user must retry registration or initiate a recovery flow.
+6. The flow cannot complete as Additional Client Registration.
+7. The user must initiate Account Recovery to re-establish an ACTIVE
+   client before adding further clients.
 
-Note: Account recovery (regaining access when all clients are lost)
-is intentionally out of scope. See [account-recovery.md](../architecture/account-recovery.md).
+Note: Recovery is defined in [account-recovery.md](../architecture/account-recovery.md)
+and ADR-0010.
 
 ---
 
@@ -132,8 +135,9 @@ On failure:
 
 - The private key MUST NOT leave the new client at any point in this flow.
 - A PENDING client MUST NOT receive approval requests.
-- Confirmation from an existing client is the preferred confirmation model
-  for additional client registration.
+- Additional Client Registration MUST require step-up authentication on
+  the new client and confirmation from at least one existing ACTIVE client
+  of the same user.
 - First client bootstrap MUST use strong authentication because no existing
   trusted client is available to confirm.
 - All registration events MUST be logged.
