@@ -20,7 +20,7 @@ The architecture describes how system components interact and how responsibiliti
 | [client-registration.md](client-registration.md) | Client lifecycle, enrollment flows, first bootstrap, confirmation, and revocation |
 | [client-identity-and-secure-communication.md](client-identity-and-secure-communication.md) | Client key model, WebApp/PWA key handling, proof of possession, backend validation |
 | [user-registration.md](user-registration.md) | User Registration model: passkey-first auth, combined first client bootstrap, self-service onboarding |
-| [account-recovery.md](account-recovery.md) | Account Recovery: scope, constraints, and open questions (future ADR) |
+| [account-recovery.md](account-recovery.md) | Account Recovery: self-service model with email magic link and recovery codes |
 
 ---
 

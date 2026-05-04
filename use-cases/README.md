@@ -15,3 +15,4 @@ They define actors, flows, security models, and architectural implications.
 | [OpenClaw Integration](use-case-openclaw-integration.md) | Approval-gated bot actions for OpenClaw autonomous agent deployments |
 | [Register a mis-client](use-case-register-client.md) | Enrollment of a new trusted approval device for a mis-user |
 | [Register a mis-user](use-case-user-registration.md) | Self-service account creation with simultaneous first client bootstrap |
+| [Account Recovery](use-case-account-recovery.md) | Self-service recovery using email magic link and recovery code |

@@ -255,10 +255,10 @@ trusted approval surface. See [account-recovery.md](account-recovery.md).
 Recovery after loss of all registered clients is **intentionally out of
 scope for the current architecture**.
 
-See [account-recovery.md](account-recovery.md) for the defined scope,
-constraints, and open questions.
+See [account-recovery.md](account-recovery.md) for the complete recovery
+model, including the recovery code mechanism and post-recovery state.
 
-Until recovery is defined:
+Until recovery is implemented:
 
 - a user with no active clients cannot receive or act on approval requests
 - agents will receive rejection responses directing the user to re-register

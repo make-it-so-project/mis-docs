@@ -1,150 +1,285 @@
 ---
-read_when: working on account recovery, loss of all clients, passkey loss, or re-establishing access for an existing user
+read_when: working on account recovery, recovery codes, or re-establishing access for an existing user
 ---
 
 # Account Recovery
 
-## Status
-
-**Placeholder — not yet specified.**
-
-This document defines the scope, constraints, and open questions for
-Account Recovery. The concrete flow and authentication mechanism will
-be defined in a future dedicated ADR.
-
----
-
 ## Purpose
 
 Account Recovery enables an existing mis-user to regain access to their
-account after losing the ability to authenticate through normal means.
+account after losing both their passkey and all registered mis-clients.
 
-This is distinct from:
+This document replaces the earlier placeholder and specifies the complete
+recovery model for the MVP.
 
-- **User Registration** — creating a new account (see [user-registration.md](user-registration.md))
-- **First Client Bootstrap (Initial)** — enrolling the first client during new account creation
-- **Additional Client Registration** — adding a new client when at least one active client exists (see [client-registration.md](client-registration.md))
+---
 
-Account Recovery applies specifically to the case where a registered
-user can no longer authenticate because all trusted paths are unavailable.
+## Scope
+
+This document defines:
+
+- recovery triggers and preconditions
+- the recovery code model
+- the recovery flow
+- post-recovery state
+- security properties and requirements
+
+This document does NOT define:
+
+- User Registration — see [user-registration.md](user-registration.md)
+- Additional Client Registration — see [client-registration.md](client-registration.md)
+- Support-assisted recovery for users who have exhausted all self-service
+  options — this is a separate operational process
 
 ---
 
 ## Recovery Triggers
 
-Recovery may be required in three situations:
+Account Recovery is required when a user can no longer authenticate
+because both of the following are unavailable:
 
-**1. All registered clients lost**
-The user's registered devices have been lost, stolen, wiped, or revoked,
-leaving no ACTIVE mis-client available. Without an active client, the
-user cannot receive approval requests or confirm new client registrations.
+1. **Passkey lost** — the user's WebAuthn credential is inaccessible
+   (device lost, browser storage cleared, PWA reinstalled)
+2. **All clients lost** — no ACTIVE mis-client record exists that could
+   confirm a new client registration
 
-**2. Passkey lost**
-The user's passkey has been destroyed (e.g., browser storage cleared,
-device replaced, PWA reinstalled). Without the passkey, the user cannot
-authenticate to the mis-backend, even if a client record technically exists.
-
-**3. Both (most common)**
-In practice, loss of a device typically means loss of both the registered
-client identity (WebCrypto key) and the passkey. These two triggers
-usually occur together.
+In practice these two conditions occur together (device loss). Recovery
+addresses both simultaneously by re-establishing the user's passkey and
+first client in a single flow.
 
 ---
 
-## Why This Is a Separate, High-Security Flow
+## Recovery Codes
 
-Recovery is not a simplified re-registration. It must satisfy a stronger
-set of requirements than initial User Registration, because:
+Recovery codes are the second authentication factor used during account
+recovery. They are independent of the lost passkey and clients.
 
-- The user cannot prove identity through their registered passkey
-  (it is lost) or through an existing trusted client (there are none)
-- An attacker who knows a user's email address could attempt to trigger
-  recovery and gain unauthorized access
-- Recovery therefore represents the most dangerous identity transition
-  in the system — it must not become an account takeover vector
+### Data Model
 
-The recovery mechanism must establish proof of identity through a channel
-that is independent of the lost credentials, without creating a path
-that attackers can exploit more easily than the protected account itself.
+```
+recovery_codes:
+  code_id      — unique identifier
+  user_id      — owning mis-user
+  code_hash    — hashed recovery code (plain text never stored after issuance)
+  created_at
+  used_at      — null if not yet used
+  status       — active | used | invalidated
+```
 
----
+### Parameters
 
-## Hard Constraints (Must be satisfied by any future design)
-
-Any recovery flow defined in the future ADR MUST satisfy the following:
-
-| Constraint | Rationale |
+| Parameter | Value |
 |---|---|
-| Must not rely on the lost passkey or lost clients | They are unavailable by definition |
-| Must prove identity independently | Email alone is insufficient — email accounts can be compromised |
-| Must not be easier to exploit than the account itself | Recovery must not lower the effective security of the system |
-| Must be logged in full | All recovery events are high-security audit events |
-| Must notify the user | Via all available channels at the time of recovery |
-| Must result in First Client Bootstrap | Recovery ends with the user re-enrolling a new first client through the standard bootstrap mechanism |
-| Must not silently re-activate lost clients | Recovered access starts fresh; old client records remain REVOKED |
+| Count per account | 2 |
+| Format | `XXXX-XXXX-XXXX` (alphanumeric, hyphen-separated) |
+| Lifecycle | Single-use per code |
+| Storage | Hashed; plain text never retained after issuance |
+| Display | Once only, immediately after generation |
+
+### Generation
+
+Recovery codes are generated at two points:
+
+1. **During User Registration** — after passkey creation and first client
+   activation, 2 recovery codes are generated and shown once. The user
+   must acknowledge that they have stored the codes before proceeding.
+
+2. **After successful Account Recovery** — 2 new codes replace all
+   previous codes. Shown once; user must acknowledge.
+
+Recovery codes MAY also be regenerated at any time from an active
+mis-client, requiring step-up authentication (WebAuthn/passkey).
+On regeneration, all existing codes are immediately invalidated.
+
+### Storage Responsibility
+
+The plain-text recovery codes are the user's responsibility to store
+securely (e.g., in a password manager or printed in a secure location).
+
+The mis-backend stores only the hashed form. The plain-text codes
+cannot be retrieved after initial display.
+
+If both codes are lost, self-service recovery is not available.
+The user must contact support.
 
 ---
 
-## What Recovery Is Not
+## Recovery Flow
 
-- Not a "forgot password" flow — there is no password in this system
-- Not a way to bypass the First Client Bootstrap security model
-- Not a support shortcut — any recovery path involving human support
-  must itself be designed to prevent social engineering attacks
-- Not in scope for the current MVP phase
+```
+User navigates to recovery page
+       │
+       ▼
+User enters email address
+       │
+       ▼
+mis-backend issues recovery initiation token (TTL-limited, single-use)
+       │
+       ▼
+Recovery magic link sent to registered email address
+       │
+       ▼
+User clicks link → lands directly on recovery completion page
+       │
+       ▼
+User enters one recovery code
+       │
+       ▼
+mis-backend validates: initiation token + recovery code hash
+       │
+       ├─ invalid → user informed; must restart or contact support
+       │
+       ▼
+User creates new passkey (WebAuthn registration)
+       │  (WebCrypto client key pair generated simultaneously)
+       ▼
+mis-client submits recovery completion request:
+  - initiation token
+  - recovery code (for final validation)
+  - new WebAuthn credential
+  - new client public key (WebCrypto)
+  - client_type, display_name
+       │
+       ▼
+mis-backend atomically:
+  - marks recovery code as used
+  - invalidates remaining recovery code(s)
+  - invalidates previous passkey credential(s)
+  - creates new mis_client record (status = active)
+  - generates 2 new recovery codes
+       │
+       ▼
+New recovery codes displayed once — user must acknowledge
+       │
+       ▼
+Security notification sent to verified email
+       │
+       ▼
+User is authenticated; account access restored
+```
+
+### Step-by-Step Description
+
+**Step 1 — Recovery initiation**
+
+The user navigates to the recovery page and enters their email address.
+
+To prevent user enumeration, the mis-backend returns the same response
+regardless of whether the email address has a registered account.
+
+**Step 2 — Magic link delivery**
+
+The mis-backend generates a time-limited, single-use recovery initiation
+token and sends a magic link to the registered email address.
+
+**Step 3 — Recovery code entry**
+
+The user clicks the magic link. The recovery completion page is presented
+immediately. The user enters one of their two recovery codes.
+
+The mis-backend validates:
+- the initiation token (valid, not expired, not previously used)
+- the recovery code (hash match, status = active)
+
+If either validation fails, the user is informed and may restart or
+contact support.
+
+**Step 4 — Passkey and client key creation**
+
+The user creates a new passkey using the platform authenticator
+(WebAuthn registration ceremony). The mis-client WebApp simultaneously
+generates a new WebCrypto key pair for client identity.
+
+Both private keys remain on the device and MUST NOT be transmitted.
+
+**Step 5 — Recovery completion**
+
+The mis-client submits the recovery completion request. The mis-backend
+validates all components and atomically:
+
+- marks the used recovery code as `used`
+- sets remaining recovery code(s) to `invalidated`
+- invalidates the previous passkey credential
+- creates a new `mis_client` record (`status = active`,
+  `client_type = web_pwa`, `assurance_level = basic`)
+- generates 2 new recovery codes
+
+**Step 6 — New recovery codes**
+
+The 2 new recovery codes are displayed once. The user must acknowledge
+that they have stored them before proceeding. The codes cannot be
+retrieved again.
+
+**Step 7 — Security notification**
+
+The mis-backend sends a security notification to the verified email:
+
+> "Your make-it-so account has been recovered. A new client has been
+> enrolled and new recovery codes have been generated."
+
+The notification is inform-only and MUST NOT contain credentials.
+See [notification-channel.md](notification-channel.md).
+
+**Step 8 — Session established**
+
+The user is authenticated via the new passkey and may resume using
+make-it-so.
 
 ---
 
-## Open Questions (To be resolved in the future ADR)
+## Post-Recovery State
 
-The following design decisions are intentionally deferred:
+After successful recovery:
 
-1. **Identity proof mechanism** — What out-of-band proof of identity is
-   acceptable? Options include: verified email + time-delay + additional
-   verification step; government ID verification; support-assisted flow;
-   pre-registered recovery codes generated at registration time.
-
-2. **Cool-down period** — Should there be a mandatory waiting period
-   after a recovery request before the new client is activated?
-   This limits the window for attackers but increases user friction.
-
-3. **Notification strategy** — If all clients are gone and email is the
-   only remaining channel, what security notifications can be sent and
-   when? What if the email account is also compromised?
-
-4. **Self-service vs. support-assisted** — Can recovery be fully
-   self-service, or does it require human support involvement for
-   additional verification?
-
-5. **Impact on pending requests** — What happens to action requests
-   that are pending approval when a user enters recovery? Are they
-   cancelled, held, or expired?
-
-6. **Recovery codes** — Should users be offered pre-generated recovery
-   codes at registration time (similar to 2FA backup codes) as a
-   recovery path? These must be stored securely by the user.
+| Element | State |
+|---|---|
+| mis_user record | Unchanged (user_id, email, display_name retained) |
+| Previous passkey credential | Invalidated |
+| Previous mis_client records | Remain REVOKED (not restored) |
+| New mis_client | ACTIVE (`client_type = web_pwa`, `assurance_level = basic`) |
+| Used recovery code | Status = used |
+| Remaining old recovery codes | Status = invalidated |
+| New recovery codes | 2 new codes generated; shown once |
+| Pending action requests | Expired (no active client was available to route them) |
 
 ---
 
-## Current Behavior (Until Recovery is Defined)
+## Relationship to First Client Bootstrap
 
-Until Account Recovery is specified and implemented:
+Account Recovery uses the First Client Bootstrap mechanism (Context 2)
+defined in [client-registration.md](client-registration.md).
 
-- A user who loses all registered clients and their passkey cannot
-  authenticate or receive approval requests.
-- Agents receive rejection responses for action requests that cannot
-  be routed to an active client.
-- The user must contact support; no automated recovery path exists.
+The bootstrap mechanism is the same as in initial User Registration:
+new passkey creation + new WebCrypto client key in one flow. The
+surrounding context differs — recovery adds the recovery code validation
+step before bootstrap begins.
 
-This is the correct conservative default — providing no recovery path
-is safer than providing an insecure one.
+---
+
+## Security Properties
+
+| Property | Requirement |
+|---|---|
+| Second factor | Recovery code required in addition to email magic link |
+| Email alone | MUST NOT be sufficient to complete recovery |
+| Recovery initiation token | MUST be time-limited and single-use |
+| Recovery code | MUST be validated as hash match; plain text MUST NOT be stored |
+| Used codes | MUST be marked as used immediately and MUST NOT be reusable |
+| Code exhaustion | If both codes lost or used: no self-service path; support only |
+| Previous credentials | Passkey and client key MUST be invalidated after recovery |
+| Atomic operation | All state changes MUST succeed or none; no partial recovery state |
+| Security notification | MUST be sent to verified email after successful recovery |
+| Audit | All recovery events MUST be logged |
+| New codes | MUST be generated and shown once after every successful recovery |
 
 ---
 
 ## Related Documents
 
-- [User Registration](user-registration.md) — combined account creation and first client bootstrap
-- [Client Registration](client-registration.md) — First Client Bootstrap mechanism used at the end of recovery
-- [Client Identity and Secure Communication](client-identity-and-secure-communication.md) — key model that recovery must re-establish
-- [ADR-0008: Client Registration Confirmation Model](../adr/0008-client-registration-confirmation-model.md) — defines the recovery boundary for client registration
-- [ADR-0009: User Registration Model](../adr/0009-user-registration-model.md) — notes recovery as a follow-up implication
+- [User Registration](user-registration.md) — includes initial recovery code generation
+- [Client Registration](client-registration.md) — First Client Bootstrap mechanism used in recovery
+- [Client Identity and Secure Communication](client-identity-and-secure-communication.md) — key model re-established during recovery
+- [Notification Channel](notification-channel.md) — security notification delivery
+- [Use Case: Account Recovery](../use-cases/use-case-account-recovery.md) — end-to-end recovery flow
+- [ADR-0009: User Registration Model](../adr/0009-user-registration-model.md) — notes recovery as follow-up implication
+- [ADR-0010: Account Recovery Model](../adr/0010-account-recovery-model.md) — decision record for self-service model and recovery codes
