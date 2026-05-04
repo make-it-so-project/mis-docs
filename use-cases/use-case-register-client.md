@@ -97,7 +97,7 @@ or the user no longer has access to it.
 6. The user must retry registration or initiate a recovery flow.
 
 Note: Account recovery (regaining access when all clients are lost)
-is intentionally out of scope. See [client-registration.md](../architecture/client-registration.md).
+is intentionally out of scope. See [account-recovery.md](../architecture/account-recovery.md).
 
 ---
 

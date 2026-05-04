@@ -254,15 +254,9 @@ Account recovery — regaining access when a user's passkey or all
 registered clients are lost — is explicitly out of scope for this
 document and the current architecture phase.
 
-Recovery is a high-security flow that requires careful design to avoid
-becoming an account takeover vector. It will be addressed in a future
-dedicated ADR.
-
-Until recovery is defined:
-
-- a user who loses their passkey and all registered clients cannot
-  authenticate or receive approval requests
-- agents receive rejection responses directing the user to contact support
+See [account-recovery.md](account-recovery.md) for the defined scope,
+constraints, and open questions. Until recovery is specified, a user
+who loses all credentials cannot authenticate and must contact support.
 
 ---
 

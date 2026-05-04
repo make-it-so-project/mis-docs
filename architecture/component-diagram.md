@@ -48,7 +48,7 @@ The Agent Interface is the entry point for runtime agents.
 Responsibilities:
 - receive structured action requests
 - validate request schema
-- attach metadata (agent_id, timestamps)
+- attach metadata (agent_id, user_id, timestamps)
 - forward requests to the Policy Engine
 
 Typical implementations may expose MCP tools or REST APIs.
@@ -165,6 +165,9 @@ The audit log ensures traceability and supports governance requirements.
 ## Related Documents
 
 - [Control Plane Architecture](control-plane.md) — control flow and core architectural principle
-- [Notification Channel](notification-channel.md) — secondary notification channel definition and constraints
 - [Action Model](action-model.md) — structure of action requests
 - [Request Lifecycle](request-lifecycle.md) — lifecycle stages an action passes through
+- [Session Connect](session-connect.md) — how agents establish user identity and client binding before submitting requests
+- [Client Registration](client-registration.md) — how mis-clients enter the registered_clients set
+- [User Registration](user-registration.md) — how mis-users and their first client are created
+- [Notification Channel](notification-channel.md) — secondary notification channel definition and constraints
