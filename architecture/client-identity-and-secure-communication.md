@@ -123,9 +123,13 @@ mis-backend  →  verifies signature using stored public key
 A valid signature proves that the client holds the private key
 corresponding to the registered public key.
 
+Challenge/response proves **client key possession** only. It does NOT prove
+current human presence or user verification. User step-up remains WebAuthn/passkey
+or equivalent user verification — see the Two Identity Layers section below.
+
 Challenge/response MUST be used:
 - at registration activation (before setting status → ACTIVE)
-- for step-up verification on sensitive operations (if required by policy)
+- for proof of client key possession on sensitive operations where required by policy
 
 ---
 

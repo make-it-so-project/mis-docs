@@ -119,7 +119,9 @@ assurance_level = basic
 | `standard` | Native app with OS-managed key storage |
 | `high` | Native app with hardware-backed key storage (e.g., Secure Enclave, StrongBox) |
 
-For the MVP, `basic` assurance is acceptable for all approval flows.
+For the MVP, `basic` assurance is acceptable for initial low- to medium-risk
+approval flow validation. High-risk production approvals may require stronger
+step-up or higher-assurance native clients.
 
 ### Client Type Model
 
