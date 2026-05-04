@@ -106,7 +106,7 @@ mis-backend
   │  Stores: session_id → (user_id=X, client_id=Y)
   │  Rejects unknown session_ids
   ▼
-  Returns: user_ref to agent
+  Returns: user_ref (= user_id) and client_id to agent
 
 Agent
   │  Stores (user_ref, client_id) persistently
