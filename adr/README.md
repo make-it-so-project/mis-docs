@@ -19,6 +19,7 @@ ADRs provide transparency and help maintain long-term architectural consistency.
 | [ADR-0007](0007-webcrypto-client-key-and-webauthn-step-up.md) | WebCrypto Client Key and WebAuthn Step-up | Accepted | 2026-05-03 |
 | [ADR-0008](0008-client-registration-confirmation-model.md) | Client Registration Confirmation Model | Accepted | 2026-05-03 |
 | [ADR-0009](0009-user-registration-model.md) | User Registration Model | Accepted | 2026-05-04 |
+| [ADR-0010](0010-account-recovery-model.md) | Account Recovery Model | Accepted | 2026-05-04 |
 
 ---
 
