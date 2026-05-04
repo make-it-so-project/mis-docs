@@ -330,7 +330,8 @@ First Client Bootstrap applies in two contexts:
 1. **Initial User Registration** — performed as part of the combined
    User Registration flow; user account and first client are created together.
 2. **Recovery** — an existing user re-establishes a trusted client after
-   losing all registered clients; deferred to a future ADR.
+   losing all registered clients. Defined in ADR-0010.
+   See [account-recovery.md](../architecture/account-recovery.md).
 
 The accepted bootstrap mechanism (per ADR-0009) is an email magic link
 that opens directly onto a passkey creation screen — email verification
@@ -368,6 +369,44 @@ Characteristics of a trusted approval surface:
 - may receive execution credentials (e.g., OTPs) from the control plane
 
 Secondary notification channels are explicitly NOT trusted approval surfaces.
+
+---
+
+## Account Recovery
+
+The process by which an existing mis-user regains access to their account
+after losing the ability to authenticate — specifically when both their
+passkey and all registered clients are unavailable.
+
+Account Recovery is self-service and requires two factors:
+
+1. A time-limited, single-use magic link sent to the verified email address
+2. A valid recovery code
+
+On completion, the recovery flow ends with First Client Bootstrap: a new
+mis-client is enrolled and all previous client records remain REVOKED.
+
+See [architecture/account-recovery.md](../architecture/account-recovery.md)
+and [ADR-0010](../adr/0010-account-recovery-model.md).
+
+---
+
+## Recovery Code
+
+A pre-generated, single-use secret used as a second authentication factor
+during Account Recovery.
+
+Recovery codes are:
+
+- generated at the time of User Registration (2 codes issued)
+- stored as cryptographic hashes in the mis-backend (originals displayed once)
+- regenerated after a successful recovery or via step-up auth from an active client
+- formatted as XXXX-XXXX-XXXX (alphanumeric, unambiguous characters)
+
+A user who has exhausted all recovery codes must contact support for
+out-of-band identity verification.
+
+See [architecture/account-recovery.md](../architecture/account-recovery.md).
 
 ---
 
