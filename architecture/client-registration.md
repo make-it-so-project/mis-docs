@@ -165,7 +165,7 @@ The user has an existing account but all registered clients have been
 lost or revoked. First Client Bootstrap re-establishes a trusted
 approval surface for the existing user, without creating a new account.
 Recovery is a high-security flow and is explicitly deferred to a
-future ADR. See the Recovery section below.
+future ADR. See [account-recovery.md](account-recovery.md).
 
 ### Bootstrap Mechanism
 
@@ -246,19 +246,17 @@ Revocation may be initiated:
 - by the mis-backend in response to a security event (future scope)
 
 Deregistration of the last active client leaves the user without a
-trusted approval surface. See Recovery below.
+trusted approval surface. See [account-recovery.md](account-recovery.md).
 
 ---
 
 ## Recovery
 
-Recovery after loss of all registered clients (e.g., all devices lost,
-all clients revoked) is **intentionally out of scope for the current
-architecture**.
+Recovery after loss of all registered clients is **intentionally out of
+scope for the current architecture**.
 
-Recovery is a high-security flow that requires careful design to avoid
-becoming an account takeover vector. It will be defined in a future ADR
-and architecture document.
+See [account-recovery.md](account-recovery.md) for the defined scope,
+constraints, and open questions.
 
 Until recovery is defined:
 
