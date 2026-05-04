@@ -318,22 +318,6 @@ See [ADR-0007](../adr/0007-webcrypto-client-key-and-webauthn-step-up.md).
 
 ---
 
-## user_ref
-
-The opaque user identifier held by a runtime agent after a successful
-Session Connect.
-
-`user_ref` is the agent-facing representation of the mis-user's `user_id`
-(UUID). The mis-backend stores sessions as `session_id → (user_id, client_id)`
-and returns the `user_id` to the agent as `user_ref`. The two terms refer
-to the same UUID; `user_ref` is the naming convention used in agent-facing
-interfaces and action requests, while `user_id` is used in internal
-mis-backend records.
-
-See [architecture/session-connect.md](../architecture/session-connect.md).
-
----
-
 ## First Client Bootstrap
 
 The special case of Client Registration in which a mis-user has no

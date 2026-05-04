@@ -244,7 +244,7 @@ User sends prompt
 OpenClaw bot determines a restricted tool is needed
        │
        ▼
-Bot calls make-it-so MCP tool: request_approval(action_type, summary, user_ref)
+Bot calls make-it-so MCP tool: request_approval(action_type, summary, user_id)
        │
        ▼
 make-it-so evaluates request and notifies approver via mis-client
@@ -347,7 +347,7 @@ Approver reviews and approves or denies
 The integration requires:
 
 - make-it-so to expose a synchronous or long-polling MCP tool: `request_approval`
-- user identity resolution: OpenClaw `user_ref` must map to a registered mis-client
+- user identity resolution: OpenClaw `user_id` must map to a registered mis-client
 - action type mapping: tool name → `action_type` label
 - audit logging for all approval requests, decisions, and execution outcomes
 - session TTL for pending approval requests

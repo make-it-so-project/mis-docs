@@ -32,7 +32,7 @@ A typical action request contains the following fields:
   "action_type": "string",
   "summary": "human readable description",
   "agent_id": "identifier of requesting agent",
-  "user_ref": "logical user identifier",
+  "user_id": "logical user identifier",
   "risk_hint": "optional risk level",
   "details": { },
   "idempotency_key": "unique request key"
@@ -50,7 +50,7 @@ Human-readable description presented during approval.
 **agent_id**  
 Identifier of the requesting runtime agent.
 
-**user_ref**  
+**user_id**  
 Logical user context associated with the request.
 
 **risk_hint**  

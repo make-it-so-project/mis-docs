@@ -127,7 +127,7 @@ mechanism.
 6. The agent submits `{ code, session_id }` to the mis-backend.
 7. The mis-backend validates the code, resolves `(user_id, client_id)`,
    and stores `session_id → (user_id, client_id)`.
-8. The agent receives and persistently stores `user_ref` (and `client_id`
+8. The agent receives and persistently stores `user_id` (and `client_id`
    for UX purposes).
 
 ### Session Continuation
@@ -135,9 +135,9 @@ mechanism.
 When a user opens a new chat session and the agent has a stored binding
 from a previous session:
 
-1. The agent detects the stored `(user_ref, client_id)` and asks the user
+1. The agent detects the stored `(user_id, client_id)` and asks the user
    whether to continue with the existing channel.
-2. If confirmed, the agent submits `{ user_ref, client_id, new_session_id }`
+2. If confirmed, the agent submits `{ user_id, client_id, new_session_id }`
    to the mis-backend without requiring a new pairing code.
 3. The mis-backend validates that `(user_id, client_id)` is still a
    registered active pair. If the client has been deregistered, the request
@@ -154,7 +154,7 @@ mis-backend:
   active_sessions:      session_id  →  (user_id, client_id)
 
 agent (persistent):
-  user_ref + client_id
+  user_id + client_id
 ```
 
 ### Unknown Session Rejection

@@ -138,7 +138,7 @@ Typical properties include:
 - action type
 - summary description
 - agent identifier
-- user reference (user_ref)
+- user identifier (user_id)
 - optional parameters
 
 Action requests are evaluated by the control plane before execution is allowed.
