@@ -145,22 +145,46 @@ It is a session-level binding mechanism, not an enrollment mechanism.
 
 ## First Client Bootstrap
 
-The first client registration for a mis-user is a special case.
+First Client Bootstrap applies when a mis-user has no existing ACTIVE
+registered client. Because no trusted surface is available to confirm
+the registration, the bootstrap MUST rely on a stronger authentication
+mechanism to establish initial trust.
 
-No existing trusted client is available to confirm the registration.
-The bootstrap MUST therefore rely on a stronger authentication mechanism
-to establish initial trust.
+This situation arises in two distinct contexts:
 
-Acceptable bootstrap approaches (implementation to be defined in a future ADR):
+**Context 1 — Initial User Registration**
 
-- strong user authentication with a second factor
-- out-of-band verification (e.g., verified email + time-limited link)
-- WebAuthn/passkey with user verification
+The user has no account yet. First Client Bootstrap is performed as
+part of the User Registration flow. The mis_user record and the first
+mis_client record are created atomically in a single operation.
+See [User Registration](user-registration.md).
+
+**Context 2 — Recovery**
+
+The user has an existing account but all registered clients have been
+lost or revoked. First Client Bootstrap re-establishes a trusted
+approval surface for the existing user, without creating a new account.
+Recovery is a high-security flow and is explicitly deferred to a
+future ADR. See the Recovery section below.
+
+### Bootstrap Mechanism
+
+The accepted bootstrap mechanism is defined in ADR-0009:
+
+A time-limited, single-use magic link is sent to the user's verified
+email address. Clicking the link opens directly onto a passkey creation
+screen (WebAuthn registration ceremony). Email verification and passkey
+creation form one continuous flow; both are required.
+
+This satisfies the two-layer requirement:
+- the magic link proves ownership of the registered email address
+  (out-of-band verified link)
+- the passkey creation proves user presence via the platform authenticator
+  (WebAuthn with user verification)
 
 The bootstrap flow MUST be treated as a high-security operation.
 It MUST be logged and MUST trigger a security notification to the user
-(e.g., via email or the registered notification address) confirming
-that a first client was enrolled.
+via the verified email address confirming that a first client was enrolled.
 
 ---
 
@@ -279,8 +303,10 @@ approval decisions, or action data. See [notification-channel.md](notification-c
 
 - [Session Connect](session-connect.md) — uses registered clients; does not register them
 - [Client Identity and Secure Communication](client-identity-and-secure-communication.md) — key material model for registered clients
-- [User Registration](user-registration.md) — separate future concern; not defined here
+- [User Registration](user-registration.md) — combined User Registration and First Client Bootstrap flow for new accounts
 - [Control Plane Architecture](control-plane.md) — validates client status before routing approvals
 - [Notification Channel](notification-channel.md) — delivers client lifecycle security notifications
-- [Use Case: Register Client](../use-cases/use-case-register-client.md) — end-to-end registration flow
+- [Use Case: Register Client](../use-cases/use-case-register-client.md) — end-to-end registration flow for additional clients
+- [Use Case: Register a mis-user](../use-cases/use-case-user-registration.md) — end-to-end flow for new account creation with first client
 - [ADR-0008: Client Registration Confirmation Model](../adr/0008-client-registration-confirmation-model.md) — decision record for the confirmation approach
+- [ADR-0009: User Registration Model](../adr/0009-user-registration-model.md) — decision record for passkey-only auth and combined registration flow
