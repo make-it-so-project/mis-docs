@@ -29,7 +29,7 @@ Responsibilities:
 
 - receive action requests
 - validate request schema
-- attach metadata (agent id, user_ref, timestamps)
+- attach metadata (agent id, user_id, timestamps)
 - forward requests to policy evaluation
 
 ### Policy Engine

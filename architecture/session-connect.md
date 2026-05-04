@@ -50,7 +50,7 @@ current agent session to their identity and a chosen mis-client device.
 
 After a successful Connect:
 
-- the agent holds a stable `user_ref` (opaque user identifier)
+- the agent holds a stable `user_id`
 - the mis-backend resolves `session_id → (user_id, client_id)` for every
   subsequent action request
 
@@ -71,7 +71,7 @@ mis-backend:
     session_id  →  (user_id, client_id)   (established during Connect)
 
 agent (persistent across chat sessions):
-    user_ref + client_id                  (stored after successful Connect)
+    user_id + client_id                  (stored after successful Connect)
 ```
 
 A user may have multiple registered clients. Each Connect explicitly selects
@@ -106,10 +106,10 @@ mis-backend
   │  Stores: session_id → (user_id=X, client_id=Y)
   │  Rejects unknown session_ids
   ▼
-  Returns: user_ref to agent
+  Returns: user_id to agent
 
 Agent
-  │  Stores (user_ref, client_id) persistently
+  │  Stores (user_id, client_id) persistently
   ▼
   Session is established. All action requests include session_id.
 ```
@@ -132,12 +132,12 @@ pairing code.
 
 ```
 Agent (new chat session)
-  │  Detects stored (user_ref, client_id) from previous session
+  │  Detects stored (user_id, client_id) from previous session
   │  Asks user: "Soll ich mit deinem bisherigen Channel weitermachen?"
   ▼
   User confirms
 
-Agent  →  POST /session/add { user_ref, client_id, new_session_id }
+Agent  →  POST /session/add { user_id, client_id, new_session_id }
   ▼
 mis-backend
   │  Validates that (user_id, client_id) is still a registered active pair
@@ -188,7 +188,7 @@ fresh Connect.
 | Code uniqueness | no collision within ±30 second window |
 | Session validation | unknown session_ids are rejected |
 | Client selection | each session binds to exactly one client |
-| Agent isolation | agent holds user_ref only; client routing is internal to mis |
+| Agent isolation | agent holds user_id only; client routing is internal to mis |
 | Continuation safety | mis-client is notified on session reuse |
 | Override logging | all binding changes are logged |
 
