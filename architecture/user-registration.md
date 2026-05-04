@@ -29,7 +29,7 @@ This document does NOT define:
 
 - Additional Client Registration — see [client-registration.md](client-registration.md)
 - Session Connect — see [session-connect.md](session-connect.md)
-- Account Recovery — deferred; see below
+- Account Recovery — see [account-recovery.md](account-recovery.md)
 
 ---
 
@@ -219,7 +219,8 @@ applies in two distinct contexts:
 
 2. **Recovery** — an existing user has lost all registered clients.
    The user re-bootstraps a first client without re-registering.
-   This is a separate high-security flow, deferred to a future ADR.
+   This is a separate high-security flow defined in ADR-0010.
+   See [account-recovery.md](account-recovery.md).
 
 The bootstrap mechanism is the same in both contexts: out-of-band
 verified email link combined with WebAuthn/passkey creation in one flow.
@@ -251,8 +252,7 @@ post-MVP.
 ## Account Recovery
 
 Account recovery — regaining access when a user's passkey or all
-registered clients are lost — is explicitly out of scope for this
-document and the current architecture phase.
+registered clients are lost — is out of scope for this document.
 
 See [account-recovery.md](account-recovery.md) for the complete recovery
 model. Recovery uses email magic link plus a pre-generated recovery code

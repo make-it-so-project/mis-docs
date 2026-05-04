@@ -164,8 +164,8 @@ See [User Registration](user-registration.md).
 The user has an existing account but all registered clients have been
 lost or revoked. First Client Bootstrap re-establishes a trusted
 approval surface for the existing user, without creating a new account.
-Recovery is a high-security flow and is explicitly deferred to a
-future ADR. See [account-recovery.md](account-recovery.md).
+Recovery is a high-security flow defined in ADR-0010.
+See [account-recovery.md](account-recovery.md).
 
 ### Bootstrap Mechanism
 
