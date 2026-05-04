@@ -44,6 +44,8 @@ intermediate state. On successful registration:
 
 - the mis_user record is created as `active`
 - the first mis_client record is created as `active`
+- exactly 2 recovery codes are generated, displayed once, and acknowledged
+- only hashed recovery codes are stored by the mis-backend
 - the user can immediately receive and act on approval requests
 
 No partial user state exists. The mis_user record is only created after
@@ -124,6 +126,8 @@ mis-backend validates token + WebAuthn credential
        │
        ├─ success → mis_user created (active)
        │            first mis_client created (active)
+       │            2 recovery codes generated (hashes stored only)
+       │            codes displayed once and acknowledged by user
        │            security notification sent to verified email
        │
        └─ failure → no records created; user informed
@@ -191,7 +195,18 @@ The registration token is marked as used.
 
 If any validation step fails, no records are created.
 
-**Step 7 — Security notification**
+**Step 7 — Recovery code issuance and acknowledgment**
+
+After atomic record creation succeeds, the mis-backend generates exactly
+two recovery codes for the new mis-user.
+
+- The mis-backend stores only hashed recovery codes.
+- Plain-text recovery codes are displayed exactly once to the user.
+- Plain-text recovery codes MUST NOT be retained and cannot be retrieved later.
+- The user MUST acknowledge that they have stored the codes securely
+  before continuing.
+
+**Step 8 — Security notification**
 
 The mis-backend sends a security notification to the verified email:
 
@@ -201,7 +216,7 @@ The mis-backend sends a security notification to the verified email:
 The notification is inform-only and MUST NOT contain credentials.
 See [notification-channel.md](notification-channel.md).
 
-**Step 8 — Session established**
+**Step 9 — Session established**
 
 The user is authenticated via the newly created passkey and may
 immediately begin using make-it-so.
