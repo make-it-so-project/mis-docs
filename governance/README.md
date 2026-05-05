@@ -61,3 +61,15 @@ Operational decisions must rely on structured artifacts such as:
 - Architecture Decision Records
 - repository policies
 - governance rules
+
+---
+
+# AI Coder Operational Rules
+
+The governance model defines what AI Coders may work on and who approves it.
+
+For how AI Coders execute work within the git workflow — branch creation, commits,
+pull requests, session handoffs — see:
+
+- `docs/ai-coder-workflow.md` — contribution model and branch lifecycle
+- `AGENTS.MD` — operational rules and git safety guidelines

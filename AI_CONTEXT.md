@@ -248,6 +248,10 @@ See ADR 0003 for full rationale.
 
 # Guidance for AI Coding Assistants
 
+Before making any changes, read `AGENTS.MD` at the repository root. It contains
+the operational rules for this repository: commit format, branch workflow, branch
+protection, PR requirements, git safety rules, and slash commands.
+
 When generating code, documentation, or architectural proposals for this project:
 
 1. Treat the architecture documents as the source of truth.
@@ -255,3 +259,5 @@ When generating code, documentation, or architectural proposals for this project
 3. Assume that all impactful actions must pass through the control plane.
 4. Maintain clear boundaries between runtime systems and development tools.
 5. Preserve auditability and human approval as central system principles.
+6. Work on feature branches only — `main` is protected and requires pull requests.
+   See `docs/ai-coder-workflow.md` for the full contribution model.
