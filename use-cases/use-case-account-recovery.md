@@ -16,9 +16,12 @@ pre-generated recovery code as the second authentication factor.
 
 A user who loses their device or clears browser storage loses both
 their WebAuthn passkey credential and their registered mis-client
-identity (WebCrypto key). Without these, they cannot authenticate or
-enroll a new client through the standard additional client registration
-flow (which requires confirmation from an existing ACTIVE client).
+identity (WebCrypto key). The mis-backend may still contain previous
+mis_client records with status ACTIVE, but if the user no longer controls
+those clients, they cannot be used to confirm new client registration.
+Without the ability to authenticate or to use any usable registered client,
+the user cannot enroll a new client through the standard additional client
+registration flow (which requires confirmation from an existing ACTIVE client).
 
 Account Recovery bypasses this dependency by using a recovery code
 generated at registration time as a second factor alongside email
@@ -90,7 +93,8 @@ Delivers the recovery magic link to the user's registered email address.
 9. mis-backend atomically:
    - marks the used recovery code as `used`
    - invalidates all remaining recovery codes
-   - invalidates the previous passkey credential
+   - invalidates the previous passkey credential(s)
+   - revokes all previous mis_client records for the user
    - creates a new `mis_client` record (`status = active`,
      `client_type = web_pwa`, `assurance_level = basic`)
    - generates 2 new recovery codes
@@ -162,9 +166,9 @@ On success:
 
 - `mis_user` record is unchanged (user_id, email, display_name retained).
 - Previous passkey credential is invalidated.
-- All previous `mis_client` records remain REVOKED.
+- All previous `mis_client` records are REVOKED by the recovery flow.
 - New `mis_client` exists with `status = active`, `client_type = web_pwa`,
-  `assurance_level = basic`.
+  `assurance_level = basic`, and is the only ACTIVE registered client after recovery.
 - 2 new recovery codes have been generated and acknowledged by the user.
 - Security notification has been sent to the verified email.
 - User is authenticated and the new mis-client may participate in
@@ -189,6 +193,10 @@ On failure:
 - All state changes MUST be atomic — no partial recovery state.
 - The new passkey private key and WebCrypto private key MUST NOT be
   transmitted to the mis-backend at any point.
+- Successful recovery MUST revoke all previous mis_client records for the
+  user before or as part of activating the new client. No lost or stale
+  client may remain an ACTIVE trusted approval surface after recovery.
+- All client revocations performed during recovery MUST be logged.
 - The security notification is inform-only and MUST NOT contain
   credentials or recovery codes.
 - All recovery events MUST be logged for audit purposes.

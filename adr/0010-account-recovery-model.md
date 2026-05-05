@@ -16,12 +16,14 @@ Accepted
 
 Account Recovery is the process by which an existing mis-user regains
 access to their account after losing the ability to authenticate through
-normal means — specifically when both their passkey and all registered
-clients are unavailable.
+normal means — specifically when the user's passkey is unavailable and
+no usable registered client is available to confirm a new client registration.
 
 This situation arises when a user loses or replaces their device,
-clears browser storage, or has all clients revoked without having
-enrolled a replacement.
+clears browser storage, or has all clients revoked. The mis-backend may
+still contain previous mis_client records with status ACTIVE, but if the
+user no longer controls those clients (key material lost or inaccessible),
+recovery must revoke them and re-establish a trusted approval surface.
 
 Without a recovery path, a locked-out user permanently loses access.
 With an insecure recovery path, an attacker who gains access to the
@@ -186,7 +188,8 @@ Both factors are required:
    registered email address.
 3. Clicking the link opens a recovery completion page where the user
    enters one of their recovery codes.
-4. After successful validation of both factors, the user completes
+4. After successful validation of both factors, the mis-backend revokes
+   all previous mis_client records for the user and the user completes
    First Client Bootstrap (new passkey + new WebCrypto client key).
 
 No additional time delay is applied. The recovery code is the second factor.
@@ -209,8 +212,8 @@ No additional time delay is applied. The recovery code is the second factor.
 After successful recovery:
 
 - The user's existing passkey credential is invalidated
-- All previous mis_client records remain REVOKED
-- A new mis_client is created as ACTIVE (via First Client Bootstrap)
+- All previous mis_client records are revoked by the recovery flow
+- A new mis_client is created as ACTIVE (via First Client Bootstrap), and is the only ACTIVE registered client after recovery
 - A new set of 2 recovery codes is generated and shown once
 - A security notification is sent to the verified email address
 
@@ -226,6 +229,7 @@ The mis_user record itself (user_id, email, display_name) is unchanged.
 - Email compromise alone is not sufficient for account takeover
 - Recovery code model is familiar and well-understood
 - Minimal code count keeps management simple for the MVP audience
+- Recovery revokes all previous mis_client records, ensuring no lost or stale client remains an ACTIVE trusted approval surface after recovery — recovery is a trust-reset event for the user's client set
 
 ### Negative Consequences
 
@@ -235,10 +239,8 @@ The mis_user record itself (user_id, email, display_name) is unchanged.
 
 ### Follow-up Implications
 
-- Recovery code generation must be integrated into the User Registration
-  flow (new step after passkey creation)
-- The registration UX must make clear that codes must be stored safely
-  and cannot be retrieved after the initial display
+- Recovery code generation is part of the User Registration flow and must remain aligned with `architecture/user-registration.md`.
+- The registration UX must make clear that recovery codes are shown once, must be stored safely, and cannot be retrieved after initial display.
 - A "regenerate recovery codes" flow must be defined for active clients
   (requires step-up authentication)
 - If recovery codes are ever pre-generated before registration completes,

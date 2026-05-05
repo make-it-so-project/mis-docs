@@ -7,7 +7,10 @@ read_when: working on account recovery, recovery codes, or re-establishing acces
 ## Purpose
 
 Account Recovery enables an existing mis-user to regain access to their
-account after losing both their passkey and all registered mis-clients.
+account after losing the ability to authenticate or to control any usable
+registered client. This can occur when the user's passkey is unavailable
+and all registered clients are lost, revoked, inaccessible, or no longer
+controlled by the user.
 
 This document replaces the earlier placeholder and specifies the complete
 recovery model for the MVP.
@@ -35,17 +38,22 @@ This document does NOT define:
 
 ## Recovery Triggers
 
-Account Recovery is required when a user can no longer authenticate
-because both of the following are unavailable:
+Account Recovery is required when a user can no longer authenticate or
+confirm a new client registration because:
 
 1. **Passkey lost** — the user's WebAuthn credential is inaccessible
    (device lost, browser storage cleared, PWA reinstalled)
-2. **All clients lost** — no ACTIVE mis-client record exists that could
-   confirm a new client registration
+2. **No usable registered client available** — the user no longer controls
+   any registered client that can confirm a new client registration. This
+   includes device loss, browser storage loss, PWA reinstall, or revoked
+   clients. The mis-backend may still contain records with status ACTIVE
+   for previous clients, but if the user no longer controls those clients
+   (key material destroyed or inaccessible), they cannot be used to confirm
+   new client registration and must be revoked during recovery.
 
 In practice these two conditions occur together (device loss). Recovery
-addresses both simultaneously by re-establishing the user's passkey and
-first client in a single flow.
+addresses both simultaneously: it revokes all previous client records and
+re-establishes the user's passkey and first client in a single atomic flow.
 
 ---
 
@@ -145,6 +153,7 @@ mis-backend atomically:
   - marks recovery code as used
   - invalidates remaining recovery code(s)
   - invalidates previous passkey credential(s)
+  - revokes all previous mis_client records for the user
   - creates new mis_client record (status = active)
   - generates 2 new recovery codes
        │
@@ -200,6 +209,7 @@ validates all components and atomically:
 - marks the used recovery code as `used`
 - sets remaining recovery code(s) to `invalidated`
 - invalidates the previous passkey credential
+- revokes all previous mis_client records for the user
 - creates a new `mis_client` record (`status = active`,
   `client_type = web_pwa`, `assurance_level = basic`)
 - generates 2 new recovery codes
@@ -235,8 +245,8 @@ After successful recovery:
 |---|---|
 | mis_user record | Unchanged (user_id, email, display_name retained) |
 | Previous passkey credential | Invalidated |
-| Previous mis_client records | Remain REVOKED (not restored) |
-| New mis_client | ACTIVE (`client_type = web_pwa`, `assurance_level = basic`) |
+| Previous mis_client records | REVOKED by the recovery flow |
+| New mis_client | ACTIVE (`client_type = web_pwa`, `assurance_level = basic`); the only ACTIVE registered client after recovery |
 | Used recovery code | Status = used |
 | Remaining old recovery codes | Status = invalidated |
 | New recovery codes | 2 new codes generated; shown once |
@@ -266,7 +276,9 @@ step before bootstrap begins.
 | Recovery code | MUST be validated as hash match; plain text MUST NOT be stored |
 | Used codes | MUST be marked as used immediately and MUST NOT be reusable |
 | Code exhaustion | If both codes lost or used: no self-service path; support only |
-| Previous credentials | Passkey and client key MUST be invalidated after recovery |
+| Previous credentials | Passkey MUST be invalidated after recovery |
+| Previous clients | All previous mis_client records MUST be revoked by the recovery flow; no lost or stale client may remain an ACTIVE trusted approval surface after recovery |
+| Trust reset | Recovery is a trust-reset event: after recovery, only the newly bootstrapped client is ACTIVE |
 | Atomic operation | All state changes MUST succeed or none; no partial recovery state |
 | Security notification | MUST be sent to verified email after successful recovery |
 | Audit | All recovery events MUST be logged |
