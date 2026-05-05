@@ -272,6 +272,10 @@ On successful completion:
 
 - the mis_user record is created with status `active`
 - the first mis_client record is created with status `active`
+- exactly 2 recovery codes are generated
+- only recovery code hashes are stored by the mis-backend
+- plain-text recovery codes are displayed once and are not retained
+- the user must acknowledge storing the recovery codes before proceeding
 - a security notification is sent to the verified email address
 
 ### Onboarding Model
@@ -301,12 +305,12 @@ This is a deployment-time setting deferred to post-MVP.
 - Users without passkey-capable devices cannot register
 - Passkey UX varies across platforms and browsers; edge cases exist
 - No password fallback means no recovery via "forgot password" flow;
-  recovery must be addressed separately
+  recovery is addressed in ADR-0010
 
 ### Follow-up Implications
 
 - Account recovery (regaining access when all clients are lost, or
-  passkey is lost) must be defined in a separate high-security ADR
+  passkey is lost) is defined in ADR-0010
 - Enterprise domain restriction configuration must be designed when
   self-hosted enterprise deployments are scoped
 - The Policy Engine may later distinguish login assurance level from

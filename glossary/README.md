@@ -387,8 +387,10 @@ Account Recovery is self-service and requires two factors:
 1. A time-limited, single-use magic link sent to the verified email address
 2. A valid recovery code
 
-On completion, the recovery flow ends with First Client Bootstrap: a new
-mis-client is enrolled and all previous client records remain REVOKED.
+On completion, the recovery flow ends with First Client Bootstrap: all
+previous mis_client records are revoked by the recovery flow, a new
+mis-client is enrolled as the only ACTIVE registered client, and 2 new
+recovery codes are generated.
 
 See [architecture/account-recovery.md](../architecture/account-recovery.md)
 and [ADR-0010](../adr/0010-account-recovery-model.md).
