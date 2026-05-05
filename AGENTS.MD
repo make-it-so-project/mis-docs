@@ -150,3 +150,13 @@ Writing style: concise and direct. No filler phrases.
 Comments in code: only when the WHY is non-obvious. No what-comments.
 
 File size: keep files under ~500 lines; split when exceeded.
+
+---
+
+## Communication Shorthands
+
+The following shorthands may appear in task instructions from the project owner:
+
+| Shorthand | Meaning |
+|---|---|
+| C&P | Copy & Paste — deliver the result as a self-contained block ready for direct copying |
