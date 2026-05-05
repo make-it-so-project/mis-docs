@@ -286,6 +286,7 @@ as a second factor, ending with First Client Bootstrap.
 | mis_user record | MUST NOT be created until full flow completes successfully |
 | Client private keys | MUST NOT be transmitted to the mis-backend at any point |
 | Atomic creation | mis_user and first mis_client MUST be created together or not at all |
+| Recovery codes | Exactly 2 codes MUST be generated after successful registration, stored as hashes only, displayed once, and acknowledged by the user |
 | Security notification | MUST be sent to verified email after successful registration |
 | Audit | All registration events MUST be logged |
 

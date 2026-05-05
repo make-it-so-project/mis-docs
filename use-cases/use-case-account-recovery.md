@@ -6,9 +6,9 @@ read_when: working on account recovery flows, recovery code validation, or re-es
 
 ## Purpose
 
-Enable an existing mis-user to regain access to their account after
-losing both their passkey and all registered mis-clients, using a
-pre-generated recovery code as the second authentication factor.
+Enable an existing mis-user to regain access after losing their passkey
+and usable control over all registered mis-clients, using a pre-generated
+recovery code as the second authentication factor.
 
 ---
 
@@ -33,8 +33,8 @@ a new trusted approval surface.
 ## Actors
 
 **Human User**
-An existing mis-user who has lost access to their passkey and all
-registered clients.
+An existing mis-user who has lost access to their passkey and no longer
+controls any usable registered client.
 
 **mis-client WebApp**
 The browser instance being enrolled as the new first trusted client.

@@ -161,9 +161,10 @@ See [User Registration](user-registration.md).
 
 **Context 2 — Recovery**
 
-The user has an existing account but all registered clients have been
-lost or revoked. First Client Bootstrap re-establishes a trusted
-approval surface for the existing user, without creating a new account.
+The user has an existing account but all usable registered clients are
+unavailable, inaccessible, revoked, or no longer controlled by the user.
+First Client Bootstrap re-establishes a trusted approval surface for the
+existing user, without creating a new account.
 Recovery is a high-security flow defined in ADR-0010.
 See [account-recovery.md](account-recovery.md).
 
@@ -259,12 +260,12 @@ trusted approval surface. See [account-recovery.md](account-recovery.md).
 
 ## Recovery
 
-Recovery after loss of all registered clients is out of scope for this
-Client Registration document. It is defined separately in
+Recovery after loss of usable control over all registered clients is out of
+scope for this Client Registration document. It is defined separately in
 [account-recovery.md](account-recovery.md) and ADR-0010.
 
-When a user has no ACTIVE clients, approvals cannot be routed until Account
-Recovery re-establishes an ACTIVE client.
+When no usable controlled ACTIVE client is available, approvals cannot be
+safely routed until Account Recovery re-establishes a controlled ACTIVE client.
 
 ---
 

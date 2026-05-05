@@ -31,7 +31,7 @@ At the start of every session, before any other action, state one line:
 
 > Current branch: `<branch>` — Task: `[DOMAIN/CATEGORY]`
 
-Example: `Current branch: claude/control-plane-docs — Task: [DEV/ARCH]`
+Example: `Current branch: docs/control-plane-docs — Task: [DEV/ARCH]`
 
 This confirms AGENTS.MD was read and orients any observer on scope.
 
@@ -109,6 +109,26 @@ No destructive operations (`reset --hard`, `clean`, `restore`, `rm`) without exp
 Unrecognized changes in working tree: assume another agent worked here — do not overwrite, stop and ask.
 
 Prefer small commits; one logical change per commit.
+
+---
+
+## Push / PR Failure Fallback
+
+If pushing a branch or opening a PR fails for any reason (tool error,
+network issue, permission error, or unexpected git state):
+
+1. **Do not claim the push or PR succeeded.** Report the failure clearly.
+2. **Preserve all work locally.** Do not reset or discard uncommitted or
+   unpushed commits.
+3. **Run and report** `git status`, `git log --oneline -5`, and
+   `git diff origin/main...HEAD` so the project owner can see exactly
+   what is committed and what is not.
+4. **Generate a patch** with `git format-patch origin/main --stdout` and
+   present the output so the project owner can apply or transfer the work
+   manually if needed.
+
+Never silently skip the push or PR step. If it cannot be completed, stop
+and report rather than continuing as if the task is done.
 
 ---
 
