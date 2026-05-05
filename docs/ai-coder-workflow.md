@@ -225,6 +225,26 @@ See `governance/README.md` for the project trust model.
 
 ---
 
+## Push / PR Failure Fallback
+
+If a push or PR cannot be completed — due to a tool error, network failure,
+permission error, or unexpected git state — the AI Coder MUST:
+
+1. Report the failure clearly. Do not claim the push or PR succeeded.
+2. Preserve all committed work. Do not reset or discard local commits.
+3. Report current state: `git status`, `git log --oneline -5`, and
+   `git diff origin/main...HEAD`.
+4. Generate a patch with `git format-patch origin/main --stdout` and
+   present the output so the project owner can transfer the work manually.
+
+This rule applies regardless of which tool or environment is being used.
+The permanent audit record requires an actual PR on GitHub — a chat summary
+is not a substitute.
+
+See `AGENTS.MD` for the operational details of this fallback.
+
+---
+
 ## Related Documents
 
 - `AGENTS.MD` — operational rules: commits, branch commands, git safety, slash commands
