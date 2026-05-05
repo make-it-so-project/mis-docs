@@ -10,6 +10,16 @@ system design. This directory documents how to work in this repository.
 
 ## Contents
 
+### Session Start
+
+| File | Purpose |
+|---|---|
+| [session-start-prompt.md](session-start-prompt.md) | Opening prompt for the project owner — bootstraps a fresh AI Coder session |
+
+Use this before the AI Coder has read any repository files.
+
+---
+
 ### AI Coder Workflow
 
 | File | Purpose |
