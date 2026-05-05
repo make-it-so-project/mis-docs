@@ -232,7 +232,8 @@ applies in two distinct contexts:
    are created together. No existing client is available to confirm.
    The bootstrap is the email magic link plus passkey creation.
 
-2. **Recovery** — an existing user has lost all registered clients.
+2. **Recovery** — an existing user has lost usable control over all
+   registered clients or all usable registered clients are unavailable.
    The user re-bootstraps a first client without re-registering.
    This is a separate high-security flow defined in ADR-0010.
    See [account-recovery.md](account-recovery.md).
@@ -266,8 +267,9 @@ post-MVP.
 
 ## Account Recovery
 
-Account recovery — regaining access when a user's passkey or all
-registered clients are lost — is out of scope for this document.
+Account recovery — regaining access when a user's passkey is unavailable
+or the user has lost usable control over all registered clients — is out
+of scope for this document.
 
 See [account-recovery.md](account-recovery.md) for the complete recovery
 model. Recovery uses email magic link plus a pre-generated recovery code
