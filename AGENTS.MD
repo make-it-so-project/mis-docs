@@ -52,6 +52,52 @@ No merge commits on feature branches. No amend unless explicitly requested.
 
 ---
 
+## Branch Workflow
+
+The `main` branch is protected. All changes to `main` must go through a
+pull request. Never push directly to `main`.
+
+If a push to `main` fails with a branch protection error, create a feature
+branch and open a PR. Do not attempt to bypass the protection.
+
+### Feature Branches
+
+Always work on a feature branch. Create one at the start of every session
+that involves commits.
+
+```bash
+git checkout main && git pull origin main
+git checkout -b <type>/<short-description>
+```
+
+Branch naming: `<type>/<short-description>`
+
+| Prefix | Use for |
+|---|---|
+| `docs/` | Documentation changes, ADRs, architecture docs |
+| `feat/` | New features or capabilities |
+| `fix/` | Bug fixes, corrections, consistency patches |
+| `chore/` | Housekeeping, tooling, non-content changes |
+
+Examples: `docs/account-recovery-qs`, `feat/session-connect-api`, `fix/user-id-consistency`
+
+### Pull Requests
+
+Open a PR when work on a task is complete.
+
+PR title format: `[DOMAIN/CATEGORY] <type>: <short description>`
+
+Example: `[DEV/ARCH] docs: add AI Coder workflow model`
+
+PR body must include: what changed and why, scope boundary (what was NOT
+changed), links to relevant ADRs or architecture documents, and a test plan.
+
+Only the project owner merges PRs. AI Coders open PRs; they do not merge them.
+
+See `docs/ai-coder-workflow.md` for the full conceptual model.
+
+---
+
 ## Git Safety
 
 Run `git status` / `git diff` / `git log` before any edits.

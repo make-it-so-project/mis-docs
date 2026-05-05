@@ -10,6 +10,17 @@ system design. This directory documents how to work in this repository.
 
 ## Contents
 
+### AI Coder Workflow
+
+| File | Purpose |
+|---|---|
+| [ai-coder-workflow.md](ai-coder-workflow.md) | Contribution model: session lifecycle, branch model, PR workflow, parallel sessions |
+
+This is the architectural model for how AI Coders work in this repository.
+Read `AGENTS.MD` at the repo root for the operational rules that implement it.
+
+---
+
 ### Slash Commands
 
 Templates and checklists for structured agent session management.
