@@ -10,6 +10,7 @@ The architecture describes how system components interact and how responsibiliti
 
 | Document | Description |
 |----------|-------------|
+| [agent-interface-security.md](agent-interface-security.md) | Agent Runtime identity, Agent Interface trust boundary, session_id-led request validation, reconnect model, and MVP/target security model |
 | [system-context.md](system-context.md) | Purpose, problem statement, design goals, and non-goals |
 | [component-diagram.md](component-diagram.md) | Main components and their relationships |
 | [control-plane.md](control-plane.md) | Control flow and core architectural principle |

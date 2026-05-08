@@ -20,6 +20,7 @@ ADRs provide transparency and help maintain long-term architectural consistency.
 | [ADR-0008](0008-client-registration-confirmation-model.md) | Client Registration Confirmation Model | Accepted | 2026-05-03 |
 | [ADR-0009](0009-user-registration-model.md) | User Registration Model | Accepted | 2026-05-04 |
 | [ADR-0010](0010-account-recovery-model.md) | Account Recovery Model | Accepted | 2026-05-04 |
+| [ADR-0011](0011-agent-interface-trust-model.md) | Agent Interface Trust Model | Accepted | 2026-05-08 |
 
 ---
 

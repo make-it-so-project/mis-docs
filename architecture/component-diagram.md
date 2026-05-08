@@ -45,13 +45,27 @@ make-it-so acts as a control plane between runtime AI agents and systems that pe
 
 The Agent Interface is the entry point for runtime agents.
 
+Runtime Agents (LLM / MCP tools) are authenticated but untrusted proposers.
+They submit structured Action Requests; the Agent Interface validates the
+request, authenticates the caller, and attaches backend-derived metadata.
+
 Responsibilities:
+
 - receive structured action requests
+- authenticate Agent Runtime and derive `agent_id`
+- reject unknown or revoked Agent Runtimes
 - validate request schema
-- attach metadata (agent_id, user_id, timestamps)
-- forward requests to the Policy Engine
+- validate `session_id` (exists, ACTIVE, bound to authenticated `agent_id`)
+- resolve `user_id` and `client_id` from backend session binding
+- reject self-asserted or mismatched user/client context
+- enforce request_id / idempotency_key requirements
+- attach backend metadata (agent_id, user_id, client_id, timestamps)
+- forward validated requests to the Policy Engine
 
 Typical implementations may expose MCP tools or REST APIs.
+
+See [agent-interface-security.md](agent-interface-security.md) for the full
+trust model.
 
 ---
 
@@ -167,6 +181,7 @@ The audit log ensures traceability and supports governance requirements.
 - [Control Plane Architecture](control-plane.md) — control flow and core architectural principle
 - [Action Model](action-model.md) — structure of action requests
 - [Request Lifecycle](request-lifecycle.md) — lifecycle stages an action passes through
+- [Agent Interface Security](agent-interface-security.md) — Agent Runtime trust model, authentication, and session validation
 - [Session Connect](session-connect.md) — how agents establish user identity and client binding before submitting requests
 - [Client Registration](client-registration.md) — how mis-clients enter the registered_clients set
 - [User Registration](user-registration.md) — how mis-users and their first client are created

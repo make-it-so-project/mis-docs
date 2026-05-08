@@ -45,8 +45,10 @@ Internal resources in Zone 1.
 - MCP servers are deployed without privileged enterprise access.
 - make-it-so is reachable by the MCP server.
 - The human user has a registered mis-client device.
+- The MCP Server is a registered Agent Runtime with `agent_id` and authenticates
+  to the mis-backend.
 - The user has established a mis-connect for this session: a `session_id →
-  (user_id, client_id)` binding exists in the mis-backend, created via the
+  (agent_id, user_id, client_id)` binding exists in the mis-backend, created via the
   Session Connect mechanism (see [Session Connect](../architecture/session-connect.md)).
 
 ## Main Flow
@@ -68,10 +70,18 @@ Internal resources in Zone 1.
 
 ## Security Model
 
-- MCP servers are **untrusted by default**
+- MCP servers are **untrusted by default** — the MCP Server acts as an Agent Runtime.
+  It must be registered and authenticate to the mis-backend as `agent_id`.
 - no permanent credentials are stored on MCP servers
 - all enterprise access is temporary
 - all approvals are auditable
+- The MCP Server submits requests with an active `session_id`. The mis-backend
+  authenticates the Agent Runtime, derives `agent_id`, validates `session_id`,
+  and resolves `user_id/client_id` from the session binding. If no active session
+  exists or if the session is not bound to the authenticated `agent_id`, the request
+  is rejected.
+- Human approval still happens through the mis-client — the MCP Server remains
+  an untrusted proposer.
 
 ## MVP Constraints
 
@@ -95,6 +105,7 @@ The system requires:
 
 ## Related Documents
 
+- [Agent Interface Security](../architecture/agent-interface-security.md) — Agent Runtime trust model and session-led request validation
 - [ADR-0002: Short-Lived Scoped Sessions for MCP Authorization](../adr/0002-short-lived-scoped-session-mcp-authorization.md) — architectural decision behind the authorization model used in this use case
 - [ADR-0005: Session Connect Mechanism](../adr/0005-session-connect-mechanism.md) — how the agent-user binding is established before an access request can be made
 - [Session Connect](../architecture/session-connect.md) — Connect flow, session continuation, and data model
