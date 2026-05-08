@@ -244,16 +244,16 @@ User sends prompt
 OpenClaw bot determines a restricted tool is needed
        │
        ▼
-Bot calls make-it-so MCP tool: request_approval(action_type, summary, user_id)
-       │
-       ▼
+Bot calls make-it-so MCP tool: request_approval(action_type, summary, session_id)
+        │
+        ▼
 make-it-so evaluates request and notifies approver via mis-client
-       │
-       ▼
+        │
+        ▼
 Approver reviews and approves or denies
-       │
-       ├─ APPROVED → bot calls restricted tool → execution proceeds → result logged
-       └─ DENIED   → bot informs user in chat → stops
+        │
+        ├─ APPROVED → bot calls restricted tool → execution proceeds → result logged
+        └─ DENIED   → bot informs user in chat → stops
 ```
 
 #### Security Model
@@ -261,6 +261,9 @@ Approver reviews and approves or denies
 - The restriction relies on **LLM compliance**: the bot must follow the instruction
   to call `request_approval` before acting.
 - A misbehaving, jailbroken, or misconfigured LLM could bypass the approval step.
+- The OpenClaw bot or its bot adapter acts as an Agent Runtime. It authenticates
+  as `agent_id` and submits Action Requests with `session_id`. The mis-backend
+  resolves user/client context from session binding.
 - This model is appropriate for **trusted LLM contexts** (controlled deployment,
   known model providers) and for **prototyping and validation**.
 - It does not provide enforcement at the system execution boundary.

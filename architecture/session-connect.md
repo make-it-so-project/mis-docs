@@ -41,20 +41,48 @@ Connect attempts that reference a non-existent, PENDING, or REVOKED client.
 Client Registration — the process by which a client enters `registered_clients`
 — is a separate, more strongly secured flow. See [client-registration.md](client-registration.md).
 
+### Agent Runtime Boundary
+
+Session Connect binds an authenticated Agent Runtime session to a user/client
+pair. It does not define Agent Runtime registration or credential provisioning.
+Agent Runtime authentication is defined in [agent-interface-security.md](agent-interface-security.md)
+and [ADR-0011](../adr/0011-agent-interface-trust-model.md).
+
+Session Connect does not register new clients. It does not grant or modify
+Agent Runtime identity. Both client registration and agent registration are
+separate, more strongly secured flows.
+
+### Agent Runtime Boundary
+
+Session Connect binds an authenticated Agent Runtime session to a user/client
+pair. It does not define Agent Runtime registration or credential provisioning.
+Agent Runtime authentication is defined in [agent-interface-security.md](agent-interface-security.md)
+and [ADR-0011](../adr/0011-agent-interface-trust-model.md).
+
+Session Connect does not register new clients. It does not grant or modify
+Agent Runtime identity. Both client registration and agent registration are
+separate, more strongly secured flows.
+
 ---
 
 ## Core Concept
 
 At the start of a session, the user performs a **Connect** that links the
-current agent session to their identity and a chosen mis-client device.
+current authenticated Agent Runtime session to their identity and a chosen
+mis-client device.
 
 After a successful Connect:
 
-- the agent holds a stable `user_id`
-- the mis-backend resolves `session_id → (user_id, client_id)` for every
-  subsequent action request
+- the mis-backend stores `session_id → (agent_id, user_id, client_id,
+  status, created_at, expires_at)`
+- the Agent Runtime holds an ACTIVE `session_id`
+- the Agent Runtime MAY persist `user_id` and `client_id` only as
+  **reconnect hints**
+- later Action Requests use `session_id`
+- the mis-backend resolves `user_id` and `client_id` from the server-side
+  session binding for every subsequent Action Request
 
-The agent does not manage client details. Client routing is resolved
+The Agent Runtime does not manage client details. Client routing is resolved
 dynamically by the mis-backend on each request.
 
 ---
@@ -68,21 +96,39 @@ mis-backend:
     user_id  →  [client_id, ...]          (account-level, managed separately)
 
   active_sessions:
-    session_id  →  (user_id, client_id)   (established during Connect)
+    session_id  →  (agent_id, user_id, client_id, status, created_at, expires_at)
+                                          (session_id is the runtime authority)
 
-agent (persistent across chat sessions):
-    user_id + client_id                  (stored after successful Connect)
+agent runtime:
+  active:
+    session_id
+  reconnect_hints:
+    user_id
+    client_id
 ```
 
 A user may have multiple registered clients. Each Connect explicitly selects
 one client for the session. All approval requests within that session are
 routed to the selected client.
 
+The Agent Runtime may store `user_id` and `client_id` as reconnect hints
+only. These values are not authoritative request credentials and are not
+sufficient to submit authorized Action Requests. The Agent Runtime MUST
+obtain an ACTIVE `session_id` from the mis-backend before submitting
+Action Requests.
+
+The Agent Runtime may store `user_id` and `client_id` as reconnect hints
+only. These values are not authoritative request credentials and are not
+sufficient to submit authorized Action Requests. The Agent Runtime MUST
+obtain an ACTIVE `session_id` from the mis-backend before submitting
+Action Requests.
+
 ---
 
 ## Connect Flow
 
-The Connect flow establishes a new session binding.
+The Connect flow establishes a new session binding for an authenticated
+Agent Runtime.
 
 ```
 mis-client (User X, Client Y)
@@ -94,24 +140,27 @@ mis-client (User X, Client Y)
   ▼
   Code displayed to user: e.g., "durstiger-affe"
 
-Agent chat
+Agent Runtime
   │  Agent asks user for the Connect code ("Clearance Code")
   │  User types code into the chat
   ▼
-  Agent  →  POST /connect { code, session_id }
+  Agent Runtime  →  POST /connect { code, session_id }
   ▼
 mis-backend
+  │  Authenticates Agent Runtime → derives agent_id
   │  Validates code (not expired, not already used)
   │  Resolves (user_id=X, client_id=Y) from code
-  │  Stores: session_id → (user_id=X, client_id=Y)
+  │  Stores: session_id → (agent_id, user_id, client_id, status=active, ...)
   │  Rejects unknown session_ids
   ▼
-  Returns: user_id to agent
+  Returns: session_id and user/client context to Agent Runtime
 
-Agent
-  │  Stores (user_id, client_id) persistently
+Agent Runtime
+  │  Stores session_id as active runtime context
+  │  May store (user_id, client_id) as reconnect hints only
   ▼
-  Session is established. All action requests include session_id.
+  Session is established. All Action Requests include session_id.
+  The backend resolves user_id and client_id from the session binding.
 ```
 
 ### Pairing Code Properties
@@ -124,31 +173,51 @@ Agent
 
 ---
 
-## Session Continuation Flow
+## Session Reactivation / Reconnect Flow
 
-When a user opens a new chat session and the agent has a stored connection
-from a previous session, the agent offers to reuse it without requiring a new
+When a user opens a new chat session and the Agent Runtime has a stored
+connection from a previous session, the Agent Runtime may offer to
+reactivate it using stored reconnect hints without requiring a new
 pairing code.
 
 ```
-Agent (new chat session)
-  │  Detects stored (user_id, client_id) from previous session
+Agent Runtime (new chat session)
+  │  Detects stored reconnect hints (user_id, client_id) from previous session
   │  Asks user: "Soll ich mit deinem bisherigen Channel weitermachen?"
   ▼
   User confirms
 
-Agent  →  POST /session/add { user_id, client_id, new_session_id }
+Agent Runtime  →  POST /session/reactivate { user_id, client_id, new_session_context }
+  │  Request is authenticated as agent_id
   ▼
 mis-backend
+  │  Authenticates Agent Runtime → agent_id
   │  Validates that (user_id, client_id) is still a registered active pair
+  │  Validates client is ACTIVE and belongs to user_id
+  │  Evaluates reconnect policy
   │  If invalid (client deregistered): rejects → agent recommends fresh Connect
-  │  If valid: stores new_session_id → (user_id, client_id)
-  │  Notifies mis-client: "Neue Session gestartet — Channel open."
+  │  If valid, creates new ACTIVE session_id → (agent_id, user_id, client_id)
+  │  Notifies mis-client (mode-dependent):
+  │    notify_only: security notification sent (inform-only)
+  │    approval_required: approval request sent; session becomes ACTIVE only after approval
   ▼
-  Session continuation confirmed.
+  Session reactivation confirmed.
 ```
 
-The mis-client notification on continuation is a security signal. It informs
+### Reconnect Modes
+
+Two modes are defined:
+
+- **notify_only**: mis-backend creates ACTIVE `session_id` on validation
+  success; mis-client receives inform-only security notification.
+- **approval_required**: mis-backend creates pending reactivation request;
+  mis-client must approve; session becomes ACTIVE only after approval.
+
+Reconnect mode MAY be user-configurable or policy-configurable.
+It SHOULD default to `notify_only` for low-risk MVP use.
+It MAY be forced to `approval_required` for higher-risk agents.
+
+The mis-client notification on reactivation is a security signal. It informs
 the user that their identity is being reused in a new agent session and allows
 them to detect unexpected reuse.
 
@@ -184,12 +253,17 @@ fresh Connect.
 
 | Property | Guarantee |
 |---|---|
+| Agent authentication | Agent Runtime is authenticated; agent_id is derived from auth context |
 | Pairing code TTL | code expires within ~30 seconds |
 | Code uniqueness | no collision within ±30 second window |
 | Session validation | unknown session_ids are rejected |
+| session_id as runtime authority | session_id is required for Action Requests; backend resolves user/client from session binding |
+| user_id/client_id as reconnect hints only | stored values are NOT authoritative request credentials |
+| Session-agent binding | session_id is bound to authenticated agent_id; mismatched sessions are rejected |
 | Client selection | each session binds to exactly one client |
-| Agent isolation | agent holds user_id only; client routing is internal to mis |
-| Continuation safety | mis-client is notified on session reuse |
+| Agent isolation | agent holds session_id; user_id/client_id are backend-resolved |
+| Reconnect policy | reconnect modes: notify_only or approval_required |
+| Reactivation safety | mis-client is notified on session reactivation; approval may be required |
 | Override logging | all binding changes are logged |
 
 The pairing code itself is not a security credential. The trust anchor is the
@@ -201,9 +275,11 @@ primary security boundary.
 ## Related Documents
 
 - [ADR-0005: Session Connect Mechanism](../adr/0005-session-connect-mechanism.md) — decision record for this mechanism
+- [ADR-0011: Agent Interface Trust Model](../adr/0011-agent-interface-trust-model.md) — Agent Runtime identity and session-led request model
+- [Agent Interface Security](agent-interface-security.md) — Agent Runtime trust model, authentication, and session validation
 - [Client Registration](client-registration.md) — how a client_id enters registered_clients before Connect can use it
 - [Client Identity and Secure Communication](client-identity-and-secure-communication.md) — key model for registered clients
 - [Design Language](../design/design-language.md) — user-facing copy and TNG naming conventions for Connect interactions
 - [Control Plane Architecture](control-plane.md) — how the control plane uses session_id to route approvals
 - [Use Case: JIT Authorization for MCP Servers](../use-cases/use-case-jit-authorization-mcp-servers.md) — primary use case where Connect is a precondition
-- [Notification Channel](notification-channel.md) — secondary notification channel used for continuation alerts
+- [Notification Channel](notification-channel.md) — secondary notification channel used for reactivation alerts

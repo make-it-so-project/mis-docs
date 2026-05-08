@@ -41,6 +41,81 @@ AI Coders belong to the development domain.
 
 # Runtime Security Concepts
 
+## Agent Runtime
+
+The technical process or integration that submits structured requests to the
+mis-backend on behalf of an LLM, MCP server, automation agent, or bot system.
+
+Characteristics:
+
+- Authenticated to the mis-backend.
+- Identified by `agent_id`.
+- Authenticated but untrusted proposer.
+- Distinct from the LLM / Sprachmodell.
+
+See [architecture/agent-interface-security.md](../architecture/agent-interface-security.md)
+and [ADR-0011](../adr/0011-agent-interface-trust-model.md).
+
+---
+
+## LLM / Sprachmodell
+
+Generates suggestions, plans, text, or parameters, but is not the trusted
+technical identity authenticated by the mis-backend.
+
+The LLM is distinct from the Agent Runtime. The mis-backend authenticates the
+Agent Runtime, not the LLM.
+
+---
+
+## agent_id
+
+Stable technical identifier of a registered Agent Runtime.
+
+- Derived from authenticated Agent Runtime context.
+- NOT accepted as self-asserted request body authority.
+- Used for audit, rate limiting, policy, and session binding.
+
+See [architecture/agent-interface-security.md](../architecture/agent-interface-security.md).
+
+---
+
+## Authenticated but Untrusted Proposer
+
+A component that is known to the mis-backend but not trusted to authorize
+actions. It may submit proposals; authorization remains with policy and
+human approval.
+
+All Agent Runtimes are authenticated but untrusted proposers.
+
+---
+
+## Session Reactivation / Reconnect
+
+Mechanism by which an Agent Runtime uses stored `user_id` and `client_id`
+reconnect hints to request a new ACTIVE `session_id`.
+
+Two modes:
+
+- **notify_only**: new session created on validation success; mis-client
+  receives inform-only notification.
+- **approval_required**: new session requires mis-client approval.
+
+See [architecture/session-connect.md](../architecture/session-connect.md)
+and [architecture/agent-interface-security.md](../architecture/agent-interface-security.md).
+
+---
+
+## Reconnect Hint
+
+Stored `user_id` and `client_id` held by the Agent Runtime to request session
+reactivation. Not an authorization credential.
+
+The Agent Runtime MUST NOT treat reconnect hints as sufficient to submit
+authorized Action Requests. An ACTIVE `session_id` is required.
+
+---
+
 ## MCP Server
 
 A server implementing the Model Context Protocol (MCP) that enables AI agents or LLM systems to interact with external tools, APIs, or enterprise systems.

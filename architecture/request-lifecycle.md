@@ -45,11 +45,11 @@ The request contains metadata such as:
 
 - action type
 - summary
-- agent identifier
-- user reference
+- session_id (required runtime authority)
 - optional parameters
 
-The control plane validates the request schema and records the request.
+The control plane validates the request schema, authenticates the Agent Runtime,
+validates the session_id binding, and records the request.
 
 ---
 

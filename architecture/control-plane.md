@@ -23,14 +23,33 @@ Agent → Action Request → Policy Evaluation → Approval → Execution
 
 ### Agent Interface
 
-The Agent Interface exposes APIs (e.g., MCP tools) through which runtime agents submit structured action requests.
+The Agent Interface exposes APIs (e.g., MCP tools) through which runtime
+agents submit structured action requests.
 
 Responsibilities:
 
 - receive action requests
+- authenticate Agent Runtime and derive `agent_id`
+- reject unknown or revoked Agent Runtimes
 - validate request schema
-- attach metadata (agent id, user_id, timestamps)
-- forward requests to policy evaluation
+- require `session_id`
+- validate that `session_id` is ACTIVE and bound to the authenticated `agent_id`
+- resolve `user_id` and `client_id` from server-side session binding
+- reject self-asserted or mismatched user/client context
+- enforce request_id / idempotency_key requirements
+- attach backend metadata (agent_id, user_id, client_id, timestamps)
+- forward validated requests to policy evaluation
+
+#### Agent Interface Trust Boundary
+
+The Agent Interface does not trust the Agent Runtime to authorize actions
+or assert user identity. It authenticates the technical integration, validates
+the active session, and derives authoritative user/client context from backend
+state.
+
+See [agent-interface-security.md](agent-interface-security.md) and
+[ADR-0011](../adr/0011-agent-interface-trust-model.md) for the full trust
+model.
 
 ### Policy Engine
 
@@ -142,6 +161,7 @@ The control plane focuses on governance and approval, not business execution.
 
 ## Related Documents
 
+- [Agent Interface Security](agent-interface-security.md) — Agent Interface trust model, authentication, and session validation
 - [Action Model](action-model.md) — structure of action requests processed by the control plane
 - [Request Lifecycle](request-lifecycle.md) — step-by-step flow through all lifecycle stages
 - [Component Diagram](component-diagram.md) — visual overview of all components
