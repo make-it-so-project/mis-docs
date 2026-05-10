@@ -98,11 +98,28 @@ See `docs/ai-coder-workflow.md` for the full conceptual model.
 
 ---
 
+## Default Completion Behavior
+
+For a concrete S-BL task, completion includes committing the completed work, pushing the feature branch, and opening a pull request against `main`.
+
+Do not ask the project owner whether to commit or open a PR when the task is complete and no instruction says otherwise. The PR is the expected review gate.
+
+Ask or stop only if:
+- the scope is unclear
+- the working tree contains unrecognized changes
+- checks fail in a way that needs a decision
+- the user explicitly asked not to commit, push, or open a PR
+- the environment cannot push or open a PR
+
+Only the project owner merges PRs.
+
+---
+
 ## Git Safety
 
 Run `git status` / `git diff` / `git log` before any edits.
 
-Push only when explicitly requested by the user.
+Do not push directly to `main`. Push the feature branch as part of default completion for concrete S-BL tasks, unless the user explicitly requested no push, the scope is unclear, the branch state is unsafe, or the environment cannot push safely.
 
 No destructive operations (`reset --hard`, `clean`, `restore`, `rm`) without explicit consent.
 

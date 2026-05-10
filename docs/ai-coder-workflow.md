@@ -78,12 +78,23 @@ All sessions for the same task use the same feature branch.
 
 ### Session End
 
-```
-If task is complete:
-  → commit all work
-  → open a PR against main
-  → write a /handoff note in the PR description if there is outstanding context
+For a concrete S-BL task, the normal successful session end is:
 
+```
+1. commit all completed work on the feature branch
+2. push the feature branch
+3. open a PR against main
+4. report the PR link, a concise summary, and any test/validation notes
+```
+
+The AI Coder does not ask the project owner for separate approval to perform these
+steps. The PR is the expected review gate — opening it does not bypass review.
+Only the project owner merges PRs.
+
+If the environment cannot push or open a PR, use the Push / PR Failure Fallback
+(see below and in `AGENTS.MD`).
+
+```
 If task is incomplete:
   → commit all work done so far
   → write a /handoff note so the next session can resume without information loss
