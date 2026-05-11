@@ -103,6 +103,12 @@ If the resolved client is not ACTIVE or does not satisfy policy requirements,
 the request MUST be rejected. The agent receives an error directing the
 user to re-connect or re-register as appropriate.
 
+Approval and denial decisions from a mis-client must satisfy the client
+identity and secure communication requirements defined in
+[client-identity-and-secure-communication.md](client-identity-and-secure-communication.md).
+Sensitive approval decisions must be bound to the corresponding approval
+request and must be non-replayable.
+
 ### Secondary Notification Channel (Optional)
 
 The control plane may forward event notifications to an external channel
