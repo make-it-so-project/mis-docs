@@ -135,14 +135,115 @@ Challenge/response MUST be used:
 
 ## Signed Client Requests
 
-Sensitive requests from a mis-client to the mis-backend SHOULD include
-a client signature over the request payload or a canonical representation
-of the request.
+The mis-backend does not trust a request merely because it contains a
+`client_id` or arrives over an authenticated web session. For
+security-sensitive actions, the backend MUST validate registered client
+state and require proof that the caller holds the registered private key.
 
-The backend verifies the signature using the stored public key.
+The backend verifies client signatures using the stored public key. This
+prevents request forgery by an attacker who intercepts a session token
+but does not hold the client private key.
 
-This prevents request forgery by an attacker who intercepts a session
-token but does not hold the client private key.
+### Which Requests Must Be Signed or Challenge-Bound
+
+| Request | Requirement |
+|---|---|
+| Approve action | MUST be signed or challenge-bound |
+| Deny action | MUST be signed or challenge-bound |
+| Additional client registration confirmation | MUST be signed or challenge-bound |
+| Client revocation | MUST be signed or challenge-bound |
+| Session reactivation approval (`approval_required` mode) | MUST be signed or challenge-bound |
+| Recovery-related client activation or trust reset | MUST be signed or challenge-bound |
+| Any request that changes client trust or approval state | MUST be signed or challenge-bound |
+| Sensitive client settings or notification endpoint changes | SHOULD be signed or challenge-bound |
+| Non-sensitive reads, pending approval summaries, status checks | MAY rely on authenticated client session plus TLS |
+
+### Canonical Signing Inputs
+
+The signed material for a client request MUST include enough stable fields
+to prevent request substitution or payload tampering.
+
+Required fields in signed material:
+
+- `client_id`
+- `user_id`
+- `method`
+- `path`
+- `request_id`
+- `timestamp` or backend-issued `challenge_id` / nonce
+- `body_hash`
+- relevant resource identifier (e.g., `action_id`, `approval_request_id`)
+
+For approval and denial decisions, the signed material MUST additionally bind:
+
+- `approval_request_id`
+- `action_id`
+- `decision` (`approve` or `deny`)
+- `details_hash` or `action_payload_hash`
+- `decision_nonce` or `challenge_id`
+- `expires_at`, if present
+
+The exact canonicalization format is an implementation detail. The
+architecture requires that enough stable fields are signed to prevent
+substitution or tampering, not a specific serialization standard.
+
+---
+
+## Replay and Duplicate Protection
+
+Replay protection is required even when HTTPS/TLS is used. Approval
+decisions and client lifecycle mutations must be safe against duplicate
+submission, retry ambiguity, and stale request reuse.
+
+- Approval and denial decisions MUST be non-replayable.
+- Security-sensitive client mutations MUST be non-replayable.
+- Signed or challenge-bound requests MUST include `request_id` and either
+  a `timestamp` or a backend-issued `nonce` / `challenge_id`.
+- The mis-backend MUST reject duplicate `request_id` values within an
+  appropriate replay window. Replay checks SHOULD be scoped to
+  `user_id` + `client_id` + `request_id`.
+- Approval decisions MUST be idempotent at the action/approval request level:
+  a single `approval_request_id` MUST NOT be approved or denied more than once.
+- Expired approval requests MUST NOT accept late decisions.
+
+---
+
+## Approval Payload Binding
+
+An approval or denial decision must be bound to the exact approval request
+the user was shown. This prevents substitution of a different action for
+the one the user reviewed.
+
+The mis-backend creates an `approval_request_id` for a specific action.
+The approval request shown to the user is bound to stable action content.
+The client's signed decision must refer to that `approval_request_id`.
+
+Required fields in an approval request:
+
+| Field | Purpose |
+|---|---|
+| `approval_request_id` | Unique identifier for this approval request |
+| `action_id` | The action being approved or denied |
+| `summary` | Human-readable action description |
+| `details_hash` / `action_payload_hash` | Commitment to the action content |
+| `risk_level` | Policy-determined risk classification |
+| `agent_id` | Agent that submitted the action (if available) |
+| `session_id` | Session in which the action was submitted (if available) |
+| `user_id` | The mis-user who must approve |
+| `client_id` | The mis-client that will submit the decision |
+| `expires_at` | Approval request expiration |
+
+The mis-backend MUST reject decisions where:
+
+- `action_id`, `approval_request_id`, `client_id`, or `user_id` do not
+  match backend state
+- the approval request is expired, already decided, or associated with
+  a REVOKED or PENDING client
+- `details_hash` / `action_payload_hash` does not match stored action content
+
+The binding source for approval content is the mis-backend, not the agent.
+The client MUST NOT treat agent-supplied action content as the authoritative
+description of what is being approved.
 
 ---
 
@@ -154,9 +255,15 @@ mis-backend MUST:
 1. Verify that `client_id` exists in `registered_clients`
 2. Verify that the client belongs to the expected `user_id`
 3. Verify that client status is ACTIVE
-4. Verify the client signature or proof of possession where required
-5. Verify that `assurance_level` satisfies policy requirements for the
+4. Verify the client session token is valid where applicable
+5. Verify the client signature or proof of possession where required
+6. Verify that `request_id` has not been replayed within the applicable replay window
+7. Verify that the `timestamp`, nonce, or `challenge_id` is valid where applicable
+8. Verify that `body_hash` matches the received payload where applicable
+9. Verify that `assurance_level` satisfies policy requirements for the
    requested operation
+10. Verify that the requested operation is permitted for the client's
+    current state and user context
 
 Requests from PENDING or REVOKED clients MUST be rejected.
 
@@ -203,6 +310,19 @@ The mis-backend MUST use TLS certificates from a trusted certificate
 authority. Certificate pinning MAY be implemented in native clients
 for additional assurance.
 
+### Backend-to-Client Authenticity
+
+**MVP:** The mis-client authenticates the mis-backend through HTTPS/TLS
+and trusted certificate validation. For WebApp/PWA clients, same-origin
+browser security is part of the MVP trust assumption. Backend-to-client
+application-level signatures are not required for the MVP.
+
+**Target / Future:** Native clients MAY implement certificate pinning for
+additional assurance. The mis-backend MAY sign approval payloads. The
+mis-client MAY verify backend signatures for high-assurance deployments.
+Backend-signed approval payloads may strengthen protection against
+compromised intermediaries but are not MVP-required.
+
 ---
 
 ## Session and Token Handling Boundaries
@@ -210,13 +330,32 @@ for additional assurance.
 Tokens issued to a mis-client for authenticated sessions:
 
 - MUST be short-lived
-- MUST be scoped to the authenticated client and user
+- MUST be scoped to the authenticated `client_id` and `user_id`
 - MUST NOT be shared between clients
-- MUST be invalidated on revocation
+- MUST be invalidated on client revocation
 
 Tokens MUST NOT embed or carry the client private key.
-Tokens MUST NOT be sufficient alone for high-risk approvals
-where step-up authentication is required.
+
+Session tokens are useful for authenticated client sessions. They are
+not sufficient alone for approval and denial decisions or other
+high-risk client actions. These operations MUST additionally require
+client key proof (signed or challenge-bound request) and, where policy
+requires, user step-up authentication.
+
+---
+
+## Threats and Mitigations
+
+| Threat | Mitigation |
+|---|---|
+| Network attacker modifies client request | HTTPS/TLS; signed or challenge-bound sensitive requests |
+| Attacker steals session token | Client key proof required for high-risk actions; token scoped to `client_id` + `user_id`; short lifetime |
+| Approval decision replayed | `request_id`, nonce or `challenge_id`, single-use `approval_request_id`, expiration |
+| Approval decision substituted for a different action | Approval payload binding to `action_id` and `details_hash` / `action_payload_hash` |
+| Revoked client attempts a decision | ACTIVE status validated before processing any request |
+| Notification channel used to approve | Notification channel is inform-only; approval decisions travel exclusively through the mis-client |
+| Client key possession confused with user verification | Separate user step-up layer via WebAuthn/passkey or equivalent; neither layer replaces the other |
+| Backend authenticity concern for native clients | HTTPS/TLS in MVP; optional certificate pinning or backend-signed payloads in target architecture |
 
 ---
 

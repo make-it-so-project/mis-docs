@@ -434,6 +434,34 @@ approval surface until account recovery is performed.
 
 ---
 
+## Signed Client Request
+
+A request from a mis-client to the mis-backend that includes a cryptographic
+signature over stable request fields, proving that the caller holds the
+registered client private key.
+
+Signed client requests prevent request forgery by attackers who hold a session
+token but not the private key. Approval and denial decisions, client revocation,
+and other trust-changing operations MUST be signed or challenge-bound.
+
+See [architecture/client-identity-and-secure-communication.md](../architecture/client-identity-and-secure-communication.md).
+
+---
+
+## Approval Payload Binding
+
+The requirement that an approval or denial decision from a mis-client is
+cryptographically bound to the specific approval request and action content
+the user was shown.
+
+Binding fields include `approval_request_id`, `action_id`, and
+`details_hash` / `action_payload_hash`. The mis-backend rejects decisions
+where any of these do not match stored backend state.
+
+See [architecture/client-identity-and-secure-communication.md](../architecture/client-identity-and-secure-communication.md).
+
+---
+
 ## Trusted Approval Surface
 
 A Trusted Approval Surface is a component that is authorized to collect and
