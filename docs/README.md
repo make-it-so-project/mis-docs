@@ -66,6 +66,17 @@ See [ADR-0003](../adr/0003-domain-and-category-markers.md) for the full marker s
 
 ---
 
+### Programming Guides
+
+| File | Purpose |
+|---|---|
+| [programming-guides/README.md](programming-guides/README.md) | Index for future programming language guides, toolchain strategy, secure coding guardrails, and AI Coder implementation guidance |
+| [programming-guides/language-and-toolchain-strategy.md](programming-guides/language-and-toolchain-strategy.md) | Placeholder for language selection principles, AI Coder friendliness criteria, command surface expectations, and toolchain guardrails |
+
+Status: placeholder / to be elaborated.
+
+---
+
 ### Governance and Safety
 
 | File | Purpose |
