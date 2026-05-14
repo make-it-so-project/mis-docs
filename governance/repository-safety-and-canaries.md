@@ -121,6 +121,7 @@ explicitly in the PR body and are subject to QAT review and project owner approv
 | CI/CD and workflow configuration | GitHub workflow files, build scripts, deployment manifests (when they exist) | Disabling checks, bypassing review gates, injecting malicious deployment behavior |
 | Dependency and supply-chain metadata | Lockfiles, package manifests, dependency configuration (when they exist) | Introducing unsafe dependencies or weakening reproducibility |
 | Release and sprint coordination artifacts | Future release context files, S-BL manifests, release manifests | Misaligning AI Coder work, releasing incomplete or unreviewed changes |
+| Design system and approval UX documentation | `docs/design-system/`, future token and component definitions that affect approval behavior | Weakening interaction clarity, accessibility, or the trusted approval surface model |
 
 ---
 

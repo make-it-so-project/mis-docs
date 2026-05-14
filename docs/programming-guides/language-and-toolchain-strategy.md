@@ -253,6 +253,7 @@ The following questions are deferred to later elaboration:
 - Which secure coding rules need language-specific expansion beyond the cross-language guardrails?
 - Which language and toolchain decisions require formal ADRs?
 - How do programming guides integrate with future implementation repositories beyond mis-docs?
+- How does UI implementation connect to design system guidance, especially for Web/PWA TypeScript work and later native Swift and Android work?
 
 ---
 
