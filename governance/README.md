@@ -85,5 +85,5 @@ The sprint loop must still respect the governance model:
 
 - only the project owner moves work from G-BL to S-BL
 - only S-BL tasks may trigger implementation
-- every S-BL ticket requires a Coder AI Agent and an independent QSer AI Agent
+- every S-BL ticket requires a Coder AI Agent and an independent QAT AI Agent (Quality Assurance Tester)
 - only the project owner approves and merges PRs
