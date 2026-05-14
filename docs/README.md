@@ -35,7 +35,7 @@ Read `AGENTS.MD` at the repo root for the operational rules that implement it.
 
 | File | Purpose |
 |---|---|
-| [ai-coder-sprint-loop.md](ai-coder-sprint-loop.md) | AI Coder Development Sprint Loop: placeholder for orchestrated S-BL processing with mandatory Coder/QSer pairing, QS outcomes, follow-up tickets, and release build gating |
+| [ai-coder-sprint-loop.md](ai-coder-sprint-loop.md) | AI Coder Development Sprint Loop: placeholder for orchestrated S-BL processing with mandatory Coder/QAT Pair, QAT outcomes, follow-up tickets, and release build gating |
 
 Status: placeholder / to be elaborated.
 

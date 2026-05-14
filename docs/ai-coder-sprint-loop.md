@@ -1,5 +1,5 @@
 ---
-read_when: defining AI Coder sprint orchestration, S-BL processing, Coder/QSer pairing, release build gating, or AI Coder role separation
+read_when: defining AI Coder sprint orchestration, S-BL processing, Coder/QAT pairing, release build gating, or AI Coder role separation
 ---
 
 # AI Coder Development Sprint Loop
@@ -9,7 +9,7 @@ read_when: defining AI Coder sprint orchestration, S-BL processing, Coder/QSer p
 This document captures the future development sprint loop for orchestrated AI Coder work.
 
 The sprint loop defines how an orchestration instance coordinates multiple AI Coders
-to process the Sprint Backlog using mandatory Coder/QSer pairing, follow-up tickets,
+to process the Sprint Backlog using mandatory Coder/QAT Pair, follow-up tickets,
 and a release build gate.
 
 ---
@@ -30,8 +30,8 @@ This document covers:
 
 - S-BL processing model
 - AI Coder role separation
-- mandatory Coder + QSer pairing for every S-BL ticket
-- QS outcome handling
+- mandatory Coder/QAT Pair for every S-BL ticket
+- QAT outcome handling
 - follow-up ticket creation
 - orchestration loop
 - release build gate after S-BL is empty
@@ -54,11 +54,11 @@ This document does not define:
 
 ## Core Principle
 
-Every S-BL ticket MUST be handled by a Pair-Programming Team consisting of one
-implementing Coder AI Agent and one independent QSer AI Agent.
+Every S-BL ticket MUST be handled by a Coder/QAT Pair consisting of one
+implementing Coder AI Agent and one independent Quality Assurance Tester (QAT) AI Agent.
 
-- The QSer MUST NOT be the same AI Agent as the implementing Coder.
-- The QSer performs detailed review and may run additional tests and checks.
+- The QAT AI Agent MUST NOT be the same AI Agent as the implementing Coder.
+- The QAT AI Agent performs detailed review and may run additional tests and checks.
 - Self-review is not sufficient for completing an S-BL ticket.
 - The PR remains the review gate for repository changes.
 - The project owner remains the only merger.
@@ -72,8 +72,8 @@ implementing Coder AI Agent and one independent QSer AI Agent.
 - coordinates the sprint loop
 - assigns or schedules S-BL tickets
 - tracks ticket state
-- ensures every ticket gets a Coder and an independent QSer
-- creates or requests follow-up tickets when QS identifies unfinished work
+- ensures every ticket gets a Coder and an independent QAT AI Agent
+- creates or requests follow-up tickets when quality assurance review identifies unfinished work
 - starts release build only after S-BL is empty
 
 ### Coder AI Agent
@@ -84,12 +84,12 @@ implementing Coder AI Agent and one independent QSer AI Agent.
 - pushes branch and opens PR when task is complete, according to existing workflow rules
 - documents scope, validation, and known limitations
 
-### QSer AI Agent
+### QAT AI Agent (Quality Assurance Tester)
 
 - independently reviews the Coder output
 - reviews commit, branch, PR, docs, tests, or other relevant artifacts
 - performs additional tests and checks where useful
-- records QS outcome
+- records QAT outcome
 - does not silently fix the original implementation unless explicitly assigned a separate correction ticket
 
 ### Project Owner
@@ -108,12 +108,12 @@ The following are conceptual states. They do not define final GitHub issue label
 |---|---|
 | `ready_for_coder` | ticket approved for implementation; awaiting Coder assignment |
 | `in_implementation` | Coder AI Agent is actively working on the ticket |
-| `ready_for_qs` | Coder has completed work; awaiting QSer assignment |
-| `in_qs` | QSer AI Agent is actively reviewing the output |
-| `closed_completed` | QS outcome: no follow-up required |
-| `closed_follow_up_required` | QS outcome: correction needed; new ticket added to S-BL |
+| `ready_for_qat` | Coder has completed work; awaiting QAT AI Agent assignment |
+| `in_qat` | QAT AI Agent is actively reviewing the output |
+| `closed_completed` | QAT outcome: no follow-up required |
+| `closed_follow_up_required` | QAT outcome: correction needed; new ticket added to S-BL |
 
-The original S-BL ticket is always closed after QS records an outcome:
+The original S-BL ticket is always closed after the QAT AI Agent records an outcome:
 
 - `closed_completed` — implementation satisfies the ticket scope; no follow-up ticket required.
 - `closed_follow_up_required` — implementation needs correction or additional work; the original
@@ -128,31 +128,31 @@ Every S-BL ticket MUST be assigned to a Pair-Programming Team.
 The pair consists of exactly two distinct roles:
 
 - **Coder AI Agent** — implements the ticket
-- **QSer AI Agent** — independently reviews the output
+- **QAT AI Agent** (Quality Assurance Tester) — independently reviews the output
 
 Rules:
 
-- The QSer must be independent from the Coder.
-- The QSer must review the actual branch, commit, or PR output.
-- The QSer may add tests and checks beyond those provided by the Coder.
-- The QSer outcome determines whether a follow-up ticket is needed.
+- The QAT AI Agent must be independent from the Coder.
+- The QAT AI Agent must review the actual branch, commit, or PR output.
+- The QAT AI Agent may add tests and checks beyond those provided by the Coder.
+- The QAT outcome determines whether a follow-up ticket is needed.
 
 ---
 
-## QS Outcome Model
+## QAT Outcome Model
 
 ### completed
 
 - implementation satisfies the ticket scope
 - no follow-up S-BL ticket required
-- original ticket is closed with QS result `completed`
+- original ticket is closed with quality assurance result `completed`
 
 ### follow_up_required
 
 - implementation is not yet sufficient
-- original ticket is still closed with QS result `follow_up_required`
+- original ticket is still closed with quality assurance result `follow_up_required`
 - a new follow-up or correction ticket is added to the S-BL
-- the follow-up ticket references the original ticket, branch, PR, and QS findings
+- the follow-up ticket references the original ticket, branch, PR, and QAT findings
 
 ---
 
@@ -166,10 +166,10 @@ The orchestration loop runs as long as the S-BL contains tickets.
 2. Orchestration assigns a Coder AI Agent.
 3. Coder implements the ticket on a feature branch.
 4. Coder commits work, pushes the branch, and opens a PR.
-5. Orchestration assigns an independent QSer AI Agent.
-6. QSer reviews the commit, branch, PR, and relevant artifacts.
-7. QSer records a QS outcome (`completed` or `follow_up_required`).
-8. Original ticket is closed with the recorded QS outcome.
+5. Orchestration assigns an independent QAT AI Agent.
+6. QAT AI Agent reviews the commit, branch, PR, and relevant artifacts.
+7. QAT AI Agent records a QAT outcome (`completed` or `follow_up_required`).
+8. Original ticket is closed with the recorded QAT outcome.
 9. If `follow_up_required`: a new correction ticket is added to the S-BL and the loop continues.
 
 **When S-BL is empty:**
@@ -190,7 +190,7 @@ This model belongs to DEV/SEC as well as DEV/ARCH and DEV/OPS:
 - avoids self-review by the same AI Agent, which could allow incomplete or incorrect
   work to pass undetected
 - creates explicit role separation between implementation and quality assurance
-- improves auditability: each ticket has a named Coder and a named QSer in the record
+- improves auditability: each ticket has a named Coder and a named QAT AI Agent in the record
 - reduces risk of AI Coder hallucination or incomplete implementation passing unchecked
 - encourages independent tests and checks beyond the Coder's own validation
 - keeps the project owner as the final merge authority, preserving human oversight
@@ -205,14 +205,14 @@ The following questions are deferred to later elaboration:
 - How is the orchestration instance implemented?
 - How are S-BL tickets represented (GitHub Issues, project fields, a manifest)?
 - Are ticket states implemented via GitHub labels, milestones, project fields, or a release manifest?
-- How are Coder/QSer pairs assigned — manual, automated, or policy-driven?
-- How is QSer independence enforced?
-- How are follow-up tickets generated — by the QSer, by the orchestration instance, or by the project owner?
+- How are Coder/QAT pairs assigned — manual, automated, or policy-driven?
+- How is QAT AI Agent independence enforced?
+- How are follow-up tickets generated — by the QAT AI Agent, by the orchestration instance, or by the project owner?
 - How is the release build triggered when the S-BL is empty?
 - How are multiple feature branches merged and regression-tested during the release build phase?
 - How are release context variables connected to the sprint loop?
-- What evidence must a QSer provide to record an outcome?
-- Which checks are mandatory vs optional for the QSer?
+- What evidence must a QAT AI Agent provide to record an outcome?
+- Which checks are mandatory vs optional for the QAT AI Agent?
 
 ---
 

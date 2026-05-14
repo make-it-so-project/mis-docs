@@ -539,8 +539,8 @@ Only the human project owner performs this transition.
 
 A coordinating entity that manages the AI Coder Development Sprint Loop.
 
-Responsibilities include assigning S-BL tickets to Coder/QSer pairs, tracking ticket state,
-creating follow-up tickets when QS identifies unfinished work, and triggering the release build
+Responsibilities include assigning S-BL tickets to Coder/QAT pairs, tracking ticket state,
+creating follow-up tickets when quality assurance review identifies unfinished work, and triggering the release build
 phase after the S-BL is empty.
 
 See [docs/ai-coder-sprint-loop.md](../docs/ai-coder-sprint-loop.md).
@@ -558,12 +558,12 @@ See [docs/ai-coder-sprint-loop.md](../docs/ai-coder-sprint-loop.md).
 
 ---
 
-## QSer AI Agent
+## QAT AI Agent (Quality Assurance Tester)
 
 An AI Coder assigned to independently review the output of a Coder AI Agent.
 
-The QSer MUST NOT be the same AI Agent as the implementing Coder. The QSer reviews the
-commit, branch, PR, and relevant artifacts, and records a QS outcome.
+The QAT AI Agent MUST NOT be the same AI Agent as the implementing Coder. The QAT AI Agent reviews the
+commit, branch, PR, and relevant artifacts, and records a QAT outcome.
 
 See [docs/ai-coder-sprint-loop.md](../docs/ai-coder-sprint-loop.md).
 
@@ -571,7 +571,7 @@ See [docs/ai-coder-sprint-loop.md](../docs/ai-coder-sprint-loop.md).
 
 ## Pair-Programming Team
 
-The mandatory pairing of one Coder AI Agent and one independent QSer AI Agent for a single
+The mandatory pairing of one Coder AI Agent and one independent QAT AI Agent (Quality Assurance Tester) for a single
 S-BL ticket.
 
 Every S-BL ticket MUST be handled by a Pair-Programming Team. Self-review is not sufficient.
@@ -580,15 +580,15 @@ See [docs/ai-coder-sprint-loop.md](../docs/ai-coder-sprint-loop.md).
 
 ---
 
-## QS Outcome
+## QAT Outcome
 
-The result recorded by a QSer AI Agent after reviewing a Coder AI Agent's implementation.
+The quality assurance result recorded by a QAT AI Agent after reviewing a Coder AI Agent's implementation.
 
 Two primary outcomes:
 
 - `completed` — implementation satisfies the ticket scope; no follow-up required.
 - `follow_up_required` — implementation needs correction; a new S-BL ticket is created.
 
-The original S-BL ticket is always closed after the QS outcome is recorded.
+The original S-BL ticket is always closed after the QAT outcome is recorded.
 
 See [docs/ai-coder-sprint-loop.md](../docs/ai-coder-sprint-loop.md).
