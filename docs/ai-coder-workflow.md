@@ -210,6 +210,26 @@ The PR body must include:
 - **Scope boundary** — what was explicitly NOT changed and why
 - **References** — links to relevant ADRs or architecture documents
 - **Test plan** — a checklist of acceptance criteria to verify the change
+- **Protected Asset Class evaluation** — required when the task introduces a new
+  artifact area (see below)
+
+#### Protected Asset Class Evaluation in PR Bodies
+
+When a task introduces a new documentation area, configuration area, workflow area,
+implementation area, release artifact type, or other artifact class, the PR body must
+state one of:
+
+- `Protected Asset Class: added/updated — <summary>` — if a new class was added or an
+  existing class was expanded in `governance/repository-safety-and-canaries.md`
+- `Protected Asset Class: covered by existing — <which class and why>` — if an existing
+  class already covers the new area
+- `Protected Asset Class: none needed — <reason>` — if the area does not create
+  protected asset concerns
+
+An absent evaluation is a gap. QAT must flag missing evaluations for new artifact areas.
+
+See `governance/repository-safety-and-canaries.md` for evaluation criteria and the full
+list of protected asset classes.
 
 ### Who Merges
 

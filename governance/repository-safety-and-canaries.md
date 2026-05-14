@@ -125,6 +125,62 @@ explicitly in the PR body and are subject to QAT review and project owner approv
 
 ---
 
+## Protected Asset Class Evaluation
+
+Protected asset classes are not a static, fixed list. New document areas, configuration
+files, workflow files, implementation areas, release artifacts, or design artifacts may
+create new protected asset classes as the project evolves.
+
+AI Coders must evaluate protected asset impact when introducing any such area and must
+make the evaluation visible in the PR body.
+
+### When to Evaluate
+
+Evaluate protected asset impact whenever a task introduces a new:
+
+- documentation area (new top-level directory or major sub-directory)
+- configuration area (new configuration files, environment definitions)
+- workflow area (new automation, sprint coordination, or release coordination artifacts)
+- implementation area (new implementation repository, package, or module)
+- release artifact type (new build artifact, manifest, or release coordination file)
+- design or system artifact (UI design system files, token definitions, component specs)
+- operational area (hosting config, deployment manifests, backup or restore processes)
+
+### Evaluation Criteria
+
+A new artifact area should be considered for protected asset status if it can affect:
+
+- governance authority or approval model
+- AI Coder behavior, branch workflow, or PR merge rules
+- security posture, authentication, approval, client trust, recovery, or audit behavior
+- deployment, hosting, operations, backup, restore, or failover
+- dependencies, build reproducibility, or supply-chain risk
+- release coordination, release gates, or regression evidence
+- user-facing safety, approval clarity, accessibility, or the trusted approval surface
+- architecture decisions or architectural trust boundaries
+
+### Required AI Coder Action
+
+For every task that introduces a new artifact area, the AI Coder must do exactly one of:
+
+1. Update the Protected Asset Classes table above with a concise new or expanded entry,
+   and state this in the PR body as: `Protected Asset Class: added/updated — <summary>`
+2. State that the new area is covered by an existing protected asset class and name it:
+   `Protected Asset Class: covered by existing — <which class and why>`
+3. State that no protected asset class update is needed and explain why:
+   `Protected Asset Class: none needed — <reason>`
+
+This evaluation must appear in the PR body. An absent evaluation is a gap that QAT must
+flag.
+
+### What This Section Does Not Define
+
+This section does not define concrete canary values, tripwire rules, detection queries,
+alert routing, scanning thresholds, or private operational response details. Those are
+kept outside the public repository.
+
+---
+
 ## Safety Mechanism Categories
 
 The following categories of safeguards may apply to this repository. Exact rules,

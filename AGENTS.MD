@@ -90,7 +90,9 @@ PR title format: `[DOMAIN/CATEGORY] <type>: <short description>`
 Example: `[DEV/ARCH] docs: add AI Coder workflow model`
 
 PR body must include: what changed and why, scope boundary (what was NOT
-changed), links to relevant ADRs or architecture documents, and a test plan.
+changed), links to relevant ADRs or architecture documents, a test plan, and
+for tasks introducing new artifact areas, a Protected Asset Class evaluation
+note (see Protected Asset Classes section).
 
 Only the project owner merges PRs. AI Coders open PRs; they do not merge them.
 
@@ -120,6 +122,26 @@ Only the project owner merges PRs.
 When a task changes governance, security, workflow, CI/CD, dependency, architecture
 decision, or release coordination files, call out the change explicitly in the PR body
 scope boundary section.
+
+When a task introduces a new documentation area, configuration area, workflow area,
+implementation area, release artifact type, or other artifact class, evaluate whether
+it creates or changes a Protected Asset Class.
+
+A Protected Asset Class update is required when the new area affects governance,
+security, workflow, CI/CD, dependencies, architecture decisions, release coordination,
+deployment, operations, trusted approval behavior, user-facing safety, or other
+safety-relevant behavior.
+
+If the new area should be protected: update `governance/repository-safety-and-canaries.md`
+with a concise entry.
+
+If the new area is already covered by existing protected asset classes or does not need
+protected status: state that explicitly in the PR body.
+
+**PR body requirement for new artifact areas:** Include one of:
+- `Protected Asset Class: added/updated — <summary>`
+- `Protected Asset Class: covered by existing — <which class and why>`
+- `Protected Asset Class: none needed — <reason>`
 
 See `governance/repository-safety-and-canaries.md` for the full list of protected asset
 classes and AI Coder safety expectations.
