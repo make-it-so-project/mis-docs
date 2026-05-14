@@ -210,7 +210,7 @@ The following questions are deferred to later elaboration:
 - How are follow-up tickets generated — by the QAT AI Agent, by the orchestration instance, or by the project owner?
 - How is the release build triggered when the S-BL is empty?
 - How are multiple feature branches merged and regression-tested during the release build phase?
-- How are release context variables connected to the sprint loop?
+- How are release context variables connected to the sprint loop? See [governance/release-context.md](../governance/release-context.md) for the placeholder release context model.
 - What evidence must a QAT AI Agent provide to record an outcome?
 - Which checks are mandatory vs optional for the QAT AI Agent?
 

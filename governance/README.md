@@ -98,3 +98,15 @@ The sprint loop must still respect the governance model:
 - only S-BL tasks may trigger implementation
 - every S-BL ticket requires a Coder AI Agent and an independent QAT AI Agent (Quality Assurance Tester)
 - only the project owner approves and merges PRs
+
+---
+
+## Release Context
+
+The Release Context model is the future coordination layer for assigning S-BL tickets, AI
+Coder sprint loops, PRs, release builds, regression testing, and release notes to a shared
+release target. See [`governance/release-context.md`](release-context.md) for the
+placeholder model.
+
+The project owner controls the active release context. AI Coders must not change it unless
+explicitly assigned a task to do so.
