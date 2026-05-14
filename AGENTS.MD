@@ -212,6 +212,7 @@ Repo-local slash commands live in `docs/slash-commands/`.
 
 - `/handoff` – write a structured handoff note before ending a session
 - `/pickup` – orient and resume from a handoff note at session start
+- `/pmc` – perform Post-Merge Cleanup after the project owner merges a PR; refresh main and remove the merged local feature branch only if safe
 
 Always run `/pickup` at the start of a session that continues previous work.
 Always run `/handoff` before ending a session with unfinished work.
