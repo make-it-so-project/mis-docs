@@ -73,3 +73,17 @@ pull requests, session handoffs — see:
 
 - `docs/ai-coder-workflow.md` — contribution model and branch lifecycle
 - `AGENTS.MD` — operational rules and git safety guidelines
+
+---
+
+## AI Coder Development Sprint Loop
+
+Future sprint execution may be coordinated through an AI Coder Development Sprint Loop.
+See [`docs/ai-coder-sprint-loop.md`](../docs/ai-coder-sprint-loop.md) for the placeholder model.
+
+The sprint loop must still respect the governance model:
+
+- only the project owner moves work from G-BL to S-BL
+- only S-BL tasks may trigger implementation
+- every S-BL ticket requires a Coder AI Agent and an independent QSer AI Agent
+- only the project owner approves and merges PRs

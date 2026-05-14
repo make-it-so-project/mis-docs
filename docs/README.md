@@ -31,6 +31,16 @@ Read `AGENTS.MD` at the repo root for the operational rules that implement it.
 
 ---
 
+### AI Coder Sprint Loop
+
+| File | Purpose |
+|---|---|
+| [ai-coder-sprint-loop.md](ai-coder-sprint-loop.md) | AI Coder Development Sprint Loop: placeholder for orchestrated S-BL processing with mandatory Coder/QSer pairing, QS outcomes, follow-up tickets, and release build gating |
+
+Status: placeholder / to be elaborated.
+
+---
+
 ### Slash Commands
 
 Templates and checklists for structured agent session management.
