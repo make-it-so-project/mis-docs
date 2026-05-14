@@ -43,6 +43,22 @@ Examples:
 
 ---
 
+## QAT outcome labels (Sprint loop)
+
+These labels record **QAT outcome** on Sprint Backlog Issues. They are independent of the
+organization Project board layout. See [`docs/ai-coder-sprint-loop.md`](ai-coder-sprint-loop.md)
+(Ticket State Representation — E8).
+
+| Label | Color | Description |
+|---|---|---|
+| `qat:completed` | `#0e8a16` | QAT outcome `completed` — implementation satisfies ticket scope; no follow-up required for scope |
+| `qat:follow-up-required` | `#d4c5f9` | QAT outcome `follow_up_required` — correction needed within inherited scope; follow-up Sub-Issue expected |
+
+Apply **exactly one** of these labels when closing an S-BL ticket after QAT, per automation
+or process rules for the component repository.
+
+---
+
 ## Setup
 
 Labels can be created via the GitHub UI (Settings → Labels) or with the GitHub CLI:
@@ -56,4 +72,6 @@ gh label create NFR --color 1d76db --description "Non-Functional Requirements" -
 gh label create OPS --color 5319e7 --description "Operations / Tooling / CI" --repo make-it-so-project/mis-docs
 gh label create SEC --color b60205 --description "Security" --repo make-it-so-project/mis-docs
 gh label create ADR --color f9d0c4 --description "Architecture Decision Record" --repo make-it-so-project/mis-docs
+gh label create qat:completed --color 0e8a16 --description "QAT completed (sprint loop)" --repo make-it-so-project/mis-docs
+gh label create qat:follow-up-required --color d4c5f9 --description "QAT follow-up required (sprint loop)" --repo make-it-so-project/mis-docs
 ```

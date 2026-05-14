@@ -23,6 +23,17 @@ The Global Backlog is used for:
 
 Items in the Global Backlog are not executable tasks.
 
+### GitHub mapping
+
+- G-BL items are **GitHub Issues** in the **mis-docs** repository (single source of truth
+  for cross-cutting intent).
+- The primary intake channel is the **Feature Request** issue form:
+  `.github/ISSUE_TEMPLATE/feature-request.yml`.
+- Each G-BL Issue acts as a **Feature Envelope** for one feature: it tracks the full
+  lifecycle from idea to release.
+- A G-BL Issue is **not** closed when child S-BL work is created; it remains open until the
+  feature **ships in a release** (see Release Context).
+
 ---
 
 ## Sprint Backlog (S-BL)
@@ -30,6 +41,19 @@ Items in the Global Backlog are not executable tasks.
 The Sprint Backlog contains approved development tasks.
 
 Only tasks within the Sprint Backlog may trigger implementation work.
+
+### GitHub mapping
+
+- S-BL tickets are **GitHub Issues** in **component repositories** (for example
+  `mis-backend`, `mis-android`, `mis-web`).
+- When the project owner promotes a G-BL item to S-BL, work is decomposed into
+  **Sub-Issues** in those repositories. The **G-BL Issue is the parent**; S-BL tickets are
+  **children**.
+- An **organization-level GitHub Project** provides unified views across G-BL and S-BL
+  Issues.
+
+See [`docs/ai-coder-sprint-loop.md`](../docs/ai-coder-sprint-loop.md) for workflow state,
+QAT labels, follow-up rules, and orchestration expectations.
 
 ---
 
@@ -89,8 +113,8 @@ pull requests, session handoffs — see:
 
 ## AI Coder Development Sprint Loop
 
-Future sprint execution may be coordinated through an AI Coder Development Sprint Loop.
-See [`docs/ai-coder-sprint-loop.md`](../docs/ai-coder-sprint-loop.md) for the placeholder model.
+Sprint execution is coordinated through the **AI Coder Development Sprint Loop** described in
+[`docs/ai-coder-sprint-loop.md`](../docs/ai-coder-sprint-loop.md) (operational specification).
 
 The sprint loop must still respect the governance model:
 
@@ -103,10 +127,14 @@ The sprint loop must still respect the governance model:
 
 ## Release Context
 
-The Release Context model is the future coordination layer for assigning S-BL tickets, AI
-Coder sprint loops, PRs, release builds, regression testing, and release notes to a shared
-release target. See [`governance/release-context.md`](release-context.md) for the
-placeholder model.
+The Release Context model coordinates S-BL tickets, AI Coder sprint loops, PRs, release
+builds, regression testing, and release notes against a shared release target.
+
+**Authoritative mapping:** release context is represented by **GitHub Milestones** with
+**identical names** across all component repositories (for example `MVP-2026-06-032`).
+G-BL Feature Envelope Issues in mis-docs carry the same Milestone. See
+[`governance/release-context.md`](release-context.md) for identifier format, properties,
+and governance rules.
 
 The project owner controls the active release context. AI Coders must not change it unless
 explicitly assigned a task to do so.

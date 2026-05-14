@@ -35,9 +35,9 @@ Read `AGENTS.MD` at the repo root for the operational rules that implement it.
 
 | File | Purpose |
 |---|---|
-| [ai-coder-sprint-loop.md](ai-coder-sprint-loop.md) | AI Coder Development Sprint Loop: placeholder for orchestrated S-BL processing with mandatory Coder/QAT Pair, QAT outcomes, follow-up tickets, and release build gating |
+| [ai-coder-sprint-loop.md](ai-coder-sprint-loop.md) | Operational specification for orchestrated S-BL processing: G-BL/S-BL placement, GitHub Actions orchestration, Coder/QAT routing and independence, QAT evidence, Scope Guard follow-ups, Milestone release context, and three-layer ticket state |
 
-Status: placeholder / to be elaborated.
+Status: **elaborated** (see ADR-0012).
 
 ---
 
@@ -93,6 +93,6 @@ Status: placeholder / to be elaborated.
 | File | Purpose |
 |---|---|
 | [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md) | Public placeholder for repository safety principles, protected asset classes, canary/watcher/tripwire concepts, AI Coder safety expectations, and review gates |
-| [governance/release-context.md](../governance/release-context.md) | Placeholder for the current release context model used to coordinate S-BL tickets, AI Coder sprint loops, PRs, release builds, regression testing, and release notes |
+| [governance/release-context.md](../governance/release-context.md) | Release context coordination: Milestone-based model across repos, relationship to S-BL and sprint loop, release build gate concepts |
 
-Status: placeholders / to be elaborated.
+Status: **release-context** elaborated for Milestones; **repository-safety** remains a high-level placeholder for concrete tripwires and CI details.

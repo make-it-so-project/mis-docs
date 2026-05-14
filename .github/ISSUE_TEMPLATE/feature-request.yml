@@ -1,0 +1,44 @@
+name: Feature request
+description: Propose a feature for the Global Backlog (G-BL) in mis-docs.
+title: "[FEATURE] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit an idea to the **Global Backlog (G-BL)**. Items here are **not** executable
+        tasks. The project owner promotes approved work to the **Sprint Backlog (S-BL)** as
+        Sub-Issues in component repositories. See `governance/README.md` and
+        `docs/ai-coder-sprint-loop.md`.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description (what and why)
+      description: Explain the problem or opportunity and why it matters for make-it-so.
+    validations:
+      required: true
+  - type: textarea
+    id: desired_behavior
+    attributes:
+      label: Desired behavior
+      description: Describe what “done” looks like from a user or system perspective.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context / examples (optional)
+      description: Links, screenshots, prior art, scenarios, or constraints that help reviewers.
+    validations:
+      required: false
+  - type: dropdown
+    id: submitter_role
+    attributes:
+      label: Submitter role
+      description: Who is filing this request?
+      options:
+        - Human contributor
+        - AI agent
+        - Guest
+    validations:
+      required: true
