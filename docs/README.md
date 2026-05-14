@@ -49,6 +49,7 @@ Templates and checklists for structured agent session management.
 |---|---|
 | [slash-commands/handoff.md](slash-commands/handoff.md) | Template for writing a handoff note when ending a session |
 | [slash-commands/pickup.md](slash-commands/pickup.md) | Checklist for picking up work from a previous agent or session |
+| [slash-commands/pmc.md](slash-commands/pmc.md) | Post-Merge Cleanup: refreshes main and removes the merged local feature branch if safe, after the project owner merges a PR |
 
 Use `/handoff` before ending any session with unfinished work.
 Use `/pickup` at the start of any session that continues previous work.
