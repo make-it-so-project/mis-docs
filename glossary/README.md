@@ -800,3 +800,69 @@ handling, input validation, logging constraints, cryptographic library use, and 
 safety.
 
 See [docs/programming-guides/language-and-toolchain-strategy.md](../docs/programming-guides/language-and-toolchain-strategy.md).
+
+---
+
+# Backend Hosting and Operations Concepts
+
+---
+
+## Cloudflare-First MVP Posture
+
+The current candidate hosting strategy for the make-it-so backend MVP. Cloudflare is the
+primary candidate for early backend hosting where technically feasible, due to low or no
+cost at early usage levels, managed edge infrastructure, and reduced operational overhead.
+
+This is a candidate posture, not a final binding decision. Suitability depends on runtime
+requirements (long-running processes, durable state, queues, WebSockets) that must be
+confirmed before a final hosting ADR is written.
+
+See [architecture/backend-hosting-and-operations.md](../architecture/backend-hosting-and-operations.md).
+
+---
+
+## Standby Level
+
+A classification of how quickly a backup or secondary node can be activated in a failover
+scenario. Three levels are defined:
+
+| Level | Definition |
+|---|---|
+| Cold standby | Backup exists; restore requires manual action and time |
+| Warm standby | State is periodically synced; activation requires deliberate manual steps |
+| Hot standby | Active failover-ready node; automatic or near-automatic activation |
+
+The MVP does not yet decide which standby level is required or feasible.
+
+See [architecture/backend-hosting-and-operations.md](../architecture/backend-hosting-and-operations.md).
+
+---
+
+## Restore Test
+
+A deliberate exercise of the restore procedure from a backup to verify that the backup is
+actually usable. A backup that has never been restored should not be treated as a proven
+safety net. Restore tests are a prerequisite for production readiness claims.
+
+See [architecture/backend-hosting-and-operations.md](../architecture/backend-hosting-and-operations.md).
+
+---
+
+## Operational Monitoring
+
+Infrastructure- and service-level observability covering service health, errors, latency,
+usage metrics, and cost visibility. Required before external testing with real users.
+Distinct from Audit Logging.
+
+See [architecture/backend-hosting-and-operations.md](../architecture/backend-hosting-and-operations.md).
+
+---
+
+## Audit Logging (Operations)
+
+The recording of security- and approval-relevant events for integrity, retention, and
+compliance purposes. Distinct from operational monitoring logs. Audit logs must avoid
+recording secrets, private keys, recovery codes, approval payload secrets, and unnecessary
+personal data.
+
+See [architecture/backend-hosting-and-operations.md](../architecture/backend-hosting-and-operations.md).
