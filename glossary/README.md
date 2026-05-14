@@ -866,3 +866,72 @@ recording secrets, private keys, recovery codes, approval payload secrets, and u
 personal data.
 
 See [architecture/backend-hosting-and-operations.md](../architecture/backend-hosting-and-operations.md).
+
+---
+
+# UI Design System Concepts
+
+---
+
+## Design System
+
+The set of visual identity guidance, UI style rules, design tokens, component
+definitions, interaction state rules, accessibility requirements, and platform mapping
+guidance for make-it-so. The design system must balance the LCARS-inspired visual
+identity with clear, accessible, and secure user interaction.
+
+See [docs/design-system/README.md](../docs/design-system/README.md).
+
+---
+
+## Approval UX
+
+The user-facing experience through which a user receives, understands, and acts on an
+approval request. Approval UX is a security-relevant concern for make-it-so because the
+mis-client is the trusted approval surface. Approve and Deny must be visually and
+spatially distinct, and high-risk approvals must require deliberate interaction.
+
+See [docs/design-system/ui-style-guide-and-approval-ux.md](../docs/design-system/ui-style-guide-and-approval-ux.md).
+
+---
+
+## Interaction State
+
+A defined visual and behavioral condition of a UI element. Required states include:
+default, hover, focused, pressed/active, selected, disabled, pending, approved, denied,
+expired, warning, and error. Each state must be explicitly represented so users never
+need to guess element behavior or outcome.
+
+See [docs/design-system/ui-style-guide-and-approval-ux.md](../docs/design-system/ui-style-guide-and-approval-ux.md).
+
+---
+
+## Decorative Surface
+
+A non-interactive UI element — panel, border, color block, or layout accent — whose
+purpose is visual identity or structure, not action. Decorative surfaces must not be
+visually confused with interactive controls. In the LCARS-inspired design direction,
+ensuring this distinction is a required design constraint.
+
+See [docs/design-system/ui-style-guide-and-approval-ux.md](../docs/design-system/ui-style-guide-and-approval-ux.md).
+
+---
+
+## Interactive Surface
+
+A UI element that the user can activate to perform an operation: buttons, links,
+approval controls, and form inputs. Interactive surfaces must have consistent and
+unambiguous affordance across all UI element states.
+
+See [docs/design-system/ui-style-guide-and-approval-ux.md](../docs/design-system/ui-style-guide-and-approval-ux.md).
+
+---
+
+## Design Token
+
+A named, platform-agnostic value for a visual attribute such as color, spacing,
+typography, radius, focus style, or motion timing. Design tokens are the future
+contract between design decisions and implementation. Final token names and values are
+not yet defined.
+
+See [docs/design-system/ui-style-guide-and-approval-ux.md](../docs/design-system/ui-style-guide-and-approval-ux.md).

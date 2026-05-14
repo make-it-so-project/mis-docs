@@ -77,6 +77,17 @@ Status: placeholder / to be elaborated.
 
 ---
 
+### Design System
+
+| File | Purpose |
+|---|---|
+| [design-system/README.md](design-system/README.md) | Index for future UI style guide, design token concepts, component guidance, accessibility, platform mapping, and approval UX safety documentation |
+| [design-system/ui-style-guide-and-approval-ux.md](design-system/ui-style-guide-and-approval-ux.md) | Placeholder for LCARS-inspired visual identity, interaction clarity, approval UX safety, UI states, accessibility, and platform mapping |
+
+Status: placeholder / to be elaborated.
+
+---
+
 ### Governance and Safety
 
 | File | Purpose |
