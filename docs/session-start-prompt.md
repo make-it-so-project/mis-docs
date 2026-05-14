@@ -26,6 +26,7 @@ Initial rules:
   - if continuing work from a previous session, run /pickup before proceeding
   - for concrete S-BL tasks, after successful completion, commit the feature branch, push it, and open a PR without asking separately unless the task explicitly says otherwise
   - if the project owner says "PMC" or "/pmc", perform Post-Merge Cleanup: refresh local main and remove the merged local feature branch only if safe
+  - when introducing a new artifact area, evaluate whether it creates or changes a Protected Asset Class and call out the result in the PR body
 
 After reading the three core documents, respond with exactly this line:
 

@@ -703,6 +703,9 @@ and QAT and project owner review when changed.
 Examples: governance rules, AI Coder operating instructions, architecture decisions,
 security-sensitive documentation, CI/CD configuration, dependency metadata.
 
+AI Coders must evaluate whether newly introduced artifact areas create or change a
+Protected Asset Class and must state the result in the PR body.
+
 See [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md).
 
 ---
