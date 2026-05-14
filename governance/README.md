@@ -64,6 +64,17 @@ Operational decisions must rely on structured artifacts such as:
 
 ---
 
+## Repository Safety
+
+Repository safety is part of the governance model. Public principles and protected asset
+classes are documented in
+[`governance/repository-safety-and-canaries.md`](repository-safety-and-canaries.md).
+
+Concrete canary values, detection rules, private alert routing, and incident response
+details are intentionally not stored in the public repository.
+
+---
+
 # AI Coder Operational Rules
 
 The governance model defines what AI Coders may work on and who approves it.

@@ -115,6 +115,17 @@ Only the project owner merges PRs.
 
 ---
 
+## Protected Asset Classes
+
+When a task changes governance, security, workflow, CI/CD, dependency, architecture
+decision, or release coordination files, call out the change explicitly in the PR body
+scope boundary section.
+
+See `governance/repository-safety-and-canaries.md` for the full list of protected asset
+classes and AI Coder safety expectations.
+
+---
+
 ## Git Safety
 
 Run `git status` / `git diff` / `git log` before any edits.

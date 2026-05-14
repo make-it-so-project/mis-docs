@@ -657,3 +657,50 @@ Achieved by linking `approval_request_id`, `session_id`, `agent_id`, `user_id`, 
 timestamps across mis-backend and MCP Server logs.
 
 See [architecture/mcp-jit-access-building-blocks.md](../architecture/mcp-jit-access-building-blocks.md).
+
+---
+
+# Repository Safety Concepts
+
+---
+
+## Canary
+
+A deliberately placed signal or marker used to detect unexpected access, modification,
+deletion, or bypass behavior. A canary detects; it does not prevent.
+
+Concrete canary values are intentionally not documented publicly.
+
+See [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md).
+
+---
+
+## Watcher
+
+A process, check, or review mechanism that observes changes to protected assets or monitors
+for suspicious patterns. Watchers may be automated, semi-automated, or human-driven.
+
+See [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md).
+
+---
+
+## Tripwire
+
+A detection rule or condition that triggers attention when a protected asset or expected
+invariant changes. A form of watcher with a specific trigger condition.
+
+Concrete tripwire conditions are intentionally not documented publicly.
+
+See [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md).
+
+---
+
+## Protected Asset Class
+
+A category of repository files that requires special care, explicit callout in PR bodies,
+and QAT and project owner review when changed.
+
+Examples: governance rules, AI Coder operating instructions, architecture decisions,
+security-sensitive documentation, CI/CD configuration, dependency metadata.
+
+See [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md).
