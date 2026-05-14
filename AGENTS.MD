@@ -117,6 +117,32 @@ Only the project owner merges PRs.
 
 ---
 
+## Sprint Loop: QAT Independence and Scope Guard
+
+These rules implement [`docs/ai-coder-sprint-loop.md`](docs/ai-coder-sprint-loop.md) (E3, E5).
+
+### QAT independence
+
+A **QAT Agent** receives the **branch name**, the **PR link**, and the **ticket/issue
+reference** (plus coordination metadata such as Milestone and routing policy pointers). It
+must **not** receive **Coder session context** (for example Coder chat transcripts, tool
+logs, or other session-internal state). **The QAT always starts from a fresh perspective.**
+
+Coder and QAT sessions MUST use **separate platforms or model instances** per the static
+routing policy in automation configuration.
+
+### Scope Guard (QAT follow-ups)
+
+When QAT outcome is `follow_up_required`, any follow-up **Sub-Issue** MUST be a **child** of
+the original S-BL ticket and MUST **inherit that ticket’s scope**. Follow-ups may only
+describe corrections or completions **within** that scope.
+
+**Scope extensions** require a **new G-BL feature request** through the normal intake channel
+(see `.github/ISSUE_TEMPLATE/feature-request.yml`). AI Coders must not use follow-up tickets
+to smuggle unrelated work.
+
+---
+
 ## Protected Asset Classes
 
 When a task changes governance, security, workflow, CI/CD, dependency, architecture

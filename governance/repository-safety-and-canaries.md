@@ -115,12 +115,13 @@ explicitly in the PR body and are subject to QAT review and project owner approv
 | Asset Class | Examples | Risk if Weakened |
 |---|---|---|
 | Governance rules | `governance/README.md`, `docs/ai-coder-workflow.md`, `docs/ai-coder-sprint-loop.md` | Weakening approval authority, S-BL rules, or Coder/QAT separation |
+| GitHub G-BL intake templates | `.github/ISSUE_TEMPLATE/` | Bypassing the G-BL intake channel, weakening intake quality, or enabling unvetted scope into the backlog |
 | AI Coder operating instructions | `AGENTS.MD`, `docs/session-start-prompt.md`, `docs/slash-commands/` | Changing AI Coder behavior, bypassing PR flow, weakening git safety |
 | Architecture decisions | `adr/`, `architecture/` | Silently changing approved decisions or security boundaries |
 | Security-sensitive documentation | Client identity, agent interface security, account recovery, repository safety | Weakening authentication, approval, recovery, or audit requirements |
 | CI/CD and workflow configuration | GitHub workflow files, build scripts, deployment manifests (when they exist) | Disabling checks, bypassing review gates, injecting malicious deployment behavior |
 | Dependency and supply-chain metadata | Lockfiles, package manifests, dependency configuration (when they exist) | Introducing unsafe dependencies or weakening reproducibility |
-| Release and sprint coordination artifacts | Future release context files, S-BL manifests, release manifests | Misaligning AI Coder work, releasing incomplete or unreviewed changes |
+| Release and sprint coordination artifacts | GitHub Milestones (release context), organization-level GitHub Projects, future release manifests | Misaligning AI Coder work, releasing incomplete or unreviewed changes |
 | Design system and approval UX documentation | `docs/design-system/`, future token and component definitions that affect approval behavior | Weakening interaction clarity, accessibility, or the trusted approval surface model |
 
 ---

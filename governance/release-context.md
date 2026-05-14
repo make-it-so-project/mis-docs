@@ -17,13 +17,14 @@ execution, release build, regression testing, release notes, and traceability.
 
 ## Status
 
-**Placeholder / to be elaborated.**
+**Elaborated for coordination metadata — Milestone binding decided.**
 
-This document captures the topic and initial principles. It is not yet a complete release
-management specification. It does not yet define concrete automation, GitHub Projects fields,
-issue templates, release manifests, semantic versioning, or CI/CD release mechanics. It does
-not replace `governance/README.md`, `docs/ai-coder-workflow.md`, or
-`docs/ai-coder-sprint-loop.md`.
+This document defines how **release context** is represented for coordination: **GitHub
+Milestones** with identical names across repositories, aligned G-BL Issues in mis-docs, and
+S-BL Issues in component repositories. It still does **not** define CI/CD implementation,
+semantic versioning policy, deployment procedures, or detailed merge-train mechanics for the
+build/regression phase. It does not replace `governance/README.md`, `docs/ai-coder-workflow.md`,
+or `docs/ai-coder-sprint-loop.md` — it complements them.
 
 ---
 
@@ -113,8 +114,11 @@ The prefix indicates the release phase. The `YYYY-MM` segment identifies the pla
 release timeframe. The numeric suffix prevents ambiguity between multiple release contexts
 in the same month and phase.
 
-The exact governance semantics of the sequence number and the authoritative storage
-mechanism are deferred. See Open Questions below.
+The exact governance semantics of the sequence number remain a project-owner concern when
+creating new Milestones. **Authoritative storage for the active release target:** GitHub
+Milestone on Issues (G-BL and S-BL) plus organization-level Project views filtered by that
+Milestone. See [`docs/ai-coder-sprint-loop.md`](../docs/ai-coder-sprint-loop.md) (Release
+Context — E7) and [`adr/0012-sprint-loop-orchestration-decisions.md`](../adr/0012-sprint-loop-orchestration-decisions.md).
 
 ---
 
@@ -123,19 +127,17 @@ mechanism are deferred. See Open Questions below.
 The current release context is the active release target for the current Dev Sprint Loop
 and concrete S-BL implementation work.
 
-The current release context should be visible to AI Coders before they begin implementing
-an S-BL task. It may be communicated through various mechanisms; no single mechanism is
-decided yet. Possible options include:
+**Authoritative mechanism:** GitHub **Milestones** using the identifier pattern defined in
+this document. The same Milestone name MUST exist in each component repository that carries
+S-BL work for that release, so views and filters align across repositories.
 
-- a repository file (for example a future release context manifest)
-- a GitHub milestone
-- a GitHub Project field
-- an issue label
-- a PR template field
-- a combination of repository file and GitHub metadata
+**Visibility for AI Coders:** before starting an S-BL task, read the **Milestone** on the
+assigned Issue (and the parent G-BL Feature Envelope Issue in mis-docs when present). The
+organization-level GitHub Project SHOULD expose a Milestone-filtered view for release
+readiness.
 
-This document does not yet decide which mechanism is authoritative. The decision is deferred
-to a later elaboration step.
+Optional supplementary cues (PR body text, labels) may exist, but **Milestone assignment is
+the normative release association** for Issues in this model.
 
 ---
 
@@ -147,14 +149,15 @@ to a later elaboration step.
 - If a ticket is moved to a different release context, the reason should be recorded.
 - Follow-up tickets created by the Coder/QAT process should inherit the release context of
   the original ticket unless the project owner explicitly assigns a different one.
-- The G-BL remains release-agnostic unless the project owner promotes an item to the S-BL
-  for a specific release context.
+- G-BL **Feature Envelope** Issues in mis-docs SHOULD carry the **same Milestone** as their
+  child S-BL Issues once those children are scheduled for a concrete release target.
 
 ---
 
 ## Relationship to the AI Coder Development Sprint Loop
 
-- The orchestration instance should coordinate work within a current release context.
+- **GitHub Actions** orchestration SHOULD coordinate work within the current release context
+  (Milestone) encoded on each Issue.
 - Every Coder/QAT Pair should know the release context of the S-BL ticket being processed.
 - QAT outcomes should be recorded against the same release context as the original ticket.
 - The release build phase should start for a release context only after all in-scope S-BL
@@ -170,10 +173,10 @@ model, Coder/QAT pair rule, and QAT outcome model.
 
 - Branch names do not need to include the release context identifier by default. The
   existing branch naming convention (`docs/`, `feat/`, `fix/`, `chore/`) remains unchanged.
-- PR bodies should eventually report the release context they belong to.
+- PR bodies SHOULD name the **Milestone** / release context the PR serves.
 - PR titles may remain focused on domain/category markers and the task description.
-- Release context may be captured through the PR body, issue metadata, milestone, label, or
-  a future release manifest. The exact mechanism is deferred.
+- Release context is primarily carried by **Issue Milestones**; PR linkage inherits through
+  the linked S-BL Issue.
 
 ---
 
@@ -225,28 +228,34 @@ The final release process and CI/CD pipeline definition are deferred to later el
 | Release build starts before all intended work is complete | Release build gate checks S-BL state and QAT outcomes before proceeding |
 | Follow-up tickets lose traceability | Follow-up tickets inherit release context and reference original ticket, branch, PR, and QAT findings |
 | Release context is changed accidentally | Project owner authority; protected asset class review; PR callout required |
-| Too much process introduced too early | Start with placeholder and lightweight metadata; defer automation until needed |
+| Too much process introduced too early | Milestones are lightweight metadata; heavy automation remains optional |
 
 ---
 
 ## Open Questions
 
-The following questions are deferred to later elaboration:
+Questions about **where release context lives** and **how S-BL and PRs reference it** are
+resolved by **ADR-0012 / E7** (GitHub Milestones + organization Project views). The
+following items remain **outside** this coordination document or are **project-owner
+process** choices:
 
-- What is the authoritative location of the current release context?
-- Should the release context be a repository file, GitHub milestone, project field, label,
-  or a release manifest?
-- How is the release context referenced in S-BL tickets?
-- How is the release context referenced in PR bodies?
-- Should branch names ever include the release context identifier?
-- How are follow-up tickets assigned to a release context?
-- Who may create a new release context?
-- Who may freeze, close, or archive a release context?
-- How is the release context integrated with the AI Coder Development Sprint Loop?
-- How is the release context integrated with repository safety checks?
-- What is the minimum viable release note format per release context?
-- What regression evidence is required per release context?
-- How are deferred tickets handled when a release context is closed?
+- semantic versioning and marketing version strings vs Milestone identifiers
+- CI/CD pipeline layout and mandatory regression evidence artifacts
+- who may create, rename, freeze, or close Milestones (governance: project owner authority)
+- minimum viable release note format per release
+- repository safety check integration details beyond high-level release gates
+
+---
+
+## Resolved coordination questions (E7)
+
+| Topic | Decision |
+|---|---|
+| Authoritative release association for Issues | GitHub **Milestone** (same name across repos) |
+| S-BL ticket reference | Issue belongs to the release **Milestone** |
+| PR reference | PR SHOULD state Milestone; inherits via linked Issue |
+| Follow-up ticket assignment | Follow-ups **inherit** parent Milestone unless project owner reassigns |
+| Sprint loop integration | When all Milestone S-BL Issues are **closed**, development is **dev-complete** for that Milestone; build/regression follows separately |
 
 ---
 
@@ -258,5 +267,5 @@ The following questions are deferred to later elaboration:
 - [docs/ai-coder-sprint-loop.md](../docs/ai-coder-sprint-loop.md) — Coder/QAT pair workflow and release build gate
 - [docs/session-start-prompt.md](../docs/session-start-prompt.md) — opening prompt for AI Coder sessions
 - [AGENTS.MD](../AGENTS.MD) — operational rules: commits, branches, git safety, slash commands
-- [adr/0003-domain-and-category-markers.md](../adr/0003-domain-and-category-markers.md) — domain and category marker system
+- [adr/0012-sprint-loop-orchestration-decisions.md](../adr/0012-sprint-loop-orchestration-decisions.md) — sprint loop orchestration decisions (E1–E8)
 - [docs/github-labels.md](../docs/github-labels.md) — GitHub label scheme matching the marker system
