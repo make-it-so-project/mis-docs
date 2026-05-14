@@ -70,5 +70,6 @@ See [ADR-0003](../adr/0003-domain-and-category-markers.md) for the full marker s
 | File | Purpose |
 |---|---|
 | [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md) | Public placeholder for repository safety principles, protected asset classes, canary/watcher/tripwire concepts, AI Coder safety expectations, and review gates |
+| [governance/release-context.md](../governance/release-context.md) | Placeholder for the current release context model used to coordinate S-BL tickets, AI Coder sprint loops, PRs, release builds, regression testing, and release notes |
 
-Status: placeholder / to be elaborated.
+Status: placeholders / to be elaborated.

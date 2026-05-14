@@ -704,3 +704,54 @@ Examples: governance rules, AI Coder operating instructions, architecture decisi
 security-sensitive documentation, CI/CD configuration, dependency metadata.
 
 See [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md).
+
+---
+
+# Release Coordination Concepts
+
+---
+
+## Release Context
+
+A stable coordination identifier that assigns AI Coder work, S-BL tickets, sprint loops,
+branches, PRs, release builds, regression testing, and release notes to a shared release
+target.
+
+Pattern: `RELEASEPHASE-YYYY-MM-NNN` — e.g. `MVP-2026-05-001`, `ALPHA-2026-07-042`.
+
+See [governance/release-context.md](../governance/release-context.md).
+
+---
+
+## Current Release Context
+
+The active release context for the current Dev Sprint Loop and concrete S-BL implementation
+work. Controlled by the project owner. AI Coders must not change it unless explicitly assigned.
+
+See [governance/release-context.md](../governance/release-context.md).
+
+---
+
+## Release Build Gate
+
+The set of conditions that must be satisfied before a release build may start for a given
+release context. Includes S-BL completion, QAT outcomes, PR merge status, safety checks,
+and regression readiness.
+
+See [governance/release-context.md](../governance/release-context.md).
+
+---
+
+## Release Phase
+
+The stage of the product lifecycle a release context belongs to.
+
+| Phase | Meaning |
+|---|---|
+| `MVP` | First minimum viable product release line |
+| `ALPHA` | Early user or testing phase |
+| `BETA` | Broader testing phase (optional) |
+| `RC` | Release candidate |
+| `PROD` | Production release line (optional later) |
+
+See [governance/release-context.md](../governance/release-context.md).
