@@ -23,6 +23,14 @@ Operate MCP servers using a **zero-trust model** where:
 - human approval is required
 - authorization is temporary and scoped
 
+**Target posture:** this goal describes the intended higher-assurance architecture in which
+MCP Servers do not hold standing enterprise privileges. MVP deployments may use
+Integration-Enforced JIT, where the MCP Server has standing technical access to Zone 1
+resources but must not return protected enterprise data to the Agent Runtime without a valid
+make-it-so approval and scoped access context. See
+[MCP Server JIT Access Building Blocks](../architecture/mcp-jit-access-building-blocks.md)
+for the MVP vs target enforcement distinction.
+
 ## Actors
 
 Human User  
@@ -42,7 +50,10 @@ Internal resources in Zone 1.
 
 ## Preconditions
 
-- MCP servers are deployed without privileged enterprise access.
+- **Target deployments:** MCP Servers are deployed without privileged enterprise access.
+  **MVP Integration-Enforced JIT deployments:** MCP Servers may have standing technical
+  access to Zone 1 resources, but must enforce make-it-so approval before returning
+  protected enterprise data.
 - make-it-so is reachable by the MCP server.
 - The human user has a registered mis-client device.
 - The MCP Server is a registered Agent Runtime with `agent_id` and authenticates
