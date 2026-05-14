@@ -112,3 +112,4 @@ The system requires:
 - [Action Model](../architecture/action-model.md) — structure of the access request submitted by the MCP server
 - [Request Lifecycle](../architecture/request-lifecycle.md) — lifecycle stages the access request passes through
 - [Use Case: OpenClaw Integration](use-case-openclaw-integration.md) — approval-gated bot actions for OpenClaw deployments
+- [MCP Server JIT Access Building Blocks](../architecture/mcp-jit-access-building-blocks.md) — detailed building blocks and the MVP vs target enforcement distinction; distinguishes Integration-Enforced JIT from Infrastructure-Enforced JIT

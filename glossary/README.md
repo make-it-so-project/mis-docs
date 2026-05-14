@@ -592,3 +592,68 @@ Two primary outcomes:
 The original S-BL ticket is always closed after the QAT outcome is recorded.
 
 See [docs/ai-coder-sprint-loop.md](../docs/ai-coder-sprint-loop.md).
+
+---
+
+# MCP Server JIT Access Concepts
+
+---
+
+## Integration-Enforced JIT
+
+A deployment pattern where the MCP Server itself enforces make-it-so approval before
+returning enterprise data, even though the underlying enterprise access may already be
+technically available to the MCP Server.
+
+This is the pragmatic MVP pattern. The zero-trust property depends on correct MCP Server
+implementation, not on infrastructure enforcement.
+
+See [architecture/mcp-jit-access-building-blocks.md](../architecture/mcp-jit-access-building-blocks.md).
+
+---
+
+## Infrastructure-Enforced JIT
+
+A deployment pattern where enterprise infrastructure enforces the approved scope, TTL, and
+access path, so the MCP Server cannot access or return protected enterprise data outside the
+approved context.
+
+This is the stronger target pattern for higher assurance deployments.
+
+See [architecture/mcp-jit-access-building-blocks.md](../architecture/mcp-jit-access-building-blocks.md).
+
+---
+
+## Policy Enforcement Point
+
+The component responsible for enforcing the approved scope and access constraints in a
+Just-in-Time access model.
+
+In the MVP Integration-Enforced JIT model, the MCP Server is the policy enforcement point.
+In the target Infrastructure-Enforced JIT model, enterprise infrastructure (gateway, proxy,
+IAM, or dedicated enforcement component) takes this role.
+
+See [architecture/mcp-jit-access-building-blocks.md](../architecture/mcp-jit-access-building-blocks.md).
+
+---
+
+## Scoped Access Context
+
+The temporary authorization context granted after make-it-so approval, defining the approved
+scope, TTL, and resource boundaries for a short-lived enterprise access session.
+
+Validated by the MCP Server in the MVP; enforced by enterprise infrastructure in the target model.
+
+See [architecture/mcp-jit-access-building-blocks.md](../architecture/mcp-jit-access-building-blocks.md).
+
+---
+
+## Audit Correlation
+
+The requirement that every enterprise data response returned by an MCP Server can be traced
+to a specific make-it-so approval record, or to a clear rejection or expiration record.
+
+Achieved by linking `approval_request_id`, `session_id`, `agent_id`, `user_id`, and
+timestamps across mis-backend and MCP Server logs.
+
+See [architecture/mcp-jit-access-building-blocks.md](../architecture/mcp-jit-access-building-blocks.md).
