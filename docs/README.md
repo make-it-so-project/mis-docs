@@ -62,3 +62,13 @@ Use `/pickup` at the start of any session that continues previous work.
 | [github-labels.md](github-labels.md) | Label scheme mirroring the `[DOMAIN/CATEGORY]` marker system; includes setup commands |
 
 See [ADR-0003](../adr/0003-domain-and-category-markers.md) for the full marker system definition.
+
+---
+
+### Governance and Safety
+
+| File | Purpose |
+|---|---|
+| [governance/repository-safety-and-canaries.md](../governance/repository-safety-and-canaries.md) | Public placeholder for repository safety principles, protected asset classes, canary/watcher/tripwire concepts, AI Coder safety expectations, and review gates |
+
+Status: placeholder / to be elaborated.
