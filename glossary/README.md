@@ -755,3 +755,48 @@ The stage of the product lifecycle a release context belongs to.
 | `PROD` | Production release line (optional later) |
 
 See [governance/release-context.md](../governance/release-context.md).
+
+---
+
+# Programming Language and Toolchain Concepts
+
+---
+
+## Toolchain
+
+The set of tools used to build, format, lint, typecheck, test, and package an implementation
+component. Each supported language must have a documented toolchain before AI Coder
+implementation work begins.
+
+See [docs/programming-guides/language-and-toolchain-strategy.md](../docs/programming-guides/language-and-toolchain-strategy.md).
+
+---
+
+## Standard Command Surface
+
+The minimum set of documented commands every implementation package must provide:
+setup, format, lint, typecheck or compile, test, build, and a combined check command.
+
+Required so AI Coders can validate changes without GUI-only or undocumented tooling.
+
+See [docs/programming-guides/language-and-toolchain-strategy.md](../docs/programming-guides/language-and-toolchain-strategy.md).
+
+---
+
+## Programming Guide
+
+A document in `docs/programming-guides/` that defines conventions, toolchain commands,
+secure coding rules, and AI Coder guardrails for a specific language or cross-language
+concern.
+
+See [docs/programming-guides/README.md](../docs/programming-guides/README.md).
+
+---
+
+## Secure Coding Guardrails
+
+Cross-language rules that apply to all make-it-so implementation work, covering secrets
+handling, input validation, logging constraints, cryptographic library use, and dependency
+safety.
+
+See [docs/programming-guides/language-and-toolchain-strategy.md](../docs/programming-guides/language-and-toolchain-strategy.md).
