@@ -23,6 +23,7 @@ The architecture describes how system components interact and how responsibiliti
 | [user-registration.md](user-registration.md) | User Registration model: passkey-first auth, combined first client bootstrap, self-service onboarding |
 | [account-recovery.md](account-recovery.md) | Account Recovery: self-service model with email magic link and recovery codes |
 | [mcp-jit-access-building-blocks.md](mcp-jit-access-building-blocks.md) | Placeholder for MCP Server Just-in-Time access realization patterns, distinguishing Integration-Enforced JIT for MVP from Infrastructure-Enforced JIT as target architecture |
+| [backend-hosting-and-operations.md](backend-hosting-and-operations.md) | Placeholder for backend hosting strategy, Cloudflare-first MVP posture, VPS secondary option, cost model, state and persistence, backup/restore, standby levels, resilience, secrets management, monitoring, audit logging, and operations readiness |
 
 ---
 
