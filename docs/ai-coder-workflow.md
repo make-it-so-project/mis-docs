@@ -101,6 +101,25 @@ If task is incomplete:
   → do not leave uncommitted work in the branch
 ```
 
+### Post-Merge Cleanup (PMC)
+
+Post-Merge Cleanup (PMC) is a local cleanup step after the project owner has merged a PR.
+
+When instructed with **"PMC"** or **"/pmc"**, the AI Coder:
+
+- refreshes local `main` from `origin/main`
+- removes the merged local feature branch if safe
+- prunes stale remote-tracking refs if appropriate
+- reports the current branch and clean working tree status
+
+If the local branch has unmerged commits, local changes, or unclear state, the AI Coder
+must stop and report instead of deleting anything.
+
+PMC does not replace the PR workflow. It does not allow AI Coders to merge PRs.
+
+See `docs/slash-commands/pmc.md` for the full checklist and `AGENTS.MD` for the
+operational rule.
+
 ---
 
 ## Branch Model

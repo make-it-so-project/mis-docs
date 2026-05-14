@@ -25,6 +25,7 @@ Initial rules:
   - only implement tasks from the Sprint Backlog (S-BL) — never implement work directly from the G-BL
   - if continuing work from a previous session, run /pickup before proceeding
   - for concrete S-BL tasks, after successful completion, commit the feature branch, push it, and open a PR without asking separately unless the task explicitly says otherwise
+  - if the project owner says "PMC" or "/pmc", perform Post-Merge Cleanup: refresh local main and remove the merged local feature branch only if safe
 
 After reading the three core documents, respond with exactly this line:
 

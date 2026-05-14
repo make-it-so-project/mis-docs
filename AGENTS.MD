@@ -126,6 +126,30 @@ classes and AI Coder safety expectations.
 
 ---
 
+## Post-Merge Cleanup (PMC)
+
+When the project owner says **"PMC"** or **"/pmc"**, treat it as:
+
+> "Merge is done — refresh local main and remove the local feature branch if safe."
+
+Steps:
+
+1. Verify working tree state.
+2. Note the current feature branch name.
+3. Fetch origin.
+4. Switch to `main` and pull from `origin/main`.
+5. Delete the local feature branch only if it is merged or otherwise safe.
+6. Prune stale remote-tracking refs if appropriate.
+7. Report current branch, removed branch, and clean working tree status.
+
+**Safety rule:** If uncommitted local changes, unpushed commits, unmerged commits, unknown branch state, or any other unsafe condition exists — stop and report instead of deleting anything.
+
+**Scope:** PMC is a post-merge local cleanup only. It does not authorize merging, force deletion, force pushing, rewriting history, or bypassing branch protection. Only the project owner merges PRs.
+
+See `docs/slash-commands/pmc.md` for the full checklist.
+
+---
+
 ## Git Safety
 
 Run `git status` / `git diff` / `git log` before any edits.
