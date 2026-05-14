@@ -22,6 +22,7 @@ The architecture describes how system components interact and how responsibiliti
 | [client-identity-and-secure-communication.md](client-identity-and-secure-communication.md) | Client key model, WebApp/PWA key handling, proof of possession, backend validation |
 | [user-registration.md](user-registration.md) | User Registration model: passkey-first auth, combined first client bootstrap, self-service onboarding |
 | [account-recovery.md](account-recovery.md) | Account Recovery: self-service model with email magic link and recovery codes |
+| [mcp-jit-access-building-blocks.md](mcp-jit-access-building-blocks.md) | Placeholder for MCP Server Just-in-Time access realization patterns, distinguishing Integration-Enforced JIT for MVP from Infrastructure-Enforced JIT as target architecture |
 
 ---
 
